@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+ <job  maxFilesPerProcess="50" simulateSubmission="false" fileListSyntax="xrootd">
+  
+  <command> 
+    ln -s /star/scratch/starkong/STAR_FlowAnalyzer/.sl73_gcc485/ ./
+    ln -s /star/scratch/starkong/STAR_FlowAnalyzer/StRoot ./
+    ln -s /star/scratch/starkong/STAR_FlowAnalyzer/doEvent.C ./
+    ln -s /star/scratch/starkong/STAR_FlowAnalyzer/Analysis.xml ./
+
+    starver SL18c
+    root4star -q -b  doEvent.C\(-1,\"$FILELIST\",\"$SCRATCH/${JOBID}.root\"\) 
+  </command> 
+  
+  
+  <input URL="catalog:star.bnl.gov?production=P18ic,filetype=daq_reco_PicoDst,trgsetupname=AuAu54_production_2017,filename~st_physics,runnumber=&run;" nFiles="all"/>
+
+  
+  <stdout URL="file:/star/scratch/starkong/STAR_FlowAnalyzer/&run;/$JOBID.out"/>
+  <stderr URL="file:/star/scratch/starkong/STAR_FlowAnalyzer/&run;/$JOBID.err"/>
+  
+  <output fromScratch="*.root" toURL="/star/scratch/starkong/STAR_FlowAnalyzer/rootfile/&run;/" /> 
+  
+</job>
