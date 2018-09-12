@@ -181,6 +181,9 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     return kFALSE;
   }
   
+  cout << "runid " << mRunId << endl;
+
+  
   mRunId          = picoEvent->runId();
   mEventId        = picoEvent->eventId();
   mRefMult        = picoEvent->refMult();
