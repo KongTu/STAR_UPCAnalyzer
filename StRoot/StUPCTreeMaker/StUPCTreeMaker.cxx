@@ -7,7 +7,7 @@ ClassImp(StUPCTreeMaker)
 StUPCTreeMaker::StUPCTreeMaker(const Char_t *name) : StMaker(name), 
 mFillTree(0), mFillHisto(1), mPrintConfig(1), mPrintMemory(0), mPrintCpu(0), 
 mStreamName("st_upc"), fOutFile(0), mOutFileName(""), mEvtTree(0), mVn(2), 
-mMaxVtxR(2.0), mMaxVtxZ(50.0), mMaxVzDiff(3.0), mMinTrkPt(0.1), mMaxTrkEta(2.), 
+mMaxVtxR(5.0), mMaxVtxZ(50.0), mMaxVzDiff(3.0), mMinTrkPt(0.1), mMaxTrkEta(2.), 
 mMinNHitsFit(15), mMinNHitsFitRatio(0.52), mMinNHitsDedx(10), mMaxDca(3.), 
 mMaxnSigmaE(2.5), mMaxBeta2TOF(0.03),mEmcCollection(nullptr), mEmcPosition(nullptr), 
 mEmcGeom{},mEmcIndex{}
@@ -384,7 +384,6 @@ void StUPCTreeMaker::bookTree()
 	// event information
 	mEvtTree->Branch("mRunId", &mRunId, "mRunId/I");
 	mEvtTree->Branch("mEventId", &mEventId, "mEventId/I");
-	
 	mEvtTree->Branch("mNTrigs", &mNTrigs, "mNTrigs/I");
   mEvtTree->Branch("mTrigId", mTrigId, "mTrigId[mNTrigs]/I");
   
@@ -392,7 +391,6 @@ void StUPCTreeMaker::bookTree()
 	
 	mEvtTree->Branch("mRefMult", &mRefMult, "mRefMult/S");
 	mEvtTree->Branch("mGRefMult", &mGRefMult, "mGRefMult/S");
-	
 	mEvtTree->Branch("mBBCRate", &mBBCRate, "mBBCRate/F");
 	mEvtTree->Branch("mZDCRate", &mZDCRate, "mZDCRate/F");
 	mEvtTree->Branch("mBField", &mBField, "mBField/F");
@@ -400,7 +398,6 @@ void StUPCTreeMaker::bookTree()
 	mEvtTree->Branch("mVertexX", &mVertexX, "mVertexX/F");
 	mEvtTree->Branch("mVertexY", &mVertexY, "mVertexY/F");
 	mEvtTree->Branch("mVertexZ", &mVertexZ, "mVertexZ/F");
-
 
 	//BBC
 	mEvtTree->Branch("mBbcQ", mBbcQ, "mBbcQ[48]/I");
@@ -419,7 +416,6 @@ void StUPCTreeMaker::bookTree()
 	//mEvtTree->Branch("mEmcPhi",   mEmcPhi,   "mEmcPhi[mNEmc]/F");
 
 	//all tracks information
-	
 	mEvtTree->Branch("mNTrks", &mNTrks, "mNTrks/I");
 	mEvtTree->Branch("mCharge", mCharge, "mCharge[mNTrks]/I");
   mEvtTree->Branch("mPmag", mPmag, "mPmag[mNTrks]/F");
@@ -437,14 +433,12 @@ void StUPCTreeMaker::bookTree()
   mEvtTree->Branch("mDedx", mDedx, "mDedx[mNTrks]/F");
   mEvtTree->Branch("mDndx", mDndx, "mDndx[mNTrks]/F");
   mEvtTree->Branch("mNSigmaE", mNSigmaE, "mNSigmaE[mNTrks]/F");
-	
   mEvtTree->Branch("mNHitsFit", mNHitsFit, "mNHitsFit[mNTrks]/I");
 	mEvtTree->Branch("mNHitsPoss", mNHitsPoss, "mNHitsPoss[mNTrks]/I");
   mEvtTree->Branch("mNHitsDedx", mNHitsDedx, "mNHitsDedx[mNTrks]/I");
   mEvtTree->Branch("mDndxError", mDndxError, "mDndxError[mNTrks]/F");
 
 	mEvtTree->Branch("mDca", mDca, "mDca[mNTrks]/F");
-
 	mEvtTree->Branch("mTOFLocalY", mTOFLocalY, "mTOFLocalY[mNTrks]/F");
 	mEvtTree->Branch("mBeta2TOF", mBeta2TOF, "mBeta2TOF[mNTrks]/F");
 	
