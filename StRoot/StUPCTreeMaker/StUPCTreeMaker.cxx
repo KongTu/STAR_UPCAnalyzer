@@ -155,17 +155,14 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   Int_t nTrigs = 0;
   if(mStreamName.EqualTo("st_upc")){
     for(unsigned i=0;i<mStPhysics_TriggerIDs.size();i++){
-      cout<<"******** "<<mStPhysics_TriggerIDs[i]<<endl;
+      //cout<<"******** "<<mStPhysics_TriggerIDs[i]<<endl;
       if(picoEvent->isTrigger(mStPhysics_TriggerIDs[i])){
-	validTrigger = kTRUE;
-	
+        validTrigger = kTRUE;
         mTrigId[nTrigs] = mStPhysics_TriggerIDs[i];
 
-	if(i==0) VPD5 = kTRUE;
-	if(i==1) VPD5HM = kTRUE;
-
-	if(mFillHisto) hEvent->Fill(0.5+i+1);
-	nTrigs++;
+    	if(mFillHisto) hEvent->Fill(0.5+i+1);
+      nTrigs++;
+      
       }
     }
   }
@@ -253,25 +250,24 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     if(!pTrack) continue;
         
     //track cut
-    if(!isValidTrack(pTrack, vtxPos)) continue; 
+    /*no cut is applied here, cut on analysis level*/
+    //if(!isValidTrack(pTrack, vtxPos)) continue; 
     
     mPmag[nTrks] = -999;
     mPt[nTrks] = -999;
     mEta[nTrks] = -999;
     mPhi[nTrks] = -999;
-    
+    mCharge[nTrks] = -999;
+
     mgPt[nTrks] = -999;
     mgEta[nTrks] = -999;
     mgPhi[nTrks] = -999;
 
-    mCharge[nTrks] = -999;
-
-    mCharge[nTrks] = pTrack->charge();
-    
     StThreeVectorF pMom = pTrack->pMom();
     StThreeVectorF gMom = pTrack->gMom();
     StThreeVectorF origin = pTrack->origin();
     
+    mCharge[nTrks] = pTrack->charge();
     mPmag[nTrks] = pMom.mag();
     mPt[nTrks] = pMom.perp();
     mEta[nTrks] = pMom.pseudoRapidity();
@@ -280,22 +276,20 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     mgPt[nTrks]              = gMom.perp();
     mgEta[nTrks]             = gMom.pseudoRapidity();
     mgPhi[nTrks]             = gMom.phi();
-    //		mgOriginX[nTrks]         = origin.x();
-    //		mgOriginY[nTrks]         = origin.y();
-    //		mgOriginZ[nTrks]         = origin.z();
+		
+    mgOriginX[nTrks]         = origin.x();
+		mgOriginY[nTrks]         = origin.y();
+		mgOriginZ[nTrks]         = origin.z();
 
     mNHitsFit[nTrks]         = pTrack->nHitsFit();
     mNHitsPoss[nTrks]        = pTrack->nHitsMax();
-    //mNHitsDedx[nTrks]        = pTrack->nHitsDedx();
+    mNHitsDedx[nTrks]        = pTrack->nHitsDedx();
     mDedx[nTrks]             = pTrack->dEdx(); 
-    //mDndx[nTrks]             = pTrack->dNdx();
-    //mDndxError[nTrks]        = pTrack->dNdxError();
+    mDndx[nTrks]             = pTrack->dNdx();
+    mDndxError[nTrks]        = pTrack->dNdxError();
     mNSigmaE[nTrks]          = pTrack->nSigmaElectron();
-    //mDca[nTrks]              = (pTrack->dca()-vtxPos).mag();
     mDca[nTrks]              = (pTrack->dcaPoint()-vtxPos).mag();
-    //mIsHFTTrk[nTrks]         = pTrack->isHFTTrack();
-    //mHasHFT4Layers[nTrks]    = pTrack->hasHft4Layers();
-    
+
     if(mFillHisto){
     hdEdxvsP->Fill(pMom.mag(), mDedx[nTrks]);
     hdNdxvsP->Fill(pMom.mag(), mDndx[nTrks]);
