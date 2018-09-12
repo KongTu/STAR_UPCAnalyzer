@@ -7,7 +7,7 @@ ClassImp(StUPCTreeMaker)
 StUPCTreeMaker::StUPCTreeMaker(const Char_t *name) : StMaker(name), 
 mFillTree(0), mFillHisto(1), mPrintConfig(1), mPrintMemory(0), mPrintCpu(0), 
 mStreamName("st_upc"), fOutFile(0), mOutFileName(""), mEvtTree(0), mVn(2), 
-mMaxVtxR(2.0), mMaxVtxZ(30.0), mMaxVzDiff(3.0), mMinTrkPt(0.1), mMaxTrkEta(2.), 
+mMaxVtxR(2.0), mMaxVtxZ(50.0), mMaxVzDiff(3.0), mMinTrkPt(0.1), mMaxTrkEta(2.), 
 mMinNHitsFit(15), mMinNHitsFitRatio(0.52), mMinNHitsDedx(10), mMaxDca(3.), 
 mMaxnSigmaE(2.5), mMaxBeta2TOF(0.03),mEmcCollection(nullptr), mEmcPosition(nullptr), 
 mEmcGeom{},mEmcIndex{}
@@ -214,11 +214,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   if(TMath::Abs(mVertexZ - mVpdVz)>=mMaxVzDiff) return kFALSE;
   if(mFillHisto) hEvent->Fill(6.5);
   
-  if(mFillHisto){
-    if(VPD5) hEvent->Fill(7.5);
-    if(VPD5HM) hEvent->Fill(8.5);
-  }
-  
   hVtxZ->Fill( vtxPos.z() );
 
   mNTofHits = mPicoDst->numberOfBTofHits();//better one for multiplicity
@@ -276,6 +271,10 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     mNSigmaE[nTrks]   = -999;
     mDca[nTrks] = -999;
 
+    mBEMCE[nTrks] = -999;
+    mBEMCZ[nTrks] = -999;
+    mBEMCPhi[nTrks] = -999;
+
     StThreeVectorF pMom = pTrack->pMom();
     StThreeVectorF gMom = pTrack->gMom();
     StThreeVectorF origin = pTrack->origin();
@@ -323,7 +322,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     }
     
     //add emc matching
-
     Int_t bemcPidTraitsIndex              = pTrack->bemcPidTraitsIndex();
     if( bemcPidTraitsIndex>=0 ){
       StPicoBEmcPidTraits *bemcPidTraits = mPicoDst->bemcPidTraits(bemcPidTraitsIndex);
