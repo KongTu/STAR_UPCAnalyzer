@@ -250,17 +250,17 @@ Bool_t StUPCTreeMaker::processPicoEvent()
 
   hRefMult->Fill( mRefMult );
   
-  // for(int i=0;i!=9;i++){
-  //       if( mRefMult > CentralityBins[i] ){
-  //           myCentrality = MiddleBinID[i];
-  //           break;
-  //       }
-  //       else{
-  //           myCentrality = -1;
-  //       }
-  //   }
+  for(int i=0;i!=9;i++){
+        if( mRefMult > CentralityBins[i] ){
+            myCentrality = MiddleBinID[i];
+            break;
+        }
+        else{
+            myCentrality = -1;
+        }
+    }
     
-  // if(myCentrality<0) return kFALSE;
+  if(myCentrality<0) return kFALSE;
 
   hCentrality->Fill( myCentrality );
 
