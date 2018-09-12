@@ -429,9 +429,9 @@ void StUPCTreeMaker::bookTree()
   mEvtTree->Branch("mgEta", mgEta, "mgEta[mNTrks]/F");
   mEvtTree->Branch("mgPhi", mgPhi, "mgPhi[mNTrks]/F");
   
-  mEvtTree->Branch("mDedx", mDedx, "mDedx[mNTrks]/I");
-  mEvtTree->Branch("mDndx", mDndx, "mDndx[mNTrks]/I");
-  mEvtTree->Branch("mNSigmaE", mNSigmaE, "mNSigmaE[mNTrks]/I");
+  mEvtTree->Branch("mDedx", mDedx, "mDedx[mNTrks]/F");
+  mEvtTree->Branch("mDndx", mDndx, "mDndx[mNTrks]/F");
+  mEvtTree->Branch("mNSigmaE", mNSigmaE, "mNSigmaE[mNTrks]/F");
 	
   mEvtTree->Branch("mNHitsFit", mNHitsFit, "mNHitsFit[mNTrks]/I");
 	mEvtTree->Branch("mNHitsPoss", mNHitsPoss, "mNHitsPoss[mNTrks]/I");
