@@ -6,7 +6,7 @@ ClassImp(StUPCTreeMaker)
 //_____________________________________________________________________________
 StUPCTreeMaker::StUPCTreeMaker(const Char_t *name) : StMaker(name), 
 mFillTree(0), mFillHisto(1), mPrintConfig(1), mPrintMemory(0), mPrintCpu(0), 
-mStreamName("st_physics"), fOutFile(0), mOutFileName(""), mEvtTree(0), mVn(2), 
+mStreamName("st_upc"), fOutFile(0), mOutFileName(""), mEvtTree(0), mVn(2), 
 mMaxVtxR(2.0), mMaxVtxZ(30.0), mMaxVzDiff(3.0), mMinTrkPt(0.1), mMaxTrkEta(2.), 
 mMinNHitsFit(15), mMinNHitsFitRatio(0.52), mMinNHitsDedx(10), mMaxDca(3.), 
 mMaxnSigmaE(2.5), mMaxBeta2TOF(0.03),mEmcCollection(nullptr), mEmcPosition(nullptr), 
