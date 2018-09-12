@@ -35,11 +35,11 @@ Int_t StUPCTreeMaker::Init()
 
   mStPhysics_TriggerIDs.clear();
 
-  if(mStreamName.EqualTo("st_physics")){
-    cout<<"add the MB trigger to st_physics"<<endl;
+  if(mStreamName.EqualTo("st_upc")){
+    cout<<"add the UPC trigger to st_upc"<<endl;
 
-    mStPhysics_TriggerIDs.push_back(580001);
-    mStPhysics_TriggerIDs.push_back(580021);
+    mStPhysics_TriggerIDs.push_back(530702);
+    mStPhysics_TriggerIDs.push_back(530703);
     
   }
   else if(mStreamName.EqualTo("st_ssdmb")){
@@ -136,9 +136,6 @@ Int_t StUPCTreeMaker::Make()
 //_____________________________________________________________________________
 Bool_t StUPCTreeMaker::processPicoEvent()
 {
-  double PCAPtBin[10] = {0.2,0.5,0.8,1.2,1.6,2,2.5,3,4,6};
-  // double etaBin[] = {-1.0,-0.9,-0.8,-0.7,-0.6,-0.5,-0.4,-0.3,-0.2,-0.1,0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0};
-
   if(mFillHisto) hEvent->Fill(0.5);
   
   StPicoEvent *picoEvent = mPicoDst->event();
@@ -152,7 +149,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   Bool_t VPD5HM = kFALSE;
 
   Int_t nTrigs = 0;
-  if(mStreamName.EqualTo("st_physics")){
+  if(mStreamName.EqualTo("st_upc")){
     for(Int_t i=0;i<mStPhysics_TriggerIDs.size();i++){
       //cout<<"******** "<<mStPhysics_TriggerIDs[0]<<endl;
       if(picoEvent->isTrigger(mStPhysics_TriggerIDs[i])){

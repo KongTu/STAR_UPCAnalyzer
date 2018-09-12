@@ -59,7 +59,7 @@ void load(){
   gSystem->Load("StFmsUtil");
   gSystem->Load("StFmsDbMaker");
 
-  gSystem->Load("StFlowTreeMaker");
+  gSystem->Load("StUPCTreeMaker");
 
   gSystem->Load("StEEmcUtil");
   gSystem->Load("StEEmcDbMaker");
@@ -148,8 +148,9 @@ void doEvent(Int_t nEvents=-1, const Char_t *inputFile="test.list", const TStrin
 
 	StEEmcDbMaker *eemcdb = new StEEmcDbMaker("EEmcDBMaker");
 
-	StFlowTreeMaker *miniTreeMaker = new StFlowTreeMaker();
+	StUPCTreeMaker *miniTreeMaker = new StUPCTreeMaker();
 	miniTreeMaker->setOutFileName(outputFile);
+	miniTreeMaker->setFillTree(1);
 	//miniTreeMaker->setMaxVtxR(2.);
 	//miniTreeMaker->setMaxVtxZ(100.);
 	//miniTreeMaker->setMaxVzDiff(3.);
@@ -162,8 +163,8 @@ void doEvent(Int_t nEvents=-1, const Char_t *inputFile="test.list", const TStrin
 		miniTreeMaker->setStreamName("st_mtd");
 	if(name.find("st_ssdmb")!=std::string::npos)
 		miniTreeMaker->setStreamName("st_ssdmb");
-	if(name.find("st_physics")!=std::string::npos)
-		miniTreeMaker->setStreamName("st_physics");
+	if(name.find("st_upc")!=std::string::npos)
+		miniTreeMaker->setStreamName("st_upc");
 	if(debug)
 		miniTreeMaker->SetDebug(1);
 
