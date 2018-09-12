@@ -38,6 +38,7 @@ Int_t StUPCTreeMaker::Init()
   if(mStreamName.EqualTo("st_upc")){
     cout<<"add the UPC trigger to st_upc"<<endl;
 
+    mStPhysics_TriggerIDs.push_back(530701);
     mStPhysics_TriggerIDs.push_back(530702);
     mStPhysics_TriggerIDs.push_back(530703);
     
@@ -151,7 +152,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   Int_t nTrigs = 0;
   if(mStreamName.EqualTo("st_upc")){
     for(Int_t i=0;i<mStPhysics_TriggerIDs.size();i++){
-      //cout<<"******** "<<mStPhysics_TriggerIDs[0]<<endl;
+      cout<<"******** "<<mStPhysics_TriggerIDs[i]<<endl;
       if(picoEvent->isTrigger(mStPhysics_TriggerIDs[i])){
 	validTrigger = kTRUE;
 	
