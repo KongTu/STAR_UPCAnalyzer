@@ -403,8 +403,6 @@ void StUPCTreeMaker::bookTree()
 	//all tracks information
 	
 	mEvtTree->Branch("mNTrks", &mNTrks, "mNTrks/I");
-	//mEvtTree->Branch("mTrkId", mTrkId, "mTrkId[mNTrks]/S");
-
 	mEvtTree->Branch("mCharge", mCharge, "mCharge[mNTrks]/I");
   mEvtTree->Branch("mPmag", mPmag, "mPmag[mNTrks]/F");
   mEvtTree->Branch("mPt", mPt, "mPt[mNTrks]/F");
@@ -417,10 +415,14 @@ void StUPCTreeMaker::bookTree()
 	mEvtTree->Branch("mgPt", mgPt, "mgPt[mNTrks]/F");
   mEvtTree->Branch("mgEta", mgEta, "mgEta[mNTrks]/F");
   mEvtTree->Branch("mgPhi", mgPhi, "mgPhi[mNTrks]/F");
-
-	mEvtTree->Branch("mNHitsFit", mNHitsFit, "mNHitsFit[mNTrks]/I");
+  
+  mEvtTree->Branch("mDedx", mDedx, "mDedx[mNTrks]/I");
+  mEvtTree->Branch("mDndx", mDndx, "mDndx[mNTrks]/I");
+  mEvtTree->Branch("mNSigmaE", mNSigmaE, "mNSigmaE[mNTrks]/I");
+	
+  mEvtTree->Branch("mNHitsFit", mNHitsFit, "mNHitsFit[mNTrks]/I");
 	mEvtTree->Branch("mNHitsPoss", mNHitsPoss, "mNHitsPoss[mNTrks]/I");
-  mEvtTree->Branch("mNHitsDedx", mNHitsDedx, "mNHitsDedx[mNTrks]/F");
+  mEvtTree->Branch("mNHitsDedx", mNHitsDedx, "mNHitsDedx[mNTrks]/I");
   mEvtTree->Branch("mDndxError", mDndxError, "mDndxError[mNTrks]/F");
 
 	mEvtTree->Branch("mDca", mDca, "mDca[mNTrks]/F");
