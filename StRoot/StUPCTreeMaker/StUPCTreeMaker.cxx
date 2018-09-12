@@ -173,7 +173,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   mNTrigs = nTrigs;
   
   if(!validTrigger){
-    //LOG_WARN<<"No valid MB related triggers !"<<endm;
+    LOG_WARN<<"No valid UPC related triggers !"<<endm;
     return kFALSE;
   }
   
