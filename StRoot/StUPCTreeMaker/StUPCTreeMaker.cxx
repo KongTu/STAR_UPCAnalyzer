@@ -323,7 +323,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     
     //add emc matching
     Int_t bemcPidTraitsIndex              = pTrack->bemcPidTraitsIndex();
-    mBEMCindex = bemcPidTraitsIndex;
+    mBEMCindex = 1;
 
     if( bemcPidTraitsIndex>=0 ){
       StPicoBEmcPidTraits *bemcPidTraits = mPicoDst->bemcPidTraits(bemcPidTraitsIndex);
