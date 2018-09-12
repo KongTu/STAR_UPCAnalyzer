@@ -241,28 +241,9 @@ Bool_t StUPCTreeMaker::processPicoEvent()
 
   memset(mNHitsFit, 0, sizeof(mNHitsFit));
   memset(mNHitsPoss, 0, sizeof(mNHitsPoss));
-  //centrality
-  Int_t   CentralityBins  [9] = { 377, 327, 248, 186, 138, 99, 68, 45, 26} ;
-  Int_t   MiddleBinID     [9] = { 0,1,2,3,4,5,6,7,8};  // ID Number
-    
-  Int_t   myCentrality=-1;
 
   hRefMult->Fill( mRefMult );
   
-  for(int i=0;i!=9;i++){
-        if( mRefMult > CentralityBins[i] ){
-            myCentrality = MiddleBinID[i];
-            break;
-        }
-        else{
-            myCentrality = -1;
-        }
-    }
-    
-  if(myCentrality<0) return kFALSE;
-
-  hCentrality->Fill( myCentrality );
-
   Int_t nTrks    = 0;
 
   //track loop:
