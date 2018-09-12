@@ -158,11 +158,18 @@ class StUPCTreeMaker : public StMaker {
 		Float_t  mgEta[mMax];
 		Float_t  mgPhi[mMax];
 
+		Float_t  mgOriginX[mMax];
+		Float_t  mgOriginY[mMax];
+		Float_t  mgOriginZ[mMax];
+		
+
 		Int_t mNHitsFit[mMax];
 		Int_t mNHitsPoss[mMax];
+		Int_t mNHitsDedx[mMax];
 
 		Float_t mDedx[mMax];
 		Float_t mDndx[mMax];
+		Float_t mDndxError[mMax];
 		Float_t mNSigmaE[mMax];
 		Float_t mDca[mMax];
 
