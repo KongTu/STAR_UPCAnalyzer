@@ -99,7 +99,7 @@
 #include "StFmsHit.h"
 
 #include "StPicoDstMaker/StPicoDstMaker.h"
-#include "StPicoEvent/StPicoDst.h"
+#include "StPicoDstMaker/StPicoDst.h"
 #include "StPicoEvent/StPicoEvent.h"
 #include "StPicoEvent/StPicoTrack.h"
 #include "StPicoEvent/StPicoMtdHit.h"
