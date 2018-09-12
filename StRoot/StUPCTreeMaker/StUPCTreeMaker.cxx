@@ -154,7 +154,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
 
   Int_t nTrigs = 0;
   if(mStreamName.EqualTo("st_upc")){
-    for(Int_t i=0;i<mStPhysics_TriggerIDs.size();i++){
+    for(unsigned i=0;i<mStPhysics_TriggerIDs.size();i++){
       cout<<"******** "<<mStPhysics_TriggerIDs[i]<<endl;
       if(picoEvent->isTrigger(mStPhysics_TriggerIDs[i])){
 	validTrigger = kTRUE;
@@ -242,7 +242,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   memset(mNHitsFit, 0, sizeof(mNHitsFit));
   memset(mNHitsPoss, 0, sizeof(mNHitsPoss));
   //centrality
-  Int_t   NCentbin = 9;
   Int_t   CentralityBins  [9] = { 377, 327, 248, 186, 138, 99, 68, 45, 26} ;
   Int_t   MiddleBinID     [9] = { 0,1,2,3,4,5,6,7,8};  // ID Number
     
