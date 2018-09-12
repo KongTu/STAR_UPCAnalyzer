@@ -323,8 +323,11 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     
     //add emc matching
     Int_t bemcPidTraitsIndex              = pTrack->bemcPidTraitsIndex();
+    if( bemcPidTraitsIndex < 0 ) cout << "not matched!" << endl;
     if( bemcPidTraitsIndex>=0 ){
       StPicoBEmcPidTraits *bemcPidTraits = mPicoDst->bemcPidTraits(bemcPidTraitsIndex);
+      
+      cout << "test "  << bemcPidTraits->bemcE() << endl;
       
       mBEMCE[nTrks]         = bemcPidTraits->bemcE();
       mBEMCZ[nTrks]         = bemcPidTraits->bemcZDist();
