@@ -327,7 +327,10 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     Int_t bemcPidTraitsIndex              = pTrack->bemcPidTraitsIndex();
     if( bemcPidTraitsIndex>=0 ){
       StPicoBEmcPidTraits *bemcPidTraits = mPicoDst->bemcPidTraits(bemcPidTraitsIndex);
+      
       mBEMCE[nTrks]         = bemcPidTraits->bemcE();
+      mBEMCZ[nTrks]         = bemcPidTraits->bemcZDist();
+      mBEMCPhi[nTrks]         = bemcPidTraits->bemcPhiDist();
     }
 
     mNEmc=0;
@@ -444,8 +447,8 @@ void StUPCTreeMaker::bookTree()
 	mEvtTree->Branch("mBeta2TOF", mBeta2TOF, "mBeta2TOF[mNTrks]/F");
 	
 	mEvtTree->Branch("mBEMCE", mBEMCE, "mBEMCE[mNTrks]/F");
-	//mEvtTree->Branch("mBEMCE0", mBEMCE0, "mBEMCE0[mNTrks]/F");
-	//mEvtTree->Branch("mBEMCE1", mBEMCE1, "mBEMCE1[mNTrks]/F");
+	mEvtTree->Branch("mBEMCZ", mBEMCZ, "mBEMCZ[mNTrks]/F");
+	mEvtTree->Branch("mBEMCPhi", mBEMCPhi, "mBEMCPhi[mNTrks]/F");
 }
 //_____________________________________________________________________________
 void StUPCTreeMaker::bookHistos()

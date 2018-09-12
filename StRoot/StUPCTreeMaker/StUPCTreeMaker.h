@@ -176,8 +176,8 @@ class StUPCTreeMaker : public StMaker {
 		Float_t  mTOFLocalY[mMax];
 		Float_t  mBeta2TOF[mMax];
 		Float_t  mBEMCE[mMax];
-		Float_t  mBEMCE0[mMax];
-		Float_t  mBEMCE1[mMax];
+		Float_t  mBEMCZ[mMax];
+		Float_t  mBEMCPhi[mMax];
 
 		StMuDstMaker   *mMuDstMaker;          // Pointer to StMuDstMaker
 		StMuDst        *mMuDst;              // Pointer to MuDst event
