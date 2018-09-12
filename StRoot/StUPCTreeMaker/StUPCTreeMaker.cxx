@@ -181,9 +181,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     return kFALSE;
   }
   
-  cout << "runid " << mRunId << endl;
-
-  
   mRunId          = picoEvent->runId();
   mEventId        = picoEvent->eventId();
   mRefMult        = picoEvent->refMult();
@@ -197,6 +194,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   mVertexX        = vtxPos.x();
   mVertexY        = vtxPos.y();
   mVertexZ        = vtxPos.z();
+ 
   if(Debug()){
     LOG_INFO<<"RunId: "<<mRunId<<endm;
     LOG_INFO<<"EventId: "<<mEventId<<endm;
@@ -226,7 +224,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   
   hVtxZ->Fill( vtxPos.z() );
 
-
   mNTofHits = mPicoDst->numberOfBTofHits();//better one for multiplicity
   mZDCeast = picoEvent->ZdcSumAdcEast();
   mZDCwest = picoEvent->ZdcSumAdcWest();
@@ -253,17 +250,17 @@ Bool_t StUPCTreeMaker::processPicoEvent()
 
   hRefMult->Fill( mRefMult );
   
-  for(int i=0;i!=9;i++){
-        if( mRefMult > CentralityBins[i] ){
-            myCentrality = MiddleBinID[i];
-            break;
-        }
-        else{
-            myCentrality = -1;
-        }
-    }
+  // for(int i=0;i!=9;i++){
+  //       if( mRefMult > CentralityBins[i] ){
+  //           myCentrality = MiddleBinID[i];
+  //           break;
+  //       }
+  //       else{
+  //           myCentrality = -1;
+  //       }
+  //   }
     
-  if(myCentrality<0) return kFALSE;
+  // if(myCentrality<0) return kFALSE;
 
   hCentrality->Fill( myCentrality );
 
