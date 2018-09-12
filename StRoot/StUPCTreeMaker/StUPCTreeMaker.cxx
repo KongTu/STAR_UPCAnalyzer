@@ -323,12 +323,11 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     
     //add emc matching
     Int_t bemcPidTraitsIndex              = pTrack->bemcPidTraitsIndex();
-    if( bemcPidTraitsIndex < 0 ) cout << "not matched!" << endl;
+    mBEMCindex = bemcPidTraitsIndex;
+
     if( bemcPidTraitsIndex>=0 ){
       StPicoBEmcPidTraits *bemcPidTraits = mPicoDst->bemcPidTraits(bemcPidTraitsIndex);
-      
-      cout << "test "  << bemcPidTraits->bemcE() << endl;
-      
+          
       mBEMCE[nTrks]         = bemcPidTraits->bemcE();
       mBEMCZ[nTrks]         = bemcPidTraits->bemcZDist();
       mBEMCPhi[nTrks]         = bemcPidTraits->bemcPhiDist();
@@ -387,7 +386,9 @@ void StUPCTreeMaker::bookTree()
 	mEvtTree->Branch("mEventId", &mEventId, "mEventId/I");
 	
 	mEvtTree->Branch("mNTrigs", &mNTrigs, "mNTrigs/I");
-	mEvtTree->Branch("mTrigId", mTrigId, "mTrigId[mNTrigs]/I");
+  mEvtTree->Branch("mTrigId", mTrigId, "mTrigId[mNTrigs]/I");
+  
+  mEvtTree->Branch("mBEMCindex", mBEMCindex, "mBEMCindex/I");
 	
 	mEvtTree->Branch("mRefMult", &mRefMult, "mRefMult/S");
 	mEvtTree->Branch("mGRefMult", &mGRefMult, "mGRefMult/S");

@@ -118,6 +118,7 @@ class StUPCTreeMaker : public StMaker {
 		Int_t    mEventId;
 		Int_t    mNTrigs;
 		Int_t    mTrigId[64];
+		Int_t    mBEMCindex;
 		Short_t  mRefMult;
 		Short_t  mGRefMult;
 
@@ -128,6 +129,7 @@ class StUPCTreeMaker : public StMaker {
 		Float_t  mVertexX;
 		Float_t  mVertexY;
 		Float_t  mVertexZ;
+
 
 
 		//BBC
