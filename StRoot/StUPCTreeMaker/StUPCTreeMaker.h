@@ -149,6 +149,7 @@ class StUPCTreeMaker : public StMaker {
 		//track information
 		Int_t  mNTrks;
 		Int_t   mCharge[mMax];
+		Float_t  mPmag[mMax];
 		Float_t  mPt[mMax];
 		Float_t  mEta[mMax];
 		Float_t  mPhi[mMax];
@@ -232,31 +233,12 @@ class StUPCTreeMaker : public StMaker {
 		TH2D           *hGRefMultvsGRefMultCorr;
 		TH1D           *hCentrality;
 
-		//Qvector histograms for PCA
-
-
 		TH2D           *hdEdxvsP;
 		TH2D           *hdNdxvsP;
 		TH2D           *hnSigEvsP;
 		TH2D           *hBetavsP;
 		TH2D 		   *hFmsXYdis;
 
-		TH1D* cn_tracker[20][2];
-		TH1D* cn_tracker_fms[10][20][2];
-		TH1D* cn_tracker_fms_real[10][20][2];
-		TH1D* cn_tracker_fms_imag[10][20][2];
-
-		TH1D* cn_QbQc[10];
-		TH1D* cn_QaQb[10];
-		TH1D* cn_QaQc[10];
-		TH1D* cn_Qa_real[10];
-		TH1D* cn_Qb_real[10];
-		TH1D* cn_Qc_real[10];
-		TH1D* cn_Qa_imag[10];
-		TH1D* cn_Qb_imag[10];
-		TH1D* cn_Qc_imag[10];
-
-	
 
 		ClassDef(StUPCTreeMaker, 1)
 };

@@ -272,6 +272,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     //track cut
     if(!isValidTrack(pTrack, vtxPos)) continue; 
     
+    mPmag[nTrks] = -999;
     mPt[nTrks] = -999;
     mEta[nTrks] = -999;
     mPhi[nTrks] = -999;
@@ -288,6 +289,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     StThreeVectorF gMom = pTrack->gMom();
     StThreeVectorF origin = pTrack->origin();
     
+    mPmag[nTrks] = pMom.mag();
     mPt[nTrks] = pMom.perp();
     mEta[nTrks] = pMom.pseudoRapidity();
     mPhi[nTrks] = pMom.phi();
@@ -427,7 +429,8 @@ void StUPCTreeMaker::bookTree()
 	//mEvtTree->Branch("mTrkId", mTrkId, "mTrkId[mNTrks]/S");
 
 	mEvtTree->Branch("mCharge", mCharge, "mCharge[mNTrks]/I");
-	mEvtTree->Branch("mPt", mPt, "mPt[mNTrks]/F");
+  mEvtTree->Branch("mPmag", mPmag, "mPmag[mNTrks]/F");
+  mEvtTree->Branch("mPt", mPt, "mPt[mNTrks]/F");
 	mEvtTree->Branch("mEta", mEta, "mEta[mNTrks]/F");
 	mEvtTree->Branch("mPhi", mPhi, "mPhi[mNTrks]/F");
 
