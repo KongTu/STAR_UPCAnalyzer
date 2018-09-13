@@ -7,7 +7,7 @@ ClassImp(StUPCTreeMaker)
 StUPCTreeMaker::StUPCTreeMaker(const Char_t *name) : StMaker(name), 
 mFillTree(0), mFillHisto(1), mPrintConfig(1), mPrintMemory(0), mPrintCpu(0), 
 mStreamName("st_upc"), fOutFile(0), mOutFileName(""), mEvtTree(0), mVn(2), 
-mMaxVtxR(5.0), mMaxVtxZ(50.0), mMaxVzDiff(3.0), mMinTrkPt(0.1), mMaxTrkEta(2.), 
+mMaxVtxR(999.0), mMaxVtxZ(100.0), mMaxVzDiff(999.0), mMinTrkPt(0.1), mMaxTrkEta(2.), 
 mMinNHitsFit(15), mMinNHitsFitRatio(0.52), mMinNHitsDedx(10), mMaxDca(3.), 
 mMaxnSigmaE(2.5), mMaxBeta2TOF(0.03),mEmcCollection(nullptr), mEmcPosition(nullptr), 
 mEmcGeom{},mEmcIndex{}
@@ -38,10 +38,6 @@ Int_t StUPCTreeMaker::Init()
   if(mStreamName.EqualTo("st_upc")){
     cout<<"add the UPC trigger to st_upc"<<endl;
 
-    mStPhysics_TriggerIDs.push_back(36);
-    mStPhysics_TriggerIDs.push_back(37);
-    mStPhysics_TriggerIDs.push_back(38);
-    mStPhysics_TriggerIDs.push_back(530701);
     mStPhysics_TriggerIDs.push_back(530702);
     mStPhysics_TriggerIDs.push_back(530703);
     
