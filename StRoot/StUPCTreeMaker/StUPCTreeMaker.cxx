@@ -40,6 +40,8 @@ Int_t StUPCTreeMaker::Init()
 
     mStPhysics_TriggerIDs.push_back(530702);
     mStPhysics_TriggerIDs.push_back(530703);
+    mStPhysics_TriggerIDs.push_back(520732);
+    mStPhysics_TriggerIDs.push_back(520733);
     
   }
   else if(mStreamName.EqualTo("st_ssdmb")){
