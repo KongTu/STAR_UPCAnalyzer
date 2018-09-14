@@ -38,10 +38,11 @@ Int_t StUPCTreeMaker::Init()
   if(mStreamName.EqualTo("st_upc")){
     cout<<"add the UPC trigger to st_upc"<<endl;
 
+    mStPhysics_TriggerIDs.push_back(530701);
     mStPhysics_TriggerIDs.push_back(530702);
     mStPhysics_TriggerIDs.push_back(530703);
-    mStPhysics_TriggerIDs.push_back(520732);
-    mStPhysics_TriggerIDs.push_back(520733);
+    // mStPhysics_TriggerIDs.push_back(520732);
+    // mStPhysics_TriggerIDs.push_back(520733);
     
   }
   else if(mStreamName.EqualTo("st_ssdmb")){

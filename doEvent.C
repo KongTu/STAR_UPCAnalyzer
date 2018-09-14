@@ -85,7 +85,7 @@ void doEvent(Int_t nEvents=-1, const Char_t *inputFile="test.list", const TStrin
         filelist.insert(npos-5,"new");
         cout<<filelist<<endl;
 
-        char inputFile2[500];
+        char inputFile2[10000];
         sprintf(inputFile2, "%s",filelist.data());
         ofstream fout(inputFile2);
 
@@ -101,7 +101,7 @@ void doEvent(Int_t nEvents=-1, const Char_t *inputFile="test.list", const TStrin
  	  }//fout<<name<<endl;
         }
         fin.close();
-        int number_of_files = temp_name.size() - 1;//bug fix for repeating the last file.	
+        int number_of_files = temp_name.size();//no bug fix for repeating the last file.	
         for(int i = 0; i < number_of_files; i++){
 		fout<<temp_name[i]<<endl;
 	}
