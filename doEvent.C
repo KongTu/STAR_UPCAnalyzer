@@ -92,13 +92,11 @@ void doEvent(Int_t nEvents=-1, const Char_t *inputFile="test.list", const TStrin
         ifstream fin(inputFile);
 
         string name;
-        int evts;
+  
         vector<string> temp_name;
         while(!fin.eof()){
-          fin>>name>>evts;
-          if(evts>0) {
-		temp_name.push_back( name ); 
- 	  }//fout<<name<<endl;
+          fin>>name;
+			temp_name.push_back( name ); 
         }
         fin.close();
         int number_of_files = temp_name.size();//no bug fix for repeating the last file.	
