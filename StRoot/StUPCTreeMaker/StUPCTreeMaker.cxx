@@ -319,8 +319,10 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
         mTPCeTrkFlag[nTrks] 
         || mBEMCTraitsIndex[nTrks]>=0
       ){
-      nTrks++;
+      // nTrks++;
     }
+
+    nTrks++;
   }
 
   //if(nTrks==0 ) return kFALSE;
