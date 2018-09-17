@@ -176,7 +176,6 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   if(mFillHisto){
     if(validTrigger) {
       hEvent->Fill(6.5);
-      mRunId          = mMuEvent->runId();
     }
   }
 
@@ -194,7 +193,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   //   }
   // }
 
-  
+  mRunId          = mMuEvent->runId();
   mEventId        = mMuEvent->eventId();
   mRefMult        = mMuEvent->refMult();
   mGRefMult       = mMuEvent->grefmult();
@@ -314,7 +313,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     }
   }
 
-  if(nTrks==0 ) return kFALSE;
+  //if(nTrks==0 ) return kFALSE;
 
   mNTrks         = nTrks;
   mNBEMCTrks     = nBEMCTrks;
