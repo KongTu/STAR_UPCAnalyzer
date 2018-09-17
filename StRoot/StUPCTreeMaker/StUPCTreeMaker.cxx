@@ -22,6 +22,11 @@ StUPCTreeMaker::~StUPCTreeMaker()
 //_____________________________________________________________________________
 Int_t StUPCTreeMaker::Init()
 {
+  mEmcPosition = new StEmcPosition();
+  for(Int_t i=0;i<4;i++){
+    if(i==1) continue;
+    mEmcGeom[i] = StEmcGeom::getEmcGeom(detname[i].Data());
+  }
   
   if(!mOutFileName.Length()){
     LOG_ERROR << "StUPCTreeMaker:: no output file specified for tree and histograms." << endm;
