@@ -241,9 +241,8 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     StMuTrack* gMuTrack = (StMuTrack *)pMuTrack->globalTrack();
     if(!gMuTrack) continue;
 
-    if(!isValidTrack(pMuTrack)) continue;
+    //if(!isValidTrack(pMuTrack)) continue;
 
- 
     mBEMCTraitsIndex[nTrks]  = -999;
     mTPCeTrkFlag[nTrks]      = kFALSE;
 
