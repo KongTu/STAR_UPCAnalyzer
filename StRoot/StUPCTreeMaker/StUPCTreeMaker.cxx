@@ -124,7 +124,7 @@ Int_t StUPCTreeMaker::Make()
     if(!processMuDstEvent()) return kStOK;
   }
 	else{
-        if(!processPicoEvent())  return kStOK;
+    if(!processPicoEvent())  return kStOK;
 	}
 
 	if(mFillTree) mEvtTree->Fill();
@@ -231,6 +231,18 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   if(TMath::Abs(vtxPos.z())>=mMaxVtxZ) return kFALSE;
   if(mFillHisto) hEvent->Fill(12.5);
 
+  hVtxZ->Fill( vtxPos.z() );
+
+  mNTofHits = mPicoDst->numberOfBTofHits();//better one for multiplicity
+  mZDCeast = picoEvent->ZdcSumAdcEast();
+  mZDCwest = picoEvent->ZdcSumAdcWest();
+  
+  for(int ch=0;ch<24;ch++) {
+    mBbcQ[ch]    = picoEvent->bbcAdcEast(ch);
+    mBbcQ[ch+24] = picoEvent->bbcAdcWest(ch);
+
+  }
+
   Int_t nNodes = mMuDst->numberOfPrimaryTracks();
   if(Debug()){
     LOG_INFO<<"# of primary Tracks in muDst: "<<nNodes<<endm;
@@ -286,26 +298,6 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     hnSigEvsP->Fill(pMom.mag(), mNSigmaE[nTrks]);
     }
 
-    mTOFMatchFlag[nTrks] = -1;
-    mTOFLocalY[nTrks] = -999.;
-    mBeta2TOF[nTrks] = -999.;
-    
-    if( &(pMuTrack->btofPidTraits()) ){
-      const StMuBTofPidTraits& btofPidTraits = pMuTrack->btofPidTraits();
-      mTOFMatchFlag[nTrks] = btofPidTraits.matchFlag(); 
-      mTOFLocalY[nTrks] = btofPidTraits.yLocal();
-      mBeta2TOF[nTrks] = btofPidTraits.beta();
-      if(mFillHisto) hBetavsP->Fill(pMom.mag(), 1./mBeta2TOF[nTrks]);
-    }
-
-    // if(
-    //     TMath::Abs(mNSigmaE[nTrks])<=mMaxnSigmaE
-    //     && mBeta2TOF[nTrks]>0.
-    //     && TMath::Abs(1.-1./mBeta2TOF[nTrks])<=mMaxBeta2TOF
-    //   )
-    //   mTPCeTrkFlag[nTrks] = kTRUE;
-
-    
     getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
 
     if(mBEMCTraitsIndex[nTrks]>=0){
