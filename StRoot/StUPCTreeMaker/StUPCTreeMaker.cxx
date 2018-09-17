@@ -312,8 +312,8 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
 
     if(
-        mTPCeTrkFlag[nTrks] 
-        //|| mBEMCTraitsIndex[nTrks]>=0
+        //mTPCeTrkFlag[nTrks] 
+        mBEMCTraitsIndex[nTrks]>=0
       ){
         nTrks++;
     }
