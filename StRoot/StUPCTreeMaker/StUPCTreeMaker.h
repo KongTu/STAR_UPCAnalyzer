@@ -117,9 +117,6 @@ class StUPCTreeMaker : public StMaker {
 
 		StMuDstMaker   *mMuDstMaker;          // Pointer to StMuDstMaker
 		StMuDst        *mMuDst;              // Pointer to MuDst event
-		StEmcPosition  *mEmcPosition;
-		StEmcGeom      *mEmcGeom[4];
-		StEmcRawHit*     mEmcIndex[4800];
 
 		StPicoDstMaker *mPicoDstMaker;
 		StPicoDst      *mPicoDst;

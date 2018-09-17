@@ -151,7 +151,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
   Int_t nTrigs = 0;
   if(mStreamName.EqualTo("st_upc")){
-    for(Int_t i=0;i<mStUPC_TriggerIDs.size();i++){
+    for(unsigned i=0;i<mStUPC_TriggerIDs.size();i++){
       if(mMuEvent->triggerIdCollection().nominal().isTrigger(mStUPC_TriggerIDs[i])){
         
         validTrigger   = kTRUE;
