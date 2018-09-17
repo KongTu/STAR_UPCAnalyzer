@@ -139,6 +139,9 @@ Int_t StUPCTreeMaker::Make()
 //-----------------------------------------------------------------------------
 Bool_t StUPCTreeMaker::processMuDstEvent()
 {
+
+  cout << "start here! " << endl;
+
   if(mFillHisto) hEvent->Fill(0.5);
 
   StMuEvent *mMuEvent = mMuDst->event();
@@ -155,7 +158,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       if(mMuEvent->triggerIdCollection().nominal().isTrigger(mStUPC_TriggerIDs[i])){
         
         validTrigger   = kTRUE;
-
+        cout << "------------- trigger id: " << mStUPC_TriggerIDs[i] << endl;
         mTrigId[nTrigs] = mStUPC_TriggerIDs[i];
         nTrigs++;
       }
