@@ -319,7 +319,6 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   if(Debug()){
     LOG_INFO<<"# of primary tracks stored: "<<mNTrks<<endm;
     LOG_INFO<<"# of EMC matched Tracks stored: "<<mNBEMCTrks<<endm;
-    LOG_INFO<<"# of MTD matched Tracks stored: "<<mNMTDTrks<<endm;
   }
 
   return kTRUE;
@@ -489,8 +488,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
  
     }
 
-    mNEmc=0;
-
     nTrks++;
 
   }//end of track loop
@@ -501,7 +498,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   if(Debug()){
     LOG_INFO<<"# of primary tracks stored: "<<mNTrks<<endm;
     //LOG_INFO<<"# of EMC matched Tracks stored: "<<mNBEMCTrks<<endm;
-    //LOG_INFO<<"# of MTD matched Tracks stored: "<<mNMTDTrks<<endm;
   }
     
   return kTRUE;
@@ -612,9 +608,16 @@ void StUPCTreeMaker::bookTree()
 	mEvtTree->Branch("mTOFLocalY", mTOFLocalY, "mTOFLocalY[mNTrks]/F");
 	mEvtTree->Branch("mBeta2TOF", mBeta2TOF, "mBeta2TOF[mNTrks]/F");
 	
-	mEvtTree->Branch("mBEMCE", mBEMCE, "mBEMCE[mNTrks]/F");
-	mEvtTree->Branch("mBEMCZ", mBEMCZ, "mBEMCZ[mNTrks]/F");
-	mEvtTree->Branch("mBEMCPhi", mBEMCPhi, "mBEMCPhi[mNTrks]/F");
+//BEMC pidTrait information
+  mEvtTree->Branch("mNBEMCTrks", &mNBEMCTrks, "mNBEMCTrks/S");
+  mEvtTree->Branch("mBEMCTrkIndex", mBEMCTrkIndex, "mBEMCTrkIndex[mNBEMCTrks]/S");
+  mEvtTree->Branch("mBEMCAdc0", mBEMCAdc0, "mBEMCAdc0[mNBEMCTrks]/S");
+  mEvtTree->Branch("mBEMCE0", mBEMCE0, "mBEMCE0[mNBEMCTrks]/F");
+  mEvtTree->Branch("mBEMCE", mBEMCE, "mBEMCE[mNBEMCTrks]/F");
+  mEvtTree->Branch("mBEMCZDist", mBEMCZDist, "mBEMCZDist[mNBEMCTrks]/F");
+  mEvtTree->Branch("mBEMCPhiDist", mBEMCPhiDist, "mBEMCPhiDist[mNBEMCTrks]/F");
+  mEvtTree->Branch("mBEMCnEta", mBEMCnEta, "mBEMCnEta[mNBEMCTrks]/B");
+  mEvtTree->Branch("mBEMCnPhi", mBEMCnPhi, "mBEMCnPhi[mNBEMCTrks]/B");
 }
 //_____________________________________________________________________________
 void StUPCTreeMaker::bookHistos()
