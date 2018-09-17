@@ -27,7 +27,7 @@ Int_t StUPCTreeMaker::Init()
     if(i==1) continue;
     mEmcGeom[i] = StEmcGeom::getEmcGeom(detname[i].Data());
   }
-  
+
   if(!mOutFileName.Length()){
     LOG_ERROR << "StUPCTreeMaker:: no output file specified for tree and histograms." << endm;
     return kStERR;
@@ -245,11 +245,14 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     StMuTrack* pMuTrack = mMuDst->primaryTracks(i);
     if(!pMuTrack) continue;
 
-    cout << "tracks " << i << endl;
     StMuTrack* gMuTrack = (StMuTrack *)pMuTrack->globalTrack();
     if(!gMuTrack) continue;
 
-    //if(!isValidTrack(pMuTrack)) continue;
+    cout << "tracks: " << i << endl;
+
+    if(!isValidTrack(pMuTrack)) continue;
+
+    cout << "tracks after cut: " << i << endl;
 
     mBEMCTraitsIndex[nTrks]  = -999;
     mTPCeTrkFlag[nTrks]      = kFALSE;
