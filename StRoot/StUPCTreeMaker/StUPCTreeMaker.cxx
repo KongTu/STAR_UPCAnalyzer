@@ -253,15 +253,14 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     mBEMCTraitsIndex[nTrks]  = -999;
     mTPCeTrkFlag[nTrks]      = kFALSE;
 
-    mCharge[nTrks]           = pMuTrack->charge();
-
     // Calculate global momentum and position at point of DCA to the pVtx
     StThreeVectorF pMom               = pMuTrack->p();
     StPhysicalHelixD gHelix           = gMuTrack->helix(); // Return inner helix (first measured point)
     gHelix.moveOrigin(gHelix.pathLength(vtxPos));
     StThreeVectorF gMom               = gHelix.momentum(mBField*kilogauss);
     StThreeVectorF origin             = gHelix.origin();
-
+  
+    mCharge[nTrks]           = pMuTrack->charge();
     mPt[nTrks]               = pMom.perp();
     mEta[nTrks]              = pMom.pseudoRapidity();
     mPhi[nTrks]              = pMom.phi();
@@ -290,6 +289,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     mTOFMatchFlag[nTrks] = -1;
     mTOFLocalY[nTrks] = -999.;
     mBeta2TOF[nTrks] = -999.;
+    
     if( &(pMuTrack->btofPidTraits()) ){
       const StMuBTofPidTraits& btofPidTraits = pMuTrack->btofPidTraits();
       mTOFMatchFlag[nTrks] = btofPidTraits.matchFlag(); 
@@ -312,13 +312,12 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
 
     if(
-        //mTPCeTrkFlag[nTrks] 
-        mBEMCTraitsIndex[nTrks]>=0
+        mTPCeTrkFlag[nTrks] 
+        || mBEMCTraitsIndex[nTrks]>=0
       ){
         nTrks++;
     }
 
-    //nTrks++;
   }
 
   //if(nTrks==0 ) return kFALSE;
