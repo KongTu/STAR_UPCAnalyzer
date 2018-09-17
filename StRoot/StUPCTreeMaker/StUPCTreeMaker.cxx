@@ -116,8 +116,10 @@ Int_t StUPCTreeMaker::Make()
 		LOG_WARN<<"No StMuDstMaker and No StPicoDstMaker !"<<endm;
 		return kStOK;
 	}
-
-	if(mPicoDstMaker){
+  if(mMuDstMaker){
+    if(!processMuDstEvent()) return kStOK;
+  }
+	else{
         if(!processPicoEvent())  return kStOK;
 	}
 
