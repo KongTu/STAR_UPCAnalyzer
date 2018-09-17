@@ -141,7 +141,7 @@ class StUPCTreeMaker : public StMaker {
 		Float_t  mVertexX;
 		Float_t  mVertexY;
 		Float_t  mVertexZ;
-		
+
 		//BBC
 		Int_t    mBbcQ[48];
 
@@ -220,6 +220,7 @@ class StUPCTreeMaker : public StMaker {
 		//IntVec         mStHLT_TriggerIDs;
 		//IntVec         mStMTD_TriggerIDs;
 		IntVec         mStPhysics_TriggerIDs;
+		IntVec 		   mStUPC_TriggerIDs;
 
 		//define histograms ongoing...
 		TH1D           *hEvent;

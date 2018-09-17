@@ -33,16 +33,16 @@ Int_t StUPCTreeMaker::Init()
   if(mFillTree)    bookTree();
   if(mFillHisto)   bookHistos();
 
-  mStPhysics_TriggerIDs.clear();
+  mStUPC_TriggerIDs.clear();
 
   if(mStreamName.EqualTo("st_upc")){
     cout<<"add the UPC trigger to st_upc"<<endl;
 
-    mStPhysics_TriggerIDs.push_back(530701);
-    mStPhysics_TriggerIDs.push_back(530702);
-    mStPhysics_TriggerIDs.push_back(530703);
-    // mStPhysics_TriggerIDs.push_back(520732);
-    // mStPhysics_TriggerIDs.push_back(520733);
+    mStUPC_TriggerIDs.push_back(530701);
+    mStUPC_TriggerIDs.push_back(530702);
+    mStUPC_TriggerIDs.push_back(530703);
+    // mStUPC_TriggerIDs.push_back(520732);
+    // mStUPC_TriggerIDs.push_back(520733);
     
   }
   else if(mStreamName.EqualTo("st_ssdmb")){
@@ -151,12 +151,12 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
   Int_t nTrigs = 0;
   if(mStreamName.EqualTo("st_upc")){
-    for(Int_t i=0;i<mStPhysics_TriggerIDs.size();i++){
-      if(mMuEvent->triggerIdCollection().nominal().isTrigger(mStPhysics_TriggerIDs[i])){
+    for(Int_t i=0;i<mStUPC_TriggerIDs.size();i++){
+      if(mMuEvent->triggerIdCollection().nominal().isTrigger(mStUPC_TriggerIDs[i])){
         
         validTrigger   = kTRUE;
 
-        mTrigId[nTrigs] = mStPhysics_TriggerIDs[i];
+        mTrigId[nTrigs] = mStUPC_TriggerIDs[i];
         nTrigs++;
       }
     }
@@ -174,7 +174,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   }
 
   if(mFillHisto){
-    if(validTrigger) hEvent->Fill(2.5);
+    if(validTrigger) hEvent->Fill(6.5);
   }
 
   // //select the right vertex using VPD
@@ -422,16 +422,13 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   }
   
   Bool_t validTrigger = kFALSE;
-  Bool_t VPD5 = kFALSE;
-  Bool_t VPD5HM = kFALSE;
 
   Int_t nTrigs = 0;
   if(mStreamName.EqualTo("st_upc")){
-    for(unsigned i=0;i<mStPhysics_TriggerIDs.size();i++){
-      //cout<<"******** "<<mStPhysics_TriggerIDs[i]<<endl;
-      if(picoEvent->isTrigger(mStPhysics_TriggerIDs[i])){
+    for(unsigned i=0;i<mStUPC_TriggerIDs.size();i++){
+      if(picoEvent->isTrigger(mStUPC_TriggerIDs[i])){
         validTrigger = kTRUE;
-        mTrigId[nTrigs] = mStPhysics_TriggerIDs[i];
+        mTrigId[nTrigs] = mStUPC_TriggerIDs[i];
 
     	if(mFillHisto) hEvent->Fill(0.5+i+1);
       nTrigs++;
