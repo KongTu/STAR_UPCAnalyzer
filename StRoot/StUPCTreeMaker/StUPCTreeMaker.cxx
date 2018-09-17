@@ -224,19 +224,19 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     hVzDiff->Fill(mVertexZ - mVpdVz);
   }
 
-  // if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
-  // if(mFillHisto) hEvent->Fill(10.5);
-  // if(sqrt(vtxPos.x()*vtxPos.x()+vtxPos.y()*vtxPos.y())>=mMaxVtxR) return kFALSE;
-  // if(mFillHisto) hEvent->Fill(11.5);
-  // if(TMath::Abs(vtxPos.z())>=mMaxVtxZ) return kFALSE;
-  // if(mFillHisto) hEvent->Fill(12.5);
+  if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
+  if(mFillHisto) hEvent->Fill(10.5);
+  if(sqrt(vtxPos.x()*vtxPos.x()+vtxPos.y()*vtxPos.y())>=mMaxVtxR) return kFALSE;
+  if(mFillHisto) hEvent->Fill(11.5);
+  if(TMath::Abs(vtxPos.z())>=mMaxVtxZ) return kFALSE;
+  if(mFillHisto) hEvent->Fill(12.5);
 
   Int_t nNodes = mMuDst->numberOfPrimaryTracks();
   if(Debug()){
     LOG_INFO<<"# of primary Tracks in muDst: "<<nNodes<<endm;
     //LOG_INFO<<"# of global Tracks in muDst: "<<mMuDst->numberOfGlobalTracks()<<endm;
   }
-  cout << "# of primary Tracks in muDst: "<<nNodes<<endl;
+
   Short_t nTrks    = 0;
   Short_t nBEMCTrks = 0;
   
@@ -248,11 +248,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     StMuTrack* gMuTrack = (StMuTrack *)pMuTrack->globalTrack();
     if(!gMuTrack) continue;
 
-    cout << "tracks: " << i << endl;
-
     if(!isValidTrack(pMuTrack)) continue;
-
-    cout << "tracks after cut: " << i << endl;
 
     mBEMCTraitsIndex[nTrks]  = -999;
     mTPCeTrkFlag[nTrks]      = kFALSE;
