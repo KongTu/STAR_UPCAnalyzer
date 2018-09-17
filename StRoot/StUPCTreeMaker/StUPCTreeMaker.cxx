@@ -41,6 +41,7 @@ Int_t StUPCTreeMaker::Init()
     mStUPC_TriggerIDs.push_back(530701);
     mStUPC_TriggerIDs.push_back(530702);
     mStUPC_TriggerIDs.push_back(530703);
+    //AuAu200 2016 UPC trigger ID:
     // mStUPC_TriggerIDs.push_back(520732);
     // mStUPC_TriggerIDs.push_back(520733);
     
@@ -50,8 +51,6 @@ Int_t StUPCTreeMaker::Init()
     
     mStPhysics_TriggerIDs.push_back(500001);
   }
-  
-  //initEmc();
   
   return kStOK;
 }
@@ -141,9 +140,6 @@ Int_t StUPCTreeMaker::Make()
 //-----------------------------------------------------------------------------
 Bool_t StUPCTreeMaker::processMuDstEvent()
 {
-
-  cout << "start here! " << endl;
-
   if(mFillHisto) hEvent->Fill(0.5);
 
   StMuEvent *mMuEvent = mMuDst->event();
@@ -160,7 +156,6 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       if(mMuEvent->triggerIdCollection().nominal().isTrigger(mStUPC_TriggerIDs[i])){
         
         validTrigger   = kTRUE;
-        cout << "------------- trigger id: " << mStUPC_TriggerIDs[i] << endl;
         mTrigId[nTrigs] = mStUPC_TriggerIDs[i];
         nTrigs++;
       }
@@ -182,7 +177,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     if(validTrigger) hEvent->Fill(6.5);
   }
 
-  // //select the right vertex using VPD
+  //select the right vertex using VPD
   // Float_t vpdVz = -999; 
   // StBTofHeader *mBTofHeader = mMuDst->btofHeader();
   // if(mBTofHeader) vpdVz = mBTofHeader->vpdVz();
@@ -196,222 +191,136 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   //   }
   // }
 
-  // StMuMtdHeader *muMtdHeader = mMuDst->mtdHeader();
-  // if(muMtdHeader)
-  //   mEvtData.mShouldHaveRejectEvent = muMtdHeader->shouldHaveRejectEvent();
+  mRunId          = mMuEvent->runId();
+  mEventId        = mMuEvent->eventId();
+  mRefMult        = mMuEvent->refMult();
+  mGRefMult       = mMuEvent->grefmult();
+  mBBCRate        = mMuEvent->runInfo().bbcCoincidenceRate();
+  mZDCRate        = mMuEvent->runInfo().zdcCoincidenceRate();
+  mBField         = mMuEvent->runInfo().magneticField();
 
-  // mEvtData.mRunId          = mMuEvent->runId();
-  // mEvtData.mEventId        = mMuEvent->eventId();
-  // mEvtData.mRefMult        = mMuEvent->refMult();
-  // mEvtData.mGRefMult       = mMuEvent->grefmult();
-  // mEvtData.mBBCRate        = mMuEvent->runInfo().bbcCoincidenceRate();
-  // mEvtData.mZDCRate        = mMuEvent->runInfo().zdcCoincidenceRate();
-  // mEvtData.mBField         = mMuEvent->runInfo().magneticField();
+  StThreeVectorF vtxPos    = mMuEvent->primaryVertexPosition();
+  mVertexX        = vtxPos.x();
+  mVertexY        = vtxPos.y();
+  mVertexZ        = vtxPos.z();
+  
+  if(Debug()){
+    LOG_INFO<<"RunId: "<<mRunId<<endm;
+    LOG_INFO<<"EventId: "<<mEventId<<endm;
+    LOG_INFO<<"mZDCX: "<<mZDCRate<<endm;
+    LOG_INFO<<"VPD Vz: "<<mVpdVz<<" \tTPC Vz: "<<mVertexZ<<endm;
+  }
 
-  // StThreeVectorF vtxPos    = mMuEvent->primaryVertexPosition();
-  // mEvtData.mVertexX        = vtxPos.x();
-  // mEvtData.mVertexY        = vtxPos.y();
-  // mEvtData.mVertexZ        = vtxPos.z();
-  // mEvtData.mVpdVz          = vpdVz;
-  // if(Debug()){
-  //   LOG_INFO<<"RunId: "<<mEvtData.mRunId<<endm;
-  //   LOG_INFO<<"EventId: "<<mEvtData.mEventId<<endm;
-  //   LOG_INFO<<"mZDCX: "<<mEvtData.mZDCRate<<endm;
-  //   LOG_INFO<<"VPD Vz: "<<mEvtData.mVpdVz<<" \tTPC Vz: "<<mEvtData.mVertexZ<<endm;
-  // }
+  if(mFillHisto){
+    hVtxYvsVtxX->Fill(mVertexX, mVertexY);
+    hVPDVzvsTPCVz->Fill(mVertexZ, mVpdVz);
+    hVzDiff->Fill(mVertexZ - mVpdVz);
+  }
 
-  // if(mFillHisto){
-  //   hVtxYvsVtxX->Fill(mEvtData.mVertexX, mEvtData.mVertexY);
-  //   hVPDVzvsTPCVz->Fill(mEvtData.mVertexZ, mEvtData.mVpdVz);
-  //   hVzDiff->Fill(mEvtData.mVertexZ - mEvtData.mVpdVz);
-  // }
+  if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
+  if(mFillHisto) hEvent->Fill(10.5);
+  if(sqrt(vtxPos.x()*vtxPos.x()+vtxPos.y()*vtxPos.y())>=mMaxVtxR) return kFALSE;
+  if(mFillHisto) hEvent->Fill(11.5);
+  if(TMath::Abs(vtxPos.z())>=mMaxVtxZ) return kFALSE;
+  if(mFillHisto) hEvent->Fill(12.5);
 
-  // refMultCorr->init(mEvtData.mRunId);
-  // refMultCorr->initEvent(mEvtData.mGRefMult, mEvtData.mVertexZ, mEvtData.mZDCRate);
-  // mEvtData.mGRefMultCorr   = refMultCorr->getRefMultCorr(); 
-  // mEvtData.mEvtWeight      = refMultCorr->getWeight();
-  // mEvtData.mCentrality     = refMultCorr->getCentralityBin16();
-  // if(Debug()) LOG_INFO<<"gRefMult: "<<mEvtData.mGRefMult<<" \tgRefMultCorr: "<<mEvtData.mGRefMultCorr<<" \tmCentrality: "<<mEvtData.mCentrality<<endm;
+  Int_t nNodes = mMuDst->numberOfPrimaryTracks();
+  if(Debug()){
+    LOG_INFO<<"# of primary Tracks in muDst: "<<nNodes<<endm;
+    //LOG_INFO<<"# of global Tracks in muDst: "<<mMuDst->numberOfGlobalTracks()<<endm;
+  }
 
-  // if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
-  // if(mFillHisto) hEvent->Fill(10.5);
-  // if(sqrt(vtxPos.x()*vtxPos.x()+vtxPos.y()*vtxPos.y())>=mMaxVtxR) return kFALSE;
-  // if(mFillHisto) hEvent->Fill(11.5);
-  // if(TMath::Abs(vtxPos.z())>=mMaxVtxZ) return kFALSE;
-  // if(mFillHisto) hEvent->Fill(12.5);
-  // if(TMath::Abs(mEvtData.mVertexZ - mEvtData.mVpdVz)>=mMaxVzDiff) return kFALSE;
-  // if(mFillHisto) hEvent->Fill(13.5);
+  Short_t nTrks    = 0;
+  Short_t nBEMCTrks = 0;
+  
+  for(Int_t i=0;i<nNodes;i++){
+    StMuTrack* pMuTrack = mMuDst->primaryTracks(i);
+    if(!pMuTrack) continue;
+    StMuTrack* gMuTrack = (StMuTrack *)pMuTrack->globalTrack();
+    if(!gMuTrack) continue;
 
-  // if(mFillHisto){
-  //   if(QuarkonioumHLT) hEvent->Fill(15.5);
-  //   if(DiMuon)         hEvent->Fill(16.5);
-  //   if(DiMuonHLT)      hEvent->Fill(17.5);
-  //   if(DiMuonVPDMB10)  hEvent->Fill(18.5);
-  //   if(SingleMuon)     hEvent->Fill(19.5);
-  //   if(EMuonBHT0)      hEvent->Fill(20.5);
-  //   if(EMuonBHT1)      hEvent->Fill(21.5);
-  // }
+    if(!isValidTrack(pMuTrack)) continue;
 
-  // if(mFillHisto){
-  //   hGRefMultvsGRefMultCorr->Fill(mEvtData.mGRefMultCorr, mEvtData.mGRefMult);
-  //   hCentrality->Fill(mEvtData.mCentrality);
-  // }
+ 
+    mBEMCTraitsIndex[nTrks]  = -999;
+    mTPCeTrkFlag[nTrks]      = kFALSE;
 
-  // Int_t nNodes = mMuDst->numberOfPrimaryTracks();
-  // if(Debug()){
-  //   LOG_INFO<<"# of primary Tracks in muDst: "<<nNodes<<endm;
-  //   //LOG_INFO<<"# of global Tracks in muDst: "<<mMuDst->numberOfGlobalTracks()<<endm;
-  // }
+    mCharge[nTrks]           = pMuTrack->charge();
 
-  // Short_t nTrks    = 0;
-  // Short_t nBEMCTrks = 0;
-  // Short_t nMTDTrks = 0;
-  // for(Int_t i=0;i<nNodes;i++){
-  //   StMuTrack* pMuTrack = mMuDst->primaryTracks(i);
-  //   if(!pMuTrack) continue;
-  //   StMuTrack* gMuTrack = (StMuTrack *)pMuTrack->globalTrack();
-  //   if(!gMuTrack) continue;
+    // Calculate global momentum and position at point of DCA to the pVtx
+    StThreeVectorF pMom               = pMuTrack->p();
+    StPhysicalHelixD gHelix           = gMuTrack->helix(); // Return inner helix (first measured point)
+    gHelix.moveOrigin(gHelix.pathLength(vtxPos));
+    StThreeVectorF gMom               = gHelix.momentum(mBField*kilogauss);
+    StThreeVectorF origin             = gHelix.origin();
 
-  //   calQxQy(pMuTrack);
+    mPt[nTrks]               = pMom.perp();
+    mEta[nTrks]              = pMom.pseudoRapidity();
+    mPhi[nTrks]              = pMom.phi();
+    mgPt[nTrks]              = gMom.perp();
+    mgEta[nTrks]             = gMom.pseudoRapidity();
+    mgPhi[nTrks]             = gMom.phi();
+    mgOriginX[nTrks]         = origin.x();
+    mgOriginY[nTrks]         = origin.y();
+    mgOriginZ[nTrks]         = origin.z();
 
-  //   if(!isValidTrack(pMuTrack)) continue;
+    mNHitsFit[nTrks]         = pMuTrack->nHitsFit(kTpcId);
+    mNHitsPoss[nTrks]        = pMuTrack->nHitsPoss(kTpcId);
+    mNHitsDedx[nTrks]        = pMuTrack->nHitsDedx();
+    mDedx[nTrks]             = pMuTrack->dEdx()*1.e6; 
+    mDndx[nTrks]             = pMuTrack->probPidTraits().dNdxFit();
+    mDndxError[nTrks]        = pMuTrack->probPidTraits().dNdxErrorFit();
+    mNSigmaE[nTrks]          = pMuTrack->nSigmaElectron();
+    mDca[nTrks]              = pMuTrack->dcaGlobal().mag();
 
-  //   mEvtData.mTrkId[nTrks]            = i;  
-  //   mEvtData.mTPCeTrkFlag[nTrks]      = kFALSE;
-  //   mEvtData.mBEMCTraitsIndex[nTrks]  = -999;
-  //   mEvtData.mMTDTraitsIndex[nTrks]   = -999;
+    if(mFillHisto){
+    hdEdxvsP->Fill(pMom.mag(), mDedx[nTrks]);
+    hdNdxvsP->Fill(pMom.mag(), mDndx[nTrks]);
+    hnSigEvsP->Fill(pMom.mag(), mNSigmaE[nTrks]);
+    }
 
-  //   mEvtData.mCharge[nTrks]           = pMuTrack->charge();
+    mTOFMatchFlag[nTrks] = -1;
+    mTOFLocalY[nTrks] = -999.;
+    mBeta2TOF[nTrks] = -999.;
+    if( &(pMuTrack->btofPidTraits()) ){
+      const StMuBTofPidTraits& btofPidTraits = pMuTrack->btofPidTraits();
+      mTOFMatchFlag[nTrks] = btofPidTraits.matchFlag(); 
+      mTOFLocalY[nTrks] = btofPidTraits.yLocal();
+      mBeta2TOF[nTrks] = btofPidTraits.beta();
+      if(mFillHisto) hBetavsP->Fill(pMom.mag(), 1./mBeta2TOF[nTrks]);
+    }
 
-  //   // Calculate global momentum and position at point of DCA to the pVtx
-  //   StThreeVectorF pMom               = pMuTrack->p();
-  //   StPhysicalHelixD gHelix           = gMuTrack->helix(); // Return inner helix (first measured point)
-  //   gHelix.moveOrigin(gHelix.pathLength(vtxPos));
-  //   StThreeVectorF gMom               = gHelix.momentum(mEvtData.mBField*kilogauss);
-  //   StThreeVectorF origin             = gHelix.origin();
+    if(
+        TMath::Abs(mNSigmaE[nTrks])<=mMaxnSigmaE
+        && mBeta2TOF[nTrks]>0.
+        && TMath::Abs(1.-1./mBeta2TOF[nTrks])<=mMaxBeta2TOF
+      )
+      mTPCeTrkFlag[nTrks] = kTRUE;
 
-  //   mEvtData.mPt[nTrks]               = pMom.perp();
-  //   mEvtData.mEta[nTrks]              = pMom.pseudoRapidity();
-  //   mEvtData.mPhi[nTrks]              = pMom.phi();
-  //   mEvtData.mgPt[nTrks]              = gMom.perp();
-  //   mEvtData.mgEta[nTrks]             = gMom.pseudoRapidity();
-  //   mEvtData.mgPhi[nTrks]             = gMom.phi();
-  //   mEvtData.mgOriginX[nTrks]         = origin.x();
-  //   mEvtData.mgOriginY[nTrks]         = origin.y();
-  //   mEvtData.mgOriginZ[nTrks]         = origin.z();
+    if(
+        mPt[nTrks]>1.5
+        && TMath::Abs(mNSigmaE[nTrks])<=mMaxnSigmaE
+      )
+      getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
 
-  //   mEvtData.mNHitsFit[nTrks]         = pMuTrack->nHitsFit(kTpcId);
-  //   mEvtData.mNHitsPoss[nTrks]        = pMuTrack->nHitsPoss(kTpcId);
-  //   mEvtData.mNHitsDedx[nTrks]        = pMuTrack->nHitsDedx();
-  //   mEvtData.mDedx[nTrks]             = pMuTrack->dEdx()*1.e6; 
-  //   mEvtData.mDndx[nTrks]             = pMuTrack->probPidTraits().dNdxFit();
-  //   mEvtData.mDndxError[nTrks]        = pMuTrack->probPidTraits().dNdxErrorFit();
-  //   mEvtData.mNSigmaE[nTrks]          = pMuTrack->nSigmaElectron();
-  //   mEvtData.mDca[nTrks]              = pMuTrack->dcaGlobal().mag();
-  //   mEvtData.mChi2[nTrks]             = pMuTrack->chi2();
-  //   mEvtData.mChi2Prob[nTrks]         = pMuTrack->chi2prob();
+    if(
+        mTPCeTrkFlag[nTrks] 
+        || mBEMCTraitsIndex[nTrks]>=0
+      ){
+      nTrks++;
+    }
+  }
 
-  //   UInt_t  mMap0                     = (UInt_t)(gMuTrack->topologyMap().data(0));
-  //   UChar_t mHftHitsMap               = mMap0>>1 & 0x7F;
-  //   Bool_t  mHasPxl1Hit               = mHftHitsMap>>0 & 0x1;
-  //   Bool_t  mHasPxl2Hit               = mHftHitsMap>>1 & 0x3;
-  //   Bool_t  mHasIstHit                = mHftHitsMap>>3 & 0x3;
-  //   Bool_t  mHasSstHit                = mHftHitsMap>>5 & 0x3;
-  //   mEvtData.mIsHFTTrk[nTrks]         = mHasPxl1Hit && mHasPxl2Hit && (mHasIstHit || mHasSstHit);
-  //   mEvtData.mHasHFT4Layers[nTrks]    = mHasPxl1Hit && mHasPxl2Hit && mHasIstHit && mHasSstHit;
+  if(nTrks==0 ) return kFALSE;
 
-  //   if(mFillHisto){
-  //     hdEdxvsP->Fill(pMom.mag(), mEvtData.mDedx[nTrks]);
-  //     hdNdxvsP->Fill(pMom.mag(), mEvtData.mDndx[nTrks]);
-  //     hnSigEvsP->Fill(pMom.mag(), mEvtData.mNSigmaE[nTrks]);
-  //   }
+  mNTrks         = nTrks;
+  mNBEMCTrks     = nBEMCTrks;
 
-  //   mEvtData.mTOFMatchFlag[nTrks] = -1;
-  //   mEvtData.mTOFLocalY[nTrks] = -999.;
-  //   mEvtData.mBeta2TOF[nTrks] = -999.;
-  //   if( &(pMuTrack->btofPidTraits()) ){
-  //     const StMuBTofPidTraits& btofPidTraits = pMuTrack->btofPidTraits();
-  //     mEvtData.mTOFMatchFlag[nTrks] = btofPidTraits.matchFlag(); 
-  //     mEvtData.mTOFLocalY[nTrks] = btofPidTraits.yLocal();
-  //     mEvtData.mBeta2TOF[nTrks] = btofPidTraits.beta();
-  //     if(mFillHisto) hBetavsP->Fill(pMom.mag(), 1./mEvtData.mBeta2TOF[nTrks]);
-  //   }
-
-  //   if(
-  //       TMath::Abs(mEvtData.mNSigmaE[nTrks])<=mMaxnSigmaE
-  //       && mEvtData.mBeta2TOF[nTrks]>0.
-  //       && TMath::Abs(1.-1./mEvtData.mBeta2TOF[nTrks])<=mMaxBeta2TOF
-  //     )
-  //     mEvtData.mTPCeTrkFlag[nTrks] = kTRUE;
-
-  //   if(
-  //       mEvtData.mPt[nTrks]>1.5
-  //       && TMath::Abs(mEvtData.mNSigmaE[nTrks])<=mMaxnSigmaE
-  //     )
-  //     getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
-
-  //   if(pMuTrack->mtdHit()){
-  //     mEvtData.mMTDTraitsIndex[nTrks]      = nMTDTrks;
-  //     mEvtData.mMTDTrkIndex[nMTDTrks]      = nTrks;
-  //     mEvtData.mMTDBackleg[nMTDTrks]       = pMuTrack->mtdHit()->backleg();
-  //     mEvtData.mMTDModule[nMTDTrks]        = pMuTrack->mtdHit()->module();
-  //     mEvtData.mMTDCell[nMTDTrks]          = pMuTrack->mtdHit()->cell();
-
-  //     const StMuMtdPidTraits& mtdPidTraits = pMuTrack->mtdPidTraits();
-  //     mEvtData.mMTDMatchFlag[nMTDTrks]     = mtdPidTraits.matchFlag();
-  //     mEvtData.mMTDTriggerFlag[nMTDTrks]   = isMtdHitFiredTrigger(pMuTrack->mtdHit());
-  //     mEvtData.mMTDnSigmaPi[nMTDTrks]      = pMuTrack->nSigmaPion();
-  //     mEvtData.mMTDDeltaY[nMTDTrks]        = mtdPidTraits.deltaY();
-  //     mEvtData.mMTDDeltaZ[nMTDTrks]        = mtdPidTraits.deltaZ();
-  //     mEvtData.mMTDDeltaTof[nMTDTrks]      = mtdPidTraits.timeOfFlight() - mtdPidTraits.expTimeOfFlight();
-  //     mEvtData.mMTDBeta[nMTDTrks]          = mtdPidTraits.beta();
-  //     mEvtData.mMTDBEMCMatchFlag[nMTDTrks] = getBemcInfo(pMuTrack,nTrks,nBEMCTrks,kTRUE);
-
-  //     if(Debug()){
-  //       LOG_INFO<<"MTD associated trkId: "<<pMuTrack->id()<<endm;
-  //       LOG_INFO<<"MTD associated trkPt: "<<pMuTrack->pt()<<endm;
-  //       LOG_INFO<<"MTD associated trkEta: "<<pMuTrack->eta()<<endm;
-  //       LOG_INFO<<"MTD associated trkPhi: "<<pMuTrack->phi()<<endm;
-  //       LOG_INFO<<"MTD associated trkNHitsFit: "<<pMuTrack->nHitsFit(kTpcId)<<endm;
-  //       LOG_INFO<<"MTD associated trkNHitsPoss: "<<pMuTrack->nHitsPoss(kTpcId)<<endm;
-  //       LOG_INFO<<"MTD associated trkNHitsFration: "<<pMuTrack->nHitsFit(kTpcId)*1./pMuTrack->nHitsPoss(kTpcId)<<endm;
-  //       LOG_INFO<<"MTD associated trkNHitsDedx: "<<pMuTrack->nHitsDedx()<<endm;
-  //       LOG_INFO<<"MTD associated trkDca: "<<pMuTrack->dcaGlobal().mag()<<endm;
-  //       LOG_INFO<<"MTD Backleg: "<<(Int_t)mEvtData.mMTDBackleg[nMTDTrks]<<endm;
-  //       LOG_INFO<<"MTD Module: "<<(Int_t)mEvtData.mMTDModule[nMTDTrks]<<endm;
-  //       LOG_INFO<<"MTD Cell: "<<(Int_t)mEvtData.mMTDCell[nMTDTrks]<<endm;
-  //       LOG_INFO<<"MTD MatchFlag: "<<(Int_t)mEvtData.mMTDMatchFlag[nMTDTrks]<<endm;
-  //       LOG_INFO<<"MTD TriggerFlag: "<<(Int_t)mEvtData.mMTDTriggerFlag[nMTDTrks]<<endm;
-  //       LOG_INFO<<"MTD BEMCMatchFlag: "<<(Int_t)mEvtData.mMTDBEMCMatchFlag[nMTDTrks]<<endm;
-  //       LOG_INFO<<"MTD nSigmaPi: "<<mEvtData.mMTDnSigmaPi[nMTDTrks]<<endm;
-  //       LOG_INFO<<"MTD DeltaY: "<<mEvtData.mMTDDeltaY[nMTDTrks]<<endm;
-  //       LOG_INFO<<"MTD DeltaZ: "<<mEvtData.mMTDDeltaZ[nMTDTrks]<<endm;
-  //       LOG_INFO<<"MTD DeltaTof: "<<mEvtData.mMTDDeltaTof[nMTDTrks]<<endm;
-  //       LOG_INFO<<"MTD Beta: "<<mEvtData.mMTDBeta[nMTDTrks]<<endm;
-  //     }
-
-  //     nMTDTrks++;
-  //   }
-
-  //   if(
-  //       mEvtData.mTPCeTrkFlag[nTrks] 
-  //       || mEvtData.mBEMCTraitsIndex[nTrks]>=0
-  //       || mEvtData.mMTDTraitsIndex[nTrks]>=0
-  //     ){
-  //     nTrks++;
-  //   }
-  // }
-
-  // //if(nTrks==0 ) return kFALSE;
-
-  // mEvtData.mNTrks         = nTrks;
-  // mEvtData.mNBEMCTrks     = nBEMCTrks;
-  // mEvtData.mNMTDTrks      = nMTDTrks;
-  // if(Debug()){
-  //   LOG_INFO<<"# of primary tracks stored: "<<mEvtData.mNTrks<<endm;
-  //   LOG_INFO<<"# of EMC matched Tracks stored: "<<mEvtData.mNBEMCTrks<<endm;
-  //   LOG_INFO<<"# of MTD matched Tracks stored: "<<mEvtData.mNMTDTrks<<endm;
-  // }
+  if(Debug()){
+    LOG_INFO<<"# of primary tracks stored: "<<mNTrks<<endm;
+    LOG_INFO<<"# of EMC matched Tracks stored: "<<mNBEMCTrks<<endm;
+    LOG_INFO<<"# of MTD matched Tracks stored: "<<mNMTDTrks<<endm;
+  }
 
   return kTRUE;
 }
@@ -876,15 +785,15 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
   if(flag) return bemcMatchFlag;
 
   if(bemcMatchFlag && !flag){
-    mEvtData.mBEMCTraitsIndex[nTrks]  = nBEMCTrks;
-    mEvtData.mBEMCTrkIndex[nBEMCTrks] = nTrks;
-    mEvtData.mBEMCAdc0[nBEMCTrks]     = maxadc;
-    mEvtData.mBEMCE0[nBEMCTrks]       = maxtowerE;
-    mEvtData.mBEMCE[nBEMCTrks]        = energy;
-    mEvtData.mBEMCZDist[nBEMCTrks]    = zdist;  
-    mEvtData.mBEMCPhiDist[nBEMCTrks]  = phidist;
-    mEvtData.mBEMCnEta[nBEMCTrks]     = neta;
-    mEvtData.mBEMCnPhi[nBEMCTrks]     = nphi;
+    mBEMCTraitsIndex[nTrks]  = nBEMCTrks;
+    mBEMCTrkIndex[nBEMCTrks] = nTrks;
+    mBEMCAdc0[nBEMCTrks]     = maxadc;
+    mBEMCE0[nBEMCTrks]       = maxtowerE;
+    mBEMCE[nBEMCTrks]        = energy;
+    mBEMCZDist[nBEMCTrks]    = zdist;  
+    mBEMCPhiDist[nBEMCTrks]  = phidist;
+    mBEMCnEta[nBEMCTrks]     = neta;
+    mBEMCnPhi[nBEMCTrks]     = nphi;
 
     if(Debug()){
       LOG_INFO<<"BEMC associated trkId: "<<pMuTrack->id()<<endm;
@@ -896,13 +805,13 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
       LOG_INFO<<"BEMC associated trkNHitsFration: "<<pMuTrack->nHitsFit(kTpcId)*1./pMuTrack->nHitsPoss(kTpcId)<<endm;
       LOG_INFO<<"BEMC associated trkNHitsDedx: "<<pMuTrack->nHitsDedx()<<endm;
       LOG_INFO<<"BEMC associated trkDca: "<<pMuTrack->dcaGlobal().mag()<<endm;
-      LOG_INFO<<"BEMC Adc0: "<<mEvtData.mBEMCAdc0[nBEMCTrks]<<endm;
-      LOG_INFO<<"BEMC E0: "<<mEvtData.mBEMCE0[nBEMCTrks]<<endm;
-      LOG_INFO<<"BEMC E: "<<mEvtData.mBEMCE[nBEMCTrks]<<endm;
-      LOG_INFO<<"BEMC ZDist: "<<mEvtData.mBEMCZDist[nBEMCTrks]<<endm;
-      LOG_INFO<<"BEMC PhiDist: "<<mEvtData.mBEMCPhiDist[nBEMCTrks]<<endm;
-      LOG_INFO<<"BEMC nEta: "<<(Int_t)mEvtData.mBEMCnEta[nBEMCTrks]<<endm;
-      LOG_INFO<<"BEMC nPhi: "<<(Int_t)mEvtData.mBEMCnPhi[nBEMCTrks]<<endm;
+      LOG_INFO<<"BEMC Adc0: "<<mBEMCAdc0[nBEMCTrks]<<endm;
+      LOG_INFO<<"BEMC E0: "<<mBEMCE0[nBEMCTrks]<<endm;
+      LOG_INFO<<"BEMC E: "<<mBEMCE[nBEMCTrks]<<endm;
+      LOG_INFO<<"BEMC ZDist: "<<mBEMCZDist[nBEMCTrks]<<endm;
+      LOG_INFO<<"BEMC PhiDist: "<<mBEMCPhiDist[nBEMCTrks]<<endm;
+      LOG_INFO<<"BEMC nEta: "<<(Int_t)mBEMCnEta[nBEMCTrks]<<endm;
+      LOG_INFO<<"BEMC nPhi: "<<(Int_t)mBEMCnPhi[nBEMCTrks]<<endm;
     }
 
     nBEMCTrks++;
