@@ -174,7 +174,10 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   }
 
   if(mFillHisto){
-    if(validTrigger) hEvent->Fill(6.5);
+    if(validTrigger) {
+      hEvent->Fill(6.5);
+      mRunId          = mMuEvent->runId();
+    }
   }
 
   //select the right vertex using VPD
@@ -191,7 +194,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   //   }
   // }
 
-  mRunId          = mMuEvent->runId();
+  
   mEventId        = mMuEvent->eventId();
   mRefMult        = mMuEvent->refMult();
   mGRefMult       = mMuEvent->grefmult();
