@@ -430,35 +430,8 @@ Bool_t StUPCTreeMaker::processPicoEvent()
         
     //track cut
     /*no cut is applied here, cut on analysis level*/
-    //if(!isValidTrack(pTrack, vtxPos)) continue; 
+    if(!isValidTrack(pTrack, vtxPos)) continue; 
     
-    mPmag[nTrks] = -999;
-    mPt[nTrks] = -999;
-    mEta[nTrks] = -999;
-    mPhi[nTrks] = -999;
-    mCharge[nTrks] = -999;
-
-    mgPt[nTrks] = -999;
-    mgEta[nTrks] = -999;
-    mgPhi[nTrks] = -999;
-
-    mgOriginX[nTrks] = -999;
-    mgOriginY[nTrks] = -999;
-    mgOriginZ[nTrks] = -999;
-
-    mNHitsFit[nTrks]  = -999;
-    mNHitsPoss[nTrks] = -999;
-    mNHitsDedx[nTrks] = -999;
-    mDedx[nTrks]      = -999; 
-    mDndx[nTrks]      = -999;
-    mDndxError[nTrks] = -999;
-    mNSigmaE[nTrks]   = -999;
-    mDca[nTrks] = -999;
-
-    mBEMCE[nTrks] = -999;
-    mBEMCZ[nTrks] = -999;
-    mBEMCPhi[nTrks] = -999;
-
     StThreeVectorF pMom = pTrack->pMom();
     StThreeVectorF gMom = pTrack->gMom();
     StThreeVectorF origin = pTrack->origin();
@@ -513,8 +486,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
       StPicoBEmcPidTraits *bemcPidTraits = mPicoDst->bemcPidTraits(bemcPidTraitsIndex);
           
       mBEMCE[nTrks]         = bemcPidTraits->bemcE();
-      mBEMCZ[nTrks]         = bemcPidTraits->bemcZDist();
-      mBEMCPhi[nTrks]         = bemcPidTraits->bemcPhiDist();
+ 
     }
 
     mNEmc=0;

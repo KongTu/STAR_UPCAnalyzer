@@ -152,12 +152,6 @@ class StUPCTreeMaker : public StMaker {
 		Int_t mZDCwest;
 		Int_t mZDCeast;
 
-		//EEMC
-		int mNEmc;
-		float mEmcE[10000];
-		float mEmcEta[10000];
-		float mEmcPhi[10000];
-
 		//track information
 		Int_t  mNTrks;
 		Int_t   mCharge[mMax];
@@ -186,9 +180,19 @@ class StUPCTreeMaker : public StMaker {
 
 		Float_t  mTOFLocalY[mMax];
 		Float_t  mBeta2TOF[mMax];
+		Bool_t   mTPCeTrkFlag[mMax];
+		Short_t  mBEMCTraitsIndex[mMax];
+		
+		//BEMC pidTrait information
+		Short_t  mNBEMCTrks;
+		Short_t  mBEMCTrkIndex[mMax];
+		Short_t  mBEMCAdc0[mMax];
+		Float_t  mBEMCE0[mMax];
 		Float_t  mBEMCE[mMax];
-		Float_t  mBEMCZ[mMax];
-		Float_t  mBEMCPhi[mMax];
+		Float_t  mBEMCZDist[mMax];
+		Float_t  mBEMCPhiDist[mMax];
+		Char_t   mBEMCnEta[mMax];
+		Char_t   mBEMCnPhi[mMax];
 
 		//StRefMultCorr *refMultCorr; //decide centrality
 		Bool_t         mFillTree;            // Flag of fill the event tree
