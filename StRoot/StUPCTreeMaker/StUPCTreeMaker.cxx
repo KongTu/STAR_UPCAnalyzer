@@ -313,7 +313,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
     if(
         mTPCeTrkFlag[nTrks] 
-        || mBEMCTraitsIndex[nTrks]>=0
+        //|| mBEMCTraitsIndex[nTrks]>=0
       ){
         nTrks++;
     }
@@ -770,8 +770,6 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
     }
   } // end if (ok && okBSMDE && okBSMDP)
 
-  cout << "1 before flag: " << flag << " and bemcMatchFlag: " << bemcMatchFlag << endl;
-
   if(flag) return bemcMatchFlag;
 
   if(bemcMatchFlag && !flag){
@@ -785,8 +783,6 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
     mBEMCnEta[nBEMCTrks]     = neta;
     mBEMCnPhi[nBEMCTrks]     = nphi;
     
-    cout << "2 after flag: " << flag << " and bemcMatchFlag: " << bemcMatchFlag << endl;
-
     if(Debug()){
       LOG_INFO<<"BEMC associated trkId: "<<pMuTrack->id()<<endm;
       LOG_INFO<<"BEMC associated trkPt: "<<pMuTrack->pt()<<endm;
