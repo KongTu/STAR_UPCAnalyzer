@@ -93,8 +93,10 @@ class StUPCTreeMaker : public StMaker {
 		void     printConfig();
 		void     bookTree();
 		void     bookHistos();
+		Bool_t   processMuDstEvent();
 		Bool_t   processPicoEvent();
 		void     fillEventPlane();
+		Bool_t   isValidTrack(StMuTrack *pMuTrack) const;
 		Bool_t   isValidTrack(StPicoTrack *pTrack, StThreeVectorF vtxPos) const;
 		TComplex q_vector(double n, double p, double w, double phi);
 
@@ -103,16 +105,26 @@ class StUPCTreeMaker : public StMaker {
 		void     buildEmcIndex();
 
 		bool     getBEMC(const StMuTrack* t, int* id, int* adc, float* ene, float* d, int* nep, int* towid);
-		//Bool_t   getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Short_t &nEMCTrks, Bool_t flag=kFALSE);
+		Bool_t   getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Short_t &nEMCTrks, Bool_t flag=kFALSE);
 		Float_t getBemcInfo(StMuTrack *pMuTrack);
-		//Bool_t   isMtdHitFiredTrigger(const StPicoMtdHit *hit);
-		//Bool_t   isMtdHitFiredTrigger(const StMuMtdHit *hit);
-		//Bool_t   isQTFiredTrigger(const Int_t qt, const Int_t pos);
-
-		//void     triggerData();
+		Bool_t   isMtdHitFiredTrigger(const StPicoMtdHit *hit);
+		Bool_t   isMtdHitFiredTrigger(const StMuMtdHit *hit);
+		Bool_t   isQTFiredTrigger(const Int_t qt, const Int_t pos);
+		void     triggerData();
 
 
 	private:
+
+		StMuDstMaker   *mMuDstMaker;          // Pointer to StMuDstMaker
+		StMuDst        *mMuDst;              // Pointer to MuDst event
+		StEmcPosition  *mEmcPosition;
+		StEmcGeom      *mEmcGeom[4];
+		StEmcRawHit*     mEmcIndex[4800];
+
+		StPicoDstMaker *mPicoDstMaker;
+		StPicoDst      *mPicoDst;
+		StFmsDbMaker *fmsDbMaker;
+
 		//variable for tree
 		Int_t    mRunId;
 		Int_t    mEventId;
@@ -129,9 +141,7 @@ class StUPCTreeMaker : public StMaker {
 		Float_t  mVertexX;
 		Float_t  mVertexY;
 		Float_t  mVertexZ;
-
-
-
+		
 		//BBC
 		Int_t    mBbcQ[48];
 
@@ -180,18 +190,7 @@ class StUPCTreeMaker : public StMaker {
 		Float_t  mBEMCZ[mMax];
 		Float_t  mBEMCPhi[mMax];
 
-		StMuDstMaker   *mMuDstMaker;          // Pointer to StMuDstMaker
-		StMuDst        *mMuDst;              // Pointer to MuDst event
-		StEmcPosition  *mEmcPosition;
-		StEmcGeom      *mEmcGeom[4];
-		StEmcRawHit*     mEmcIndex[4800];
-
-		StPicoDstMaker *mPicoDstMaker;
-		StPicoDst      *mPicoDst;
-		StFmsDbMaker *fmsDbMaker;
-
 		//StRefMultCorr *refMultCorr; //decide centrality
-
 		Bool_t         mFillTree;            // Flag of fill the event tree
 		Bool_t         mFillHisto;           // Flag of fill the histogram
 		Bool_t         mPrintConfig;         // Flag to print out task configuration
@@ -222,15 +221,6 @@ class StUPCTreeMaker : public StMaker {
 		//IntVec         mStMTD_TriggerIDs;
 		IntVec         mStPhysics_TriggerIDs;
 
-		/*
-		static const Int_t    mNQTs=8;        
-		Int_t          mModuleToQT[30][5];            // Map from module to QT board index
-		Int_t          mModuleToQTPos[30][5];         // Map from module to the position on QA board
-		Int_t          mQTtoModule[mNQTs][8];         // Map from QT board to module index
-		Int_t          mQTSlewBinEdge[mNQTs][16][8];  // Bin edges for online slewing correction for QT
-		Int_t          mQTSlewCorr[mNQTs][16][8];         // Slewing correction values for QT
-		Int_t          mTrigQTpos[mNQTs][2];              // corresponding QT position of fire trigger bit
-		*/
 		//define histograms ongoing...
 		TH1D           *hEvent;
 		TH1D		   *hVtxZ;
