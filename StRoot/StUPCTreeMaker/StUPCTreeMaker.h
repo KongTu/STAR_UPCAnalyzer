@@ -179,6 +179,7 @@ class StUPCTreeMaker : public StMaker {
 		Float_t mDca[mMax];
 
 		Float_t  mTOFLocalY[mMax];
+		Char_t   mTOFMatchFlag[mMax];
 		Float_t  mBeta2TOF[mMax];
 		Bool_t   mTPCeTrkFlag[mMax];
 		Short_t  mBEMCTraitsIndex[mMax];
