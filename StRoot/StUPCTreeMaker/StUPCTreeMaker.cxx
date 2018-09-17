@@ -583,6 +583,8 @@ void StUPCTreeMaker::bookTree()
 
 	//all tracks information
 	mEvtTree->Branch("mNTrks", &mNTrks, "mNTrks/I");
+  mEvtTree->Branch("mTPCeTrkFlag",mTPCeTrkFlag, "mTPCeTrkFlag[mNTrks]/O");
+  mEvtTree->Branch("mBEMCTraitsIndex",mBEMCTraitsIndex,"mBEMCTraitsIndex[mNTrks]/S");
 	mEvtTree->Branch("mCharge", mCharge, "mCharge[mNTrks]/I");
   mEvtTree->Branch("mPmag", mPmag, "mPmag[mNTrks]/F");
   mEvtTree->Branch("mPt", mPt, "mPt[mNTrks]/F");
@@ -607,7 +609,8 @@ void StUPCTreeMaker::bookTree()
 	mEvtTree->Branch("mDca", mDca, "mDca[mNTrks]/F");
 	mEvtTree->Branch("mTOFLocalY", mTOFLocalY, "mTOFLocalY[mNTrks]/F");
 	mEvtTree->Branch("mBeta2TOF", mBeta2TOF, "mBeta2TOF[mNTrks]/F");
-	
+  mEvtTree->Branch("mTOFMatchFlag", mTOFMatchFlag, "mTOFMatchFlag[mNTrks]/B");
+
 //BEMC pidTrait information
   mEvtTree->Branch("mNBEMCTrks", &mNBEMCTrks, "mNBEMCTrks/S");
   mEvtTree->Branch("mBEMCTrkIndex", mBEMCTrkIndex, "mBEMCTrkIndex[mNBEMCTrks]/S");
