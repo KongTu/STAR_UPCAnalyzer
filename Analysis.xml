@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
- <job  maxFilesPerProcess="50" simulateSubmission="false" fileListSyntax="xrootd">
+ <job  maxFilesPerProcess="10" simulateSubmission="false" fileListSyntax="xrootd">
   
   <command> 
-    ln -s /star/scratch/starkong/STAR_FlowAnalyzer/.sl73_gcc485/ ./
-    ln -s /star/scratch/starkong/STAR_FlowAnalyzer/StRoot ./
-    ln -s /star/scratch/starkong/STAR_FlowAnalyzer/doEvent.C ./
-    ln -s /star/scratch/starkong/STAR_FlowAnalyzer/Analysis.xml ./
+    ln -s /gpfs01/star/pwg/ztu/STAR_UPCAnalyzer/.sl73_gcc485/ ./
+    ln -s /gpfs01/star/pwg/ztu/STAR_UPCAnalyzer/StRoot ./
+    ln -s /gpfs01/star/pwg/ztu/STAR_UPCAnalyzer/doEvent.C ./
+    ln -s /gpfs01/star/pwg/ztu/STAR_UPCAnalyzer/Analysis.xml ./
 
-    starver SL18c
+    starver SL17f
     root4star -q -b  doEvent.C\(-1,\"$FILELIST\",\"$SCRATCH/${JOBID}.root\"\) 
   </command> 
   
   
-  <input URL="catalog:star.bnl.gov?production=P18ic,filetype=daq_reco_PicoDst,trgsetupname=AuAu54_production_2017,filename~st_physics,runnumber=&run;" nFiles="all"/>
+  <input URL="filelist:/gpfs01/star/pwg/ztu/STAR_UPCAnalyzer/dAu200_MuDst.list"/>
 
   
-  <stdout URL="file:/star/scratch/starkong/STAR_FlowAnalyzer/&run;/$JOBID.out"/>
-  <stderr URL="file:/star/scratch/starkong/STAR_FlowAnalyzer/&run;/$JOBID.err"/>
+  <stdout URL="file:/gpfs01/star/pwg/ztu/STAR_UPCAnalyzer/&run;/$JOBID.out"/>
+  <stderr URL="file:/gpfs01/star/pwg/ztu/STAR_UPCAnalyzer/&run;/$JOBID.err"/>
   
-  <output fromScratch="*.root" toURL="/star/scratch/starkong/STAR_FlowAnalyzer/rootfile/&run;/" /> 
+  <output fromScratch="*.root" toURL="/gpfs01/star/pwg/ztu/STAR_UPCAnalyzer/rootfile/&run;/" /> 
   
 </job>

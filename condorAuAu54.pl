@@ -2,17 +2,17 @@
 
 # usage: perl bigrun.pl 
 
-$wrkdir = "/star/scratch/starkong/STAR_FlowAnalyzer/";
+$wrkdir = "/gpfs01/star/pwg/ztu/STAR_UPCAnalyzer/";
 
 #system("mkdir tmpAMPT");
 #system("mkdir tmpAMPT/log");
 
 # open file as read_only
-$filelist ="AuAu54.list";
+$filelist ="dAu200_MuDst.list";
 open(LIST,"< $filelist") or die "Can not open ${filelist} !\n";
 @list=<LIST>;
 
-for($i=0; $i<50; $i++) {
+for($i=0; $i<1; $i++) {
 
     $onefile =$list[$i];
 
