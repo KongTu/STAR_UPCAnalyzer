@@ -236,8 +236,11 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   Short_t nBEMCTrks = 0;
   
   for(Int_t i=0;i<nNodes;i++){
+    
     StMuTrack* pMuTrack = mMuDst->primaryTracks(i);
     if(!pMuTrack) continue;
+
+    cout << "tracks " << i << endl;
     StMuTrack* gMuTrack = (StMuTrack *)pMuTrack->globalTrack();
     if(!gMuTrack) continue;
 
