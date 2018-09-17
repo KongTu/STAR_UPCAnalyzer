@@ -233,13 +233,12 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
   hVtxZ->Fill( vtxPos.z() );
 
-  mNTofHits = mPicoDst->numberOfBTofHits();//better one for multiplicity
-  mZDCeast = picoEvent->ZdcSumAdcEast();
-  mZDCwest = picoEvent->ZdcSumAdcWest();
+  mZDCeast = mMuEvent->ZdcSumAdcEast();
+  mZDCwest = mMuEvent->ZdcSumAdcWest();
   
   for(int ch=0;ch<24;ch++) {
-    mBbcQ[ch]    = picoEvent->bbcAdcEast(ch);
-    mBbcQ[ch+24] = picoEvent->bbcAdcWest(ch);
+    mBbcQ[ch]    = mMuEvent->bbcAdcEast(ch);
+    mBbcQ[ch+24] = mMuEvent->bbcAdcWest(ch);
 
   }
 
