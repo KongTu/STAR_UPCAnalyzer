@@ -298,23 +298,17 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       if(mFillHisto) hBetavsP->Fill(pMom.mag(), 1./mBeta2TOF[nTrks]);
     }
 
-    if(
-        TMath::Abs(mNSigmaE[nTrks])<=mMaxnSigmaE
-        && mBeta2TOF[nTrks]>0.
-        && TMath::Abs(1.-1./mBeta2TOF[nTrks])<=mMaxBeta2TOF
-      )
-      mTPCeTrkFlag[nTrks] = kTRUE;
+    // if(
+    //     TMath::Abs(mNSigmaE[nTrks])<=mMaxnSigmaE
+    //     && mBeta2TOF[nTrks]>0.
+    //     && TMath::Abs(1.-1./mBeta2TOF[nTrks])<=mMaxBeta2TOF
+    //   )
+    //   mTPCeTrkFlag[nTrks] = kTRUE;
 
-    if(
-        mPt[nTrks]>1.5
-        && TMath::Abs(mNSigmaE[nTrks])<=mMaxnSigmaE
-      )
-      getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
+    
+    getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
 
-    if(
-        mTPCeTrkFlag[nTrks] 
-        || mBEMCTraitsIndex[nTrks]>=0
-      ){
+    if(mBEMCTraitsIndex[nTrks]>=0){
         nTrks++;
     }
 
