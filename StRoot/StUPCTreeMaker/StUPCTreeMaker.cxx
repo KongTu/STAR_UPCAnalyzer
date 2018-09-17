@@ -233,14 +233,14 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
   hVtxZ->Fill( vtxPos.z() );
 
-  mZDCeast = mMuEvent->ZdcSumAdcEast();
-  mZDCwest = mMuEvent->ZdcSumAdcWest();
+  // mZDCeast = mMuEvent->ZdcSumAdcEast();
+  // mZDCwest = mMuEvent->ZdcSumAdcWest();
   
-  for(int ch=0;ch<24;ch++) {
-    mBbcQ[ch]    = mMuEvent->bbcAdcEast(ch);
-    mBbcQ[ch+24] = mMuEvent->bbcAdcWest(ch);
+  // for(int ch=0;ch<24;ch++) {
+  //   mBbcQ[ch]    = mMuEvent->bbcAdcEast(ch);
+  //   mBbcQ[ch+24] = mMuEvent->bbcAdcWest(ch);
 
-  }
+  // }
 
   Int_t nNodes = mMuDst->numberOfPrimaryTracks();
   if(Debug()){
