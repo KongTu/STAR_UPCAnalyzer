@@ -237,16 +237,19 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   mZDCeast = (UShort_t)ZDC.adcSum(east);
   mZDCwest = (UShort_t)ZDC.adcSum(west);
 
-  // for(int ch=0;ch<24;ch++) {
-  //   mBbcQ[ch]    = mMuEvent->bbcAdcEast(ch);
-  //   mBbcQ[ch+24] = mMuEvent->bbcAdcWest(ch);
+  StBbcTriggerDetector bbc = mMuEvent->bbcTriggerDetector() ;
+  for (UInt_t i = 0; i < bbc.numberOfPMTs(); ++i)
+  {
+    UInt_t const eastWest = (i < 24) ? 0 : 1 ; // East:0-23, West:24-47
+    UInt_t const pmtId    = i % 24 ;         // pmtId:0-23
 
-  // }
+    if (eastWest == 0) mBbcQ[pmtId] = bbc.adc(i) ;
+    else                mBbcQ[pmtId+24] = bbc.adc(i) ;
+  }
 
   Int_t nNodes = mMuDst->numberOfPrimaryTracks();
   if(Debug()){
     LOG_INFO<<"# of primary Tracks in muDst: "<<nNodes<<endm;
-    //LOG_INFO<<"# of global Tracks in muDst: "<<mMuDst->numberOfGlobalTracks()<<endm;
   }
 
   Short_t nTrks    = 0;

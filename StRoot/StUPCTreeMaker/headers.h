@@ -110,6 +110,8 @@
 
 //ZDC for MuDst
 #include "StZdcTriggerDetector.h"
+//BBC for MuDst
+#include "StBbcTriggerDetector.h"
 
 //#include "StPicoEvent/StPicoFmsHit.h"
 /*
