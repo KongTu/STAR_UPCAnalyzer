@@ -276,6 +276,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     StThreeVectorF origin             = gHelix.origin();
   
     mCharge[nTrks]           = pMuTrack->charge();
+    mPmag[nTrks]             = pMom.mag();
     mPt[nTrks]               = pMom.perp();
     mEta[nTrks]              = pMom.pseudoRapidity();
     mPhi[nTrks]              = pMom.phi();
