@@ -107,6 +107,10 @@
 #include "StPicoEvent/StPicoMtdPidTraits.h"
 #include "StPicoEvent/StPicoBTofPidTraits.h"
 #include "StPicoEvent/StPicoBEmcPidTraits.h"
+
+//ZDC for MuDst
+#include "StZdcTriggerDetector.h"
+
 //#include "StPicoEvent/StPicoFmsHit.h"
 /*
  #include "tables/St_mtdTriggerTimeCut_Table.h"

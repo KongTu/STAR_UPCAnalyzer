@@ -233,9 +233,10 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
   hVtxZ->Fill( vtxPos.z() );
 
-  // mZDCeast = mMuEvent->ZdcSumAdcEast();
-  // mZDCwest = mMuEvent->ZdcSumAdcWest();
-  
+  StZdcTriggerDetector& ZDC = mMuEvent->zdcTriggerDetector();
+  mZDCeast = (UShort_t)ZDC.adcSum(east);
+  mZDCwest = (UShort_t)ZDC.adcSum(west);
+
   // for(int ch=0;ch<24;ch++) {
   //   mBbcQ[ch]    = mMuEvent->bbcAdcEast(ch);
   //   mBbcQ[ch+24] = mMuEvent->bbcAdcWest(ch);
