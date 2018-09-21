@@ -1,6 +1,7 @@
 const Int_t mMax = 2000;
 struct StEvtData
 {
+	
 	// event information
 	Int_t    mRunId;
 	Int_t    mEventId;
