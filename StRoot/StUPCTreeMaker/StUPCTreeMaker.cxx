@@ -296,8 +296,8 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     //BEMC matching:
     getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
     
-    //at least match one:
-    if(mBEMCTraitsIndex[nTrks]>=0 || mTOFMatchFlag[nTrks] >= 0){nTrks++;}
+    //match BEMC:
+    if( mBEMCTraitsIndex[nTrks]>=0 ){nTrks++;}
 
   }//Track loop
 
