@@ -239,7 +239,6 @@ class StUPCTreeMaker : public StMaker {
 
 		ClassDef(StUPCTreeMaker, 1)
 };
-inline void StUPCTreeMaker::setVnHarmonics(const Double_t n_) { mVn = n_; }
 inline void StUPCTreeMaker::setMaxVtxR(const Double_t max) { mMaxVtxR = max; }
 inline void StUPCTreeMaker::setMaxVtxZ(const Double_t max) { mMaxVtxZ = max; }
 inline void StUPCTreeMaker::setMaxVzDiff(const Double_t max) { mMaxVzDiff = max; }
