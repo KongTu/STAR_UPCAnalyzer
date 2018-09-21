@@ -180,20 +180,6 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     }
   }
 
-  //select the right vertex using VPD
-  // Float_t vpdVz = -999; 
-  // StBTofHeader *mBTofHeader = mMuDst->btofHeader();
-  // if(mBTofHeader) vpdVz = mBTofHeader->vpdVz();
-  // for(UInt_t i=0;i<mMuDst->numberOfPrimaryVertices();i++){
-  //   StMuPrimaryVertex *vtx = mMuDst->primaryVertex(i);
-  //   if(!vtx) continue;
-  //   Float_t vz = vtx->position().z();
-  //   if(fabs(vpdVz)<200 && fabs(vpdVz-vz)<3.){
-  //     mMuDst->setVertexIndex(i); 
-  //     break;
-  //   }
-  // }
-
   mRunId          = mMuEvent->runId();
   mEventId        = mMuEvent->eventId();
   mRefMult        = mMuEvent->refMult();
@@ -247,6 +233,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   Short_t nTrks    = 0;
   Short_t nBEMCTrks = 0;
   
+  //Use default vertex and its tracks.
   //track loop:
   for(Int_t i=0;i<nNodes;i++){
     
@@ -295,6 +282,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       hnSigEvsP->Fill(pMom.mag(), mNSigmaE[nTrks]);
     }
     
+    //TOF matching:
     mTOFMatchFlag[nTrks] = -1;
     mTOFLocalY[nTrks] = -999.;
     mBeta2TOF[nTrks] = -999.;
@@ -305,8 +293,11 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       mBeta2TOF[nTrks] = btofPidTraits.beta();
     }
 
+    //BEMC matching:
     getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
-    if(mBEMCTraitsIndex[nTrks]>=0){nTrks++;}
+    
+    //at least match one:
+    if(mBEMCTraitsIndex[nTrks]>=0 || mTOFMatchFlag[nTrks] >= 0){nTrks++;}
 
   }//Track loop
 
