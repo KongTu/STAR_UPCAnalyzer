@@ -6,8 +6,8 @@ ClassImp(StUPCTreeMaker)
 //_____________________________________________________________________________
 StUPCTreeMaker::StUPCTreeMaker(const Char_t *name) : StMaker(name), 
 mFillTree(0), mFillHisto(1), mPrintConfig(1), mPrintMemory(0), mPrintCpu(0), 
-mStreamName("st_upc"), fOutFile(0), mOutFileName(""), mEvtTree(0), mVn(2), 
-mMaxVtxR(999.0), mMaxVtxZ(100.0), mMaxVzDiff(999.0), mMinTrkPt(0.2), mMaxTrkEta(1.), 
+mStreamName("st_upc"), fOutFile(0), mOutFileName(""), mEvtTree(0),
+mMaxVtxR(999.0), mMaxVtxZ(130.0), mMaxVzDiff(999.0), mMinTrkPt(0.2), mMaxTrkEta(1.), 
 mMinNHitsFit(15), mMinNHitsFitRatio(0.52), mMinNHitsDedx(10), mMaxDca(5.), 
 mMaxnSigmaE(2.5), mMaxBeta2TOF(0.03),mEmcCollection(nullptr), mEmcPosition(nullptr), 
 mEmcGeom{},mEmcIndex{}
@@ -41,14 +41,11 @@ Int_t StUPCTreeMaker::Init()
   mStUPC_TriggerIDs.clear();
 
   if(mStreamName.EqualTo("st_upc")){
-    cout<<"add the UPC trigger to st_upc"<<endl;
-
+    
+    cout<<"add the dAu 200 GeV UPC trigger to st_upc"<<endl;
     mStUPC_TriggerIDs.push_back(530701);
     mStUPC_TriggerIDs.push_back(530702);
     mStUPC_TriggerIDs.push_back(530703);
-    //AuAu200 2016 UPC trigger ID:
-    // mStUPC_TriggerIDs.push_back(520732);
-    // mStUPC_TriggerIDs.push_back(520733);
     
   }
   else if(mStreamName.EqualTo("st_ssdmb")){
@@ -218,12 +215,6 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     LOG_INFO<<"VPD Vz: "<<mVpdVz<<" \tTPC Vz: "<<mVertexZ<<endm;
   }
 
-  if(mFillHisto){
-    hVtxYvsVtxX->Fill(mVertexX, mVertexY);
-    hVPDVzvsTPCVz->Fill(mVertexZ, mVpdVz);
-    hVzDiff->Fill(mVertexZ - mVpdVz);
-  }
-
   if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
   if(mFillHisto) hEvent->Fill(10.5);
   if(sqrt(vtxPos.x()*vtxPos.x()+vtxPos.y()*vtxPos.y())>=mMaxVtxR) return kFALSE;
@@ -255,6 +246,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   Short_t nTrks    = 0;
   Short_t nBEMCTrks = 0;
   
+  //track loop:
   for(Int_t i=0;i<nNodes;i++){
     
     StMuTrack* pMuTrack = mMuDst->primaryTracks(i);
@@ -297,20 +289,25 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     mDca[nTrks]              = pMuTrack->dcaGlobal().mag();
 
     if(mFillHisto){
-    hdEdxvsP->Fill(pMom.mag(), mDedx[nTrks]);
-    hdNdxvsP->Fill(pMom.mag(), mDndx[nTrks]);
-    hnSigEvsP->Fill(pMom.mag(), mNSigmaE[nTrks]);
+      hdEdxvsP->Fill(pMom.mag(), mDedx[nTrks]);
+      hdNdxvsP->Fill(pMom.mag(), mDndx[nTrks]);
+      hnSigEvsP->Fill(pMom.mag(), mNSigmaE[nTrks]);
+    }
+    
+    mTOFMatchFlag[nTrks] = -1;
+    mTOFLocalY[nTrks] = -999.;
+    mBeta2TOF[nTrks] = -999.;
+    if( &(pMuTrack->btofPidTraits()) ){
+      const StMuBTofPidTraits& btofPidTraits = pMuTrack->btofPidTraits();
+      mTOFMatchFlag[nTrks] = btofPidTraits.matchFlag(); 
+      mTOFLocalY[nTrks] = btofPidTraits.yLocal();
+      mBeta2TOF[nTrks] = btofPidTraits.beta();
     }
 
     getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
+    if(mBEMCTraitsIndex[nTrks]>=0){nTrks++;}
 
-    if(mBEMCTraitsIndex[nTrks]>=0){
-        nTrks++;
-    }
-
-  }
-
-  //if(nTrks==0 ) return kFALSE;
+  }//Track loop
 
   mNTrks         = nTrks;
   mNBEMCTrks     = nBEMCTrks;
@@ -574,16 +571,11 @@ void StUPCTreeMaker::bookTree()
 	//nTOF
   mEvtTree->Branch("mNTofHits",&mNTofHits,"mNTofHits/I");
 
-	//Emc
-  //mEvtTree->Branch("mNEmc",    &mNEmc,     "mNEmc/I");
-	//mEvtTree->Branch("mEmcE",     mEmcE,     "mEmcE[mNEmc]/F");
-	//mEvtTree->Branch("mEmcEta",   mEmcEta,   "mEmcEta[mNEmc]/F");
-	//mEvtTree->Branch("mEmcPhi",   mEmcPhi,   "mEmcPhi[mNEmc]/F");
-
 	//all tracks information
 	mEvtTree->Branch("mNTrks", &mNTrks, "mNTrks/I");
   mEvtTree->Branch("mTPCeTrkFlag",mTPCeTrkFlag, "mTPCeTrkFlag[mNTrks]/O");
   mEvtTree->Branch("mBEMCTraitsIndex",mBEMCTraitsIndex,"mBEMCTraitsIndex[mNTrks]/S");
+
 	mEvtTree->Branch("mCharge", mCharge, "mCharge[mNTrks]/I");
   mEvtTree->Branch("mPmag", mPmag, "mPmag[mNTrks]/F");
   mEvtTree->Branch("mPt", mPt, "mPt[mNTrks]/F");
@@ -604,9 +596,9 @@ void StUPCTreeMaker::bookTree()
 	mEvtTree->Branch("mNHitsPoss", mNHitsPoss, "mNHitsPoss[mNTrks]/I");
   mEvtTree->Branch("mNHitsDedx", mNHitsDedx, "mNHitsDedx[mNTrks]/I");
   mEvtTree->Branch("mDndxError", mDndxError, "mDndxError[mNTrks]/F");
-
 	mEvtTree->Branch("mDca", mDca, "mDca[mNTrks]/F");
-	mEvtTree->Branch("mTOFLocalY", mTOFLocalY, "mTOFLocalY[mNTrks]/F");
+	
+  mEvtTree->Branch("mTOFLocalY", mTOFLocalY, "mTOFLocalY[mNTrks]/F");
 	mEvtTree->Branch("mBeta2TOF", mBeta2TOF, "mBeta2TOF[mNTrks]/F");
   mEvtTree->Branch("mTOFMatchFlag", mTOFMatchFlag, "mTOFMatchFlag[mNTrks]/B");
 
@@ -624,32 +616,16 @@ void StUPCTreeMaker::bookTree()
 //_____________________________________________________________________________
 void StUPCTreeMaker::bookHistos()
 {
-    //shengli's event keeping
 	hEvent = new TH1D("hEvent","Event statistics",25,0,25);
-	hEvent->GetXaxis()->SetBinLabel(1,"All events");
-	hEvent->GetXaxis()->SetBinLabel(2,"VPD5");
-	hEvent->GetXaxis()->SetBinLabel(3,"VPD5HM");
-	hEvent->GetXaxis()->SetBinLabel(4,"None-Zero Vertex");
-	hEvent->GetXaxis()->SetBinLabel(5,Form("|V_{r}|<%1.2f cm",mMaxVtxR));
-	hEvent->GetXaxis()->SetBinLabel(6,Form("|V_{z}|<%1.2f cm",mMaxVtxZ));
-	hEvent->GetXaxis()->SetBinLabel(7,Form("|V_{z}Diff|<%1.2f cm",mMaxVzDiff));
-	hEvent->GetXaxis()->SetBinLabel(8,"VPD5");
-	hEvent->GetXaxis()->SetBinLabel(9,"VPD5HM");
-
-  hVtxZ = new TH1D("hVtxZ","hVtxZ",1000,-50,50);
-  hRefMult = new TH1D("hRefMult","hRefMult",50000,0,50000);
-
+  hVtxZ = new TH1D("hVtxZ","hVtxZ",3000,-150,150);
+  hRefMult = new TH1D("hRefMult","hRefMult",500,0,500);
 	hVtxYvsVtxX = new TH2D("hVtxYvsVtxX","hVtxYvsVtxX; V_{x} (cm); V_{y} (cm)",120,-3,3,120,-3,3); 
-	hVPDVzvsTPCVz = new TH2D("hVPDVzvsTPCVz","hVPDVzvsTPCVz; TPC V_{z} (cm); VPD V_{z} (cm)",200,-50,50,200,-50,50);
-	hVzDiff = new TH1D("hVzDiff","hVzDiff; TPC V_{z} - VPD V_{z} (cm)",80,-20,20);
 	hGRefMultvsGRefMultCorr = new TH2D("hGRefMultvsGRefMultCorr","hGRefMultvsGRefMultCorr; grefMultCorr; grefMult",1000,0,1000,1000,0,1000);
-	hCentrality = new TH1D("hCentrality","hCentrality; mCentrality",16,0,16);
     
 	hdEdxvsP = new TH2D("hdEdxvsP","hdEdxvsP; p (GeV/c); dE/dx (KeV/cm)",300,0,15,400,0,20);
 	hdNdxvsP = new TH2D("hdNdxvsP","hdNdxvsP; p (GeV/c); dN/dx",300,0,15,400,0,200);
 	hnSigEvsP = new TH2D("hnSigEvsP","hnSigEvsP; p (GeV/c); n#sigma_{e}",300,0,15,700,-15,20);
-	hBetavsP = new TH2D("hBetavsP","hBetavsP; p (GeV/c); 1/#beta",300,0,15,800,0,4);
-  hFmsXYdis = new TH2D("hFmsXYdis", "hFmsXYdis", 200, -200.0, 200.0, 200, -200, 200);
+
 }
 //_____________________________________________________________________________
 void StUPCTreeMaker::printConfig()
@@ -658,7 +634,6 @@ void StUPCTreeMaker::printConfig()
 	printf("=== Configuration for StUPCTreeMaker ===\n");
 	printf("Fill the miniDst tree: %s\n",decision[mFillTree]);
 	printf("Fill the QA histo: %s\n",decision[mFillHisto]);
-	printf("Maximum |Vr|: %1.2f\n",mMaxVtxR);
 	printf("Maximum |Vz|: %1.2f\n",mMaxVtxZ);
 	printf("Maximum |VzDiff|: %1.2f\n",mMaxVzDiff);
 	printf("Minimum Track pt: %1.2f\n",mMinTrkPt);
@@ -667,8 +642,6 @@ void StUPCTreeMaker::printConfig()
 	printf("Minimum ratio of fit hits: %1.2f\n",mMinNHitsFitRatio);
 	printf("Minimum number of dedx hits: %d\n",mMinNHitsDedx);
 	printf("Maximum dca: %1.2f\n",mMaxDca);
-	printf("Maximum |nSigmaE| for TPCe: %1.2f\n",mMaxnSigmaE);
-	printf("Maximum |1-1/beta| for TPCe: %1.2f\n",mMaxBeta2TOF);
 	printf("=======================================\n");
 }
 //_____________________________________________________________________________

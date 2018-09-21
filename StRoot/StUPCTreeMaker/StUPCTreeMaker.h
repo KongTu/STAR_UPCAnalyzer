@@ -106,7 +106,7 @@ class StUPCTreeMaker : public StMaker {
 
 		bool     getBEMC(const StMuTrack* t, int* id, int* adc, float* ene, float* d, int* nep, int* towid);
 		Bool_t   getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Short_t &nEMCTrks, Bool_t flag=kFALSE);
-		Float_t getBemcInfo(StMuTrack *pMuTrack);
+		Float_t  getBemcInfo(StMuTrack *pMuTrack);
 		Bool_t   isMtdHitFiredTrigger(const StPicoMtdHit *hit);
 		Bool_t   isMtdHitFiredTrigger(const StMuMtdHit *hit);
 		Bool_t   isQTFiredTrigger(const Int_t qt, const Int_t pos);
@@ -115,15 +115,15 @@ class StUPCTreeMaker : public StMaker {
 
 	private:
 
-		StMuDstMaker   *mMuDstMaker;          // Pointer to StMuDstMaker
-		StMuDst        *mMuDst;              // Pointer to MuDst event
-		StEmcPosition  *mEmcPosition;
-		StEmcGeom      *mEmcGeom[4];
-		StEmcRawHit*     mEmcIndex[4800];
+		StMuDstMaker    *mMuDstMaker;          // Pointer to StMuDstMaker
+		StMuDst         *mMuDst;              // Pointer to MuDst event
+		StEmcPosition   *mEmcPosition;
+		StEmcGeom       *mEmcGeom[4];
+		StEmcRawHit     *mEmcIndex[4800];
+		StEmcCollection *mEmcCollection;
 
-		StPicoDstMaker *mPicoDstMaker;
-		StPicoDst      *mPicoDst;
-		StFmsDbMaker *fmsDbMaker;
+		StPicoDstMaker  *mPicoDstMaker;
+		StPicoDst       *mPicoDst;
 
 		//variable for tree
 		Int_t    mRunId;
@@ -207,7 +207,6 @@ class StUPCTreeMaker : public StMaker {
 		StEvtData      mEvtData;
 		TTree          *mEvtTree;            // Pointer to the event tree
 
-		Int_t		   mVn; 				 // vn harmonic order
 		Double_t       mMaxVtxR;             // Maximum vertex r
 		Double_t       mMaxVtxZ;             // Maximum vertex z
 		Double_t       mMaxVzDiff;           // Maximum VpdVz-TpcVz
@@ -220,10 +219,6 @@ class StUPCTreeMaker : public StMaker {
 		Double_t       mMaxnSigmaE;          // Maximum nSigmaE cut
 		Double_t       mMaxBeta2TOF;         // Maximum |1-1./beta| for TpcE
 
-		StEmcCollection *mEmcCollection;
-
-		//IntVec         mStHLT_TriggerIDs;
-		//IntVec         mStMTD_TriggerIDs;
 		IntVec         mStPhysics_TriggerIDs;
 		IntVec 		   mStUPC_TriggerIDs;
 
@@ -241,7 +236,6 @@ class StUPCTreeMaker : public StMaker {
 		TH2D           *hdNdxvsP;
 		TH2D           *hnSigEvsP;
 		TH2D           *hBetavsP;
-		TH2D 		   *hFmsXYdis;
 
 
 		ClassDef(StUPCTreeMaker, 1)
