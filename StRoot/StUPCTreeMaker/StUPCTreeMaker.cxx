@@ -90,7 +90,6 @@ Int_t StUPCTreeMaker::Make()
 
 	mMuDstMaker = (StMuDstMaker *)GetMaker("MuDst");
 	mPicoDstMaker = (StPicoDstMaker *)GetMaker("picoDst");
-  fmsDbMaker = (StFmsDbMaker *)GetMaker("fmsDb");
 
 	if(Debug()){
 		LOG_INFO<<"MuDstMaker pointer: "<<mMuDstMaker<<endm;

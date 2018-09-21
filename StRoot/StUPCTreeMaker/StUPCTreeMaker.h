@@ -47,7 +47,6 @@ class StPicoDst;
 class StPicoTrack;
 class StPicoMtdHit;
 
-
 #if !defined(ST_NO_TEMPLATE_DEF_ARGS) || defined(__CINT__)
 typedef vector<Int_t> IntVec;
 typedef vector<Double_t> DoubleVec;
