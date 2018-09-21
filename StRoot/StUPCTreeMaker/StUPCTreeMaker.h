@@ -69,7 +69,6 @@ class StUPCTreeMaker : public StMaker {
 		Int_t    Make();
 		Int_t    Finish();
 
-		void     setVnHarmonics(const Double_t n_);
 		void     setMaxVtxR(const Double_t max);
 		void     setMaxVtxZ(const Double_t max);
 		void     setMaxVzDiff(const Double_t max);
