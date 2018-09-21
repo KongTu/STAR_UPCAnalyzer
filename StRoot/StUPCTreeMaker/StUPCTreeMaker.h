@@ -40,8 +40,6 @@ class StEmcRawHit;
 class StMuTrack;
 class StMuMtdHit;
 
-class StFmsDbMaker;
-
 class StPicoDstMaker;
 class StPicoDst;
 class StPicoTrack;
@@ -97,7 +95,6 @@ class StUPCTreeMaker : public StMaker {
 		void     fillEventPlane();
 		Bool_t   isValidTrack(StMuTrack *pMuTrack) const;
 		Bool_t   isValidTrack(StPicoTrack *pTrack, StThreeVectorF vtxPos) const;
-		TComplex q_vector(double n, double p, double w, double phi);
 
 		void     initEmc();
 		void     finishEmc();

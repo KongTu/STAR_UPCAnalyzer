@@ -530,12 +530,6 @@ Bool_t StUPCTreeMaker::isValidTrack(StPicoTrack *pTrack, StThreeVectorF vtxPos) 
 
 	return kTRUE;
 }
-TComplex StUPCTreeMaker::q_vector(double n, double p, double w, double phi) 
-{
-  double term1 = pow(w,p);
-  TComplex e(1, n*phi, 1);
-  return term1*e;
-}
 //_____________________________________________________________________________
 void StUPCTreeMaker::bookTree()
 {
