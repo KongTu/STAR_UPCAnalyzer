@@ -12,7 +12,7 @@ mMinNHitsFit(13), mMinNHitsFitRatio(0.50), mMinNHitsDedx(10), mMaxDca(10.),
 mMaxnSigmaE(999), mMaxBeta2TOF(0.99),mEmcCollection(nullptr), mEmcPosition(nullptr), 
 mEmcGeom{},mEmcIndex{}
 {
-  //~
+   //~
 }
 //_____________________________________________________________________________
 StUPCTreeMaker::~StUPCTreeMaker()
@@ -296,7 +296,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     //BEMC matching:
     getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
     
-    //match BEMC:
+    //match BEM:
     if( mBEMCTraitsIndex[nTrks]>=0 ){nTrks++;}
 
   }//Track loop
