@@ -11,6 +11,7 @@
  ***************************************************************************/
 
 #include "StMaker.h"
+#include "StTreeStructure.h"
 
 #include "StThreeVectorF.hh"
 #include "TLorentzVector.h"
