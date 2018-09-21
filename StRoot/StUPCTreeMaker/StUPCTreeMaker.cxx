@@ -7,9 +7,9 @@ ClassImp(StUPCTreeMaker)
 StUPCTreeMaker::StUPCTreeMaker(const Char_t *name) : StMaker(name), 
 mFillTree(0), mFillHisto(1), mPrintConfig(1), mPrintMemory(0), mPrintCpu(0), 
 mStreamName("st_upc"), fOutFile(0), mOutFileName(""), mEvtTree(0),
-mMaxVtxR(999.0), mMaxVtxZ(130.0), mMaxVzDiff(999.0), mMinTrkPt(0.2), mMaxTrkEta(1.), 
-mMinNHitsFit(15), mMinNHitsFitRatio(0.52), mMinNHitsDedx(10), mMaxDca(5.), 
-mMaxnSigmaE(2.5), mMaxBeta2TOF(0.03),mEmcCollection(nullptr), mEmcPosition(nullptr), 
+mMaxVtxR(999.0), mMaxVtxZ(130.0), mMinTrkPt(0.2), mMaxTrkEta(1.1), 
+mMinNHitsFit(13), mMinNHitsFitRatio(0.50), mMinNHitsDedx(10), mMaxDca(10.), 
+mMaxnSigmaE(999), mMaxBeta2TOF(0.99),mEmcCollection(nullptr), mEmcPosition(nullptr), 
 mEmcGeom{},mEmcIndex{}
 {
   //~
@@ -223,10 +223,12 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
   hVtxZ->Fill( vtxPos.z() );
 
+  //ZDC
   StZdcTriggerDetector& ZDC = mMuEvent->zdcTriggerDetector();
   mZDCeast = (UShort_t)ZDC.adcSum(east);
   mZDCwest = (UShort_t)ZDC.adcSum(west);
 
+  //BBC
   StBbcTriggerDetector bbc = mMuEvent->bbcTriggerDetector() ;
   for (UInt_t i = 0; i < bbc.numberOfPMTs(); ++i)
   {
@@ -547,7 +549,6 @@ void StUPCTreeMaker::bookTree()
 	mEvtTree->Branch("mEventId", &mEventId, "mEventId/I");
 	mEvtTree->Branch("mNTrigs", &mNTrigs, "mNTrigs/I");
   mEvtTree->Branch("mTrigId", mTrigId, "mTrigId[mNTrigs]/I");
-  
   mEvtTree->Branch("mBEMCindex", &mBEMCindex, "mBEMCindex/I");
 	
 	mEvtTree->Branch("mRefMult", &mRefMult, "mRefMult/S");
@@ -634,7 +635,6 @@ void StUPCTreeMaker::printConfig()
 	printf("Fill the miniDst tree: %s\n",decision[mFillTree]);
 	printf("Fill the QA histo: %s\n",decision[mFillHisto]);
 	printf("Maximum |Vz|: %1.2f\n",mMaxVtxZ);
-	printf("Maximum |VzDiff|: %1.2f\n",mMaxVzDiff);
 	printf("Minimum Track pt: %1.2f\n",mMinTrkPt);
 	printf("Maximum Track |eta| : %1.2f\n",mMaxTrkEta);
 	printf("Minimum number of fit hits: %d\n",mMinNHitsFit);
