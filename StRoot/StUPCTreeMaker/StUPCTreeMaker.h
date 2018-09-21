@@ -4,8 +4,8 @@
 /***************************************************************************
  *
  * $Id: StUPCTreeMaker.h 2015/04/09  Exp $ 
- * StUPCTreeMaker - class to produce miniTree for mtd related analysis
- * Author: Shuai Yang
+ * StUPCTreeMaker - class to produce miniTree for UPC related analysis
+ * Author: Kong
  *--------------------------------------------------------------------------
  *
  ***************************************************************************/
@@ -113,11 +113,7 @@ class StUPCTreeMaker : public StMaker {
 
 		StMuDstMaker    *mMuDstMaker;          // Pointer to StMuDstMaker
 		StMuDst         *mMuDst;              // Pointer to MuDst event
-		StEmcPosition   *mEmcPosition;
-		StEmcGeom       *mEmcGeom[4];
-		StEmcRawHit     *mEmcIndex[4800];
-		StEmcCollection *mEmcCollection;
-
+	
 		StPicoDstMaker  *mPicoDstMaker;
 		StPicoDst       *mPicoDst;
 
@@ -214,6 +210,11 @@ class StUPCTreeMaker : public StMaker {
 		Double_t       mMaxDca;              // Maximum track dca
 		Double_t       mMaxnSigmaE;          // Maximum nSigmaE cut
 		Double_t       mMaxBeta2TOF;         // Maximum |1-1./beta| for TpcE
+		
+		StEmcCollection *mEmcCollection;
+		StEmcPosition   *mEmcPosition;
+		StEmcGeom       *mEmcGeom[4];
+		StEmcRawHit     *mEmcIndex[4800];
 
 		IntVec         mStPhysics_TriggerIDs;
 		IntVec 		   mStUPC_TriggerIDs;
