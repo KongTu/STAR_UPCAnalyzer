@@ -233,13 +233,13 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     }
 
     if( nElectrons >= 2 && nTracks >= 2 ){ bestvertex = jvtx; break;}
-    if( nMatchTof >= 2 && nTracks >= 2 ) { bestvertex = jvtx; break;}
+    //if( nMatchTof >= 2 && nTracks >= 2 ) { bestvertex = jvtx; break;}
  
   }
 
   hbestVertex->Fill( bestvertex );
 
-  if( bestvertex != -1 ) {StMuDst::setVertexIndex(bestvertex);}
+  //if( bestvertex != -1 ) {StMuDst::setVertexIndex(bestvertex);}
 
   StThreeVectorF vtxPos    = mMuEvent->primaryVertexPosition();
   mVertexX        = vtxPos.x();
