@@ -188,8 +188,6 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   mZDCRate        = mMuEvent->runInfo().zdcCoincidenceRate();
   mBField         = mMuEvent->runInfo().magneticField();
 
- 
-  
   if(Debug()){
     LOG_INFO<<"RunId: "<<mRunId<<endm;
     LOG_INFO<<"EventId: "<<mEventId<<endm;
@@ -197,8 +195,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     LOG_INFO<<"VPD Vz: "<<mVpdVz<<" \tTPC Vz: "<<mVertexZ<<endm;
   }
 
-
-  int Nvertex = StMuDst::numberOfPrimaryVertices();
+  int Nvertex = mMuDst->primaryVertices()->GetEntriesFast();
   hNvertex->Fill( Nvertex );
   int bestvertex = -1;
 
@@ -235,15 +232,14 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       if( matchBemc ) nElectrons++;      
     }
 
-    if( nElectrons >= 2 ){ bestvertex = jvtx; break;}
-    if( nMatchTof >= 2 ) { bestvertex = jvtx; break;}
+    if( nElectrons >= 2 && nTracks >= 2 ){ bestvertex = jvtx; break;}
+    if( nMatchTof >= 2 && nTracks >= 2 ) { bestvertex = jvtx; break;}
  
   }
 
   hbestVertex->Fill( bestvertex );
 
-  if( bestvertex != -1 ) StMuDst::setVertexIndex(bestvertex);
-  
+  if( bestvertex != -1 ) {StMuDst::setVertexIndex(bestvertex);}
 
   StThreeVectorF vtxPos    = mMuEvent->primaryVertexPosition();
   mVertexX        = vtxPos.x();
