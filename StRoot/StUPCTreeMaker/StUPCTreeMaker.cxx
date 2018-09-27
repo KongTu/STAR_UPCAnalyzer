@@ -200,7 +200,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     LOG_INFO<<"VPD Vz: "<<mVpdVz<<" \tTPC Vz: "<<mVertexZ<<endm;
   }
 
-  int Nvertex = mMuEvent->numberOfPrimaryVertices();
+  int Nvertex = StMuDst::numberOfPrimaryVertices();
   hNvertex->Fill( Nvertex );
  
 
