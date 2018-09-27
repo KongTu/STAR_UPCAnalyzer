@@ -17,6 +17,7 @@
 #include "TComplex.h"
 
 #include "StMtdUtil/StMtdConstants.h"
+#include "StMuDSTMaker/COMMON/StMuPrimaryVertex.h"
 
 #include <vector>
 #include <map>
