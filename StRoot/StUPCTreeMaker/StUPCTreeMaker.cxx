@@ -654,7 +654,7 @@ void StUPCTreeMaker::bookHistos()
 	hEvent = new TH1D("hEvent","Event statistics",25,0,25);
   hVtxZ = new TH1D("hVtxZ","hVtxZ",3000,-150,150);
   hNvertex = new TH1D("hNvertex","hNvertex",100,0,100);
-  hbestVertex = = new TH1D("hbestVertex","hbestVertex",22,-2,20);
+  hbestVertex = new TH1D("hbestVertex","hbestVertex",22,-2,20);
   hRefMult = new TH1D("hRefMult","hRefMult",500,0,500);
 	hVtxYvsVtxX = new TH2D("hVtxYvsVtxX","hVtxYvsVtxX; V_{x} (cm); V_{y} (cm)",120,-3,3,120,-3,3); 
 	hGRefMultvsGRefMultCorr = new TH2D("hGRefMultvsGRefMultCorr","hGRefMultvsGRefMultCorr; grefMultCorr; grefMult",1000,0,1000,1000,0,1000);
