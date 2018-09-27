@@ -200,8 +200,6 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
   int Nvertex = StMuDst::numberOfPrimaryVertices();
   hNvertex->Fill( Nvertex );
-
-  int HMvertex = 0;
   int bestvertex = -1;
 
   for( int jvtx = 0; jvtx < Nvertex; jvtx++){
@@ -235,11 +233,6 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
       //require at least one match, only in data
       if( matchBemc ) nElectrons++;      
-    }
-
-    if( nTracks > maxNtracks ){
-      maxNtracks = nTracks;
-      HMvertex = jvtx;
     }
 
     if( nElectrons >= 2 ){ bestvertex = jvtx; break;}
