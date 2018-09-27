@@ -221,6 +221,7 @@ class StUPCTreeMaker : public StMaker {
 		//define histograms ongoing...
 		TH1D           *hEvent;
 		TH1D		   *hVtxZ;
+		TH1D		   *hNvertex;
 		TH1D		   *hRefMult;
 		TH2D           *hVtxYvsVtxX;
 		TH2D           *hVPDVzvsTPCVz;
