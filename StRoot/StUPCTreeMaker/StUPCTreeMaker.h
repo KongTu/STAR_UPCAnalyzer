@@ -222,6 +222,7 @@ class StUPCTreeMaker : public StMaker {
 		TH1D           *hEvent;
 		TH1D		   *hVtxZ;
 		TH1D		   *hNvertex;
+		TH1D		   *hbestVertex;
 		TH1D		   *hRefMult;
 		TH2D           *hVtxYvsVtxX;
 		TH2D           *hVPDVzvsTPCVz;

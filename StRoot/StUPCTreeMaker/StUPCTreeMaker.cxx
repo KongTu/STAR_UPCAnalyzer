@@ -170,7 +170,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   mNTrigs = nTrigs;
 
   if(!validTrigger){
-    LOG_WARN<<"No valid mtd related triggers !"<<endm;
+    LOG_WARN<<"No valid UPC related triggers !"<<endm;
     return kFALSE;
   }
 
@@ -188,10 +188,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   mZDCRate        = mMuEvent->runInfo().zdcCoincidenceRate();
   mBField         = mMuEvent->runInfo().magneticField();
 
-  StThreeVectorF vtxPos    = mMuEvent->primaryVertexPosition();
-  mVertexX        = vtxPos.x();
-  mVertexY        = vtxPos.y();
-  mVertexZ        = vtxPos.z();
+ 
   
   if(Debug()){
     LOG_INFO<<"RunId: "<<mRunId<<endm;
@@ -200,9 +197,65 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     LOG_INFO<<"VPD Vz: "<<mVpdVz<<" \tTPC Vz: "<<mVertexZ<<endm;
   }
 
+
   int Nvertex = StMuDst::numberOfPrimaryVertices();
   hNvertex->Fill( Nvertex );
+
+  int HMvertex = 0;
+  int bestvertex = -1;
+
+  for( int jvtx = 0; jvtx < Nvertex; jvtx++){
+
+    StMuDst::setVertexIndex(jvtx);
+    //get array of primary tracks
+    TObjArray *trkArray = mMuDst->primaryTracks();
+    if( !trkArray ) continue;
+
+    int nElectrons = 0;
+    int nMatchTof = 0;
+    int nTracks = 0;
+    Short_t nSelTracks    = 0;
+    Short_t nSelBEMCTrks = 0;
+
+    for(Int_t itrk=0; itrk<trkArray->GetEntriesFast(); itrk++) {
+      
+      StMuTrack *track = dynamic_cast<StMuTrack*>( trkArray->At(itrk) );
+      if( !track ) continue;
+
+      //no cuts:
+      nTracks++;
+      //matching to BEMC cluster
+      bool matchBemc = false;
+      matchBemc = getBemcInfo(track,nSelTracks,nSelBEMCTrks,true);
+    
+      //TOF matching
+      const StMuBTofPidTraits &tofPid = track->btofPidTraits();
+      Bool_t matchTof = tofPid.matchFlag() != 0 ? kTRUE : kFALSE;
+      if( matchTof ) nMatchTof++;
+
+      //require at least one match, only in data
+      if( matchBemc ) nElectrons++;      
+    }
+
+    if( nTracks > maxNtracks ){
+      maxNtracks = nTracks;
+      HMvertex = jvtx;
+    }
+
+    if( nElectrons >= 2 ){ bestvertex = jvtx; break;}
+    if( nMatchTof >= 2 ) { bestvertex = jvtx; break;}
  
+  }
+
+  hbestVertex->Fill( bestvertex );
+
+  if( bestvertex != -1 ) StMuDst::setVertexIndex(bestvertex);
+  
+
+  StThreeVectorF vtxPos    = mMuEvent->primaryVertexPosition();
+  mVertexX        = vtxPos.x();
+  mVertexY        = vtxPos.y();
+  mVertexZ        = vtxPos.z();
 
   if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
   if(mFillHisto) hEvent->Fill(10.5);
@@ -608,6 +661,7 @@ void StUPCTreeMaker::bookHistos()
 	hEvent = new TH1D("hEvent","Event statistics",25,0,25);
   hVtxZ = new TH1D("hVtxZ","hVtxZ",3000,-150,150);
   hNvertex = new TH1D("hNvertex","hNvertex",100,0,100);
+  hbestVertex = = new TH1D("hbestVertex","hbestVertex",22,-2,20);
   hRefMult = new TH1D("hRefMult","hRefMult",500,0,500);
 	hVtxYvsVtxX = new TH2D("hVtxYvsVtxX","hVtxYvsVtxX; V_{x} (cm); V_{y} (cm)",120,-3,3,120,-3,3); 
 	hGRefMultvsGRefMultCorr = new TH2D("hGRefMultvsGRefMultCorr","hGRefMultvsGRefMultCorr; grefMultCorr; grefMult",1000,0,1000,1000,0,1000);
