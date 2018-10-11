@@ -343,7 +343,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
     
     //match BEM:
-    if( mBEMCTraitsIndex[nTrks]>=0 ){nTrks++;}
+    if( mBEMCTraitsIndex[nTrks]>=0 || mTOFMatchFlag[nTrks] != 0 ){nTrks++;}
 
   }//Track loop
 
