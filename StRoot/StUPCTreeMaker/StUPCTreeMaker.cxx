@@ -336,10 +336,11 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
     if( &(pMuTrack->btofPidTraits()) ){
       const StMuBTofPidTraits& btofPidTraits = pMuTrack->btofPidTraits();
-      mTOFMatchFlag[nTrks] = btofPidTraits.matchFlag(); 
       mTOFLocalY[nTrks] = btofPidTraits.yLocal();
       mBeta2TOF[nTrks] = btofPidTraits.beta();
       matchTofTrack = btofPidTraits.matchFlag() != 0 ? kTRUE : kFALSE;
+      if( matchTofTrack ) mTOFMatchFlag = 1;
+      else mTOFMatchFlag = 0;
     }
 
     //BEMC matching:
@@ -634,7 +635,7 @@ void StUPCTreeMaker::bookTree()
 	
   mEvtTree->Branch("mTOFLocalY", mTOFLocalY, "mTOFLocalY[mNTrks]/F");
 	mEvtTree->Branch("mBeta2TOF", mBeta2TOF, "mBeta2TOF[mNTrks]/F");
-  mEvtTree->Branch("mTOFMatchFlag", mTOFMatchFlag, "mTOFMatchFlag[mNTrks]/B");
+  mEvtTree->Branch("mTOFMatchFlag", mTOFMatchFlag, "mTOFMatchFlag[mNTrks]/S");
 
 //BEMC pidTrait information
   mEvtTree->Branch("mNBEMCTrks", &mNBEMCTrks, "mNBEMCTrks/S");
@@ -644,8 +645,8 @@ void StUPCTreeMaker::bookTree()
   mEvtTree->Branch("mBEMCE", mBEMCE, "mBEMCE[mNBEMCTrks]/F");
   mEvtTree->Branch("mBEMCZDist", mBEMCZDist, "mBEMCZDist[mNBEMCTrks]/F");
   mEvtTree->Branch("mBEMCPhiDist", mBEMCPhiDist, "mBEMCPhiDist[mNBEMCTrks]/F");
-  mEvtTree->Branch("mBEMCnEta", mBEMCnEta, "mBEMCnEta[mNBEMCTrks]/B");
-  mEvtTree->Branch("mBEMCnPhi", mBEMCnPhi, "mBEMCnPhi[mNBEMCTrks]/B");
+  mEvtTree->Branch("mBEMCnEta", mBEMCnEta, "mBEMCnEta[mNBEMCTrks]/F");
+  mEvtTree->Branch("mBEMCnPhi", mBEMCnPhi, "mBEMCnPhi[mNBEMCTrks]/F");
 }
 //_____________________________________________________________________________
 void StUPCTreeMaker::bookHistos()
