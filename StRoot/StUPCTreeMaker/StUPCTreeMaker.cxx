@@ -332,18 +332,21 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     mTOFMatchFlag[nTrks] = -1;
     mTOFLocalY[nTrks] = -999.;
     mBeta2TOF[nTrks] = -999.;
+    Bool_t matchTofTrack = kFALSE;
+
     if( &(pMuTrack->btofPidTraits()) ){
       const StMuBTofPidTraits& btofPidTraits = pMuTrack->btofPidTraits();
       mTOFMatchFlag[nTrks] = btofPidTraits.matchFlag(); 
       mTOFLocalY[nTrks] = btofPidTraits.yLocal();
       mBeta2TOF[nTrks] = btofPidTraits.beta();
+      matchTofTrack = tofPid.matchFlag() != 0 ? kTRUE : kFALSE;
     }
 
     //BEMC matching:
     getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
     
     //match BEM:
-    if( mBEMCTraitsIndex[nTrks]>=0 || mTOFMatchFlag[nTrks] != 0 ){nTrks++;}
+    if( mBEMCTraitsIndex[nTrks]>=0 || matchTofTrack ){nTrks++;}
 
   }//Track loop
 
