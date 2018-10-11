@@ -339,8 +339,8 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       mTOFLocalY[nTrks] = btofPidTraits.yLocal();
       mBeta2TOF[nTrks] = btofPidTraits.beta();
       matchTofTrack = btofPidTraits.matchFlag() != 0 ? kTRUE : kFALSE;
-      if( matchTofTrack ) mTOFMatchFlag = 1;
-      else mTOFMatchFlag = 0;
+      if( matchTofTrack ) mTOFMatchFlag[nTrks] = 1;
+      else mTOFMatchFlag[nTrks] = 0;
     }
 
     //BEMC matching:
