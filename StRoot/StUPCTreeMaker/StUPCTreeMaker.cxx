@@ -289,7 +289,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     StMuTrack* gMuTrack = (StMuTrack *)pMuTrack->globalTrack();
     if(!gMuTrack) continue;
 
-    if(!isValidTrack(pMuTrack)) continue;
+    //if(!isValidTrack(pMuTrack)) continue;
 
     mBEMCTraitsIndex[nTrks]  = -999;
     mTPCeTrkFlag[nTrks]      = kFALSE;
@@ -467,7 +467,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
         
     //track cut
     /*no cut is applied here, cut on analysis level*/
-    //if(!isValidTrack(pTrack, vtxPos)) continue; 
+    if(!isValidTrack(pTrack, vtxPos)) continue; 
     
     StThreeVectorF pMom = pTrack->pMom();
     StThreeVectorF gMom = pTrack->gMom();
