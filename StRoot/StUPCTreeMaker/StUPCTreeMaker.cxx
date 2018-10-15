@@ -289,7 +289,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     StMuTrack* gMuTrack = (StMuTrack *)pMuTrack->globalTrack();
     if(!gMuTrack) continue;
 
-    //if(!isValidTrack(pMuTrack)) continue;
+    if(!isValidTrack(pMuTrack)) continue;
 
     mBEMCTraitsIndex[nTrks]  = -999;
     mTPCeTrkFlag[nTrks]      = kFALSE;
@@ -345,9 +345,9 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
     //BEMC matching:
     getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
-    
+    nTrks++;
     //match BEM:
-    if( mBEMCTraitsIndex[nTrks]>=0 || matchTofTrack ){nTrks++;}
+    //if( mBEMCTraitsIndex[nTrks]>=0 || matchTofTrack ){nTrks++;}
 
   }//Track loop
 
