@@ -170,8 +170,8 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   mNTrigs = nTrigs;
 
   if(!validTrigger){
-    LOG_WARN<<"No valid UPC related triggers !"<<endm;
-    return kFALSE;
+    //LOG_WARN<<"No valid UPC related triggers !"<<endm;
+    //return kFALSE;
   }
 
   if(mFillHisto){
