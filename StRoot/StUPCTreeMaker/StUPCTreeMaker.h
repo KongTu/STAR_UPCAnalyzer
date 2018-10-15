@@ -84,6 +84,7 @@ class StUPCTreeMaker : public StMaker {
 		void     setPrintMemory(const Bool_t pMem);
 		void     setPrintCpu(const Bool_t pCpu);
 		void     setPrintConfig(const Bool_t print);
+		void	 setMCevent(const Bool_t isMC);
 
 	protected:
 		void     printConfig();
@@ -192,6 +193,7 @@ class StUPCTreeMaker : public StMaker {
 		Bool_t         mPrintConfig;         // Flag to print out task configuration
 		Bool_t         mPrintMemory;         // Flag to print out memory usage
 		Bool_t         mPrintCpu;            // Flag to print out CPU usage
+		Bool_t		   mDoMC_;
 		TString        mStreamName;          // Data stream name
 		TFile          *fOutFile;            // Output file
 		TString        mOutFileName;         // Name of the output file 
@@ -256,4 +258,5 @@ inline void StUPCTreeMaker::setStreamName(const TString name) { mStreamName = na
 inline void StUPCTreeMaker::setPrintMemory(const Bool_t pMem) { mPrintMemory = pMem; }
 inline void StUPCTreeMaker::setPrintCpu(const Bool_t pCpu) { mPrintCpu = pCpu; }
 inline void StUPCTreeMaker::setPrintConfig(const Bool_t print) { mPrintConfig = print; }
+inline void StUPCTreeMaker::setMCevent(const Bool_t isMC){ mDoMC_ = isMC; }
 #endif

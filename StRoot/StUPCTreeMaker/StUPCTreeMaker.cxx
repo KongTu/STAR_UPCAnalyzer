@@ -5,7 +5,7 @@ ClassImp(StUPCTreeMaker)
 
 //_____________________________________________________________________________
 StUPCTreeMaker::StUPCTreeMaker(const Char_t *name) : StMaker(name), 
-mFillTree(0), mFillHisto(1), mPrintConfig(1), mPrintMemory(0), mPrintCpu(0), 
+mFillTree(0), mFillHisto(1), mPrintConfig(1), mPrintMemory(0), mPrintCpu(0),mDoMC_(1), 
 mStreamName("st_upc"), fOutFile(0), mOutFileName(""), mEvtTree(0),
 mMaxVtxR(999.0), mMaxVtxZ(130.0), mMinTrkPt(0.2), mMaxTrkEta(1.1), 
 mMinNHitsFit(13), mMinNHitsFitRatio(0.50), mMinNHitsDedx(10), mMaxDca(10.), 
@@ -170,8 +170,10 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   mNTrigs = nTrigs;
 
   if(!validTrigger){
-    //LOG_WARN<<"No valid UPC related triggers !"<<endm;
-    //return kFALSE;
+    if( !mDoMC_ ){
+      LOG_WARN<<"No valid UPC related triggers !"<<endm;
+      return kFALSE;
+    }
   }
 
   if(mFillHisto){
@@ -345,9 +347,9 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
 
     //BEMC matching:
     getBemcInfo(pMuTrack,nTrks,nBEMCTrks);
-    nTrks++;
+    
     //match BEM:
-    //if( mBEMCTraitsIndex[nTrks]>=0 || matchTofTrack ){nTrks++;}
+    if( mBEMCTraitsIndex[nTrks]>=0 || matchTofTrack || mDoMC_ ){nTrks++;}
 
   }//Track loop
 
