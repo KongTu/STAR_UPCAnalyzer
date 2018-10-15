@@ -467,7 +467,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
         
     //track cut
     /*no cut is applied here, cut on analysis level*/
-    if(!isValidTrack(pTrack, vtxPos)) continue; 
+    //if(!isValidTrack(pTrack, vtxPos)) continue; 
     
     StThreeVectorF pMom = pTrack->pMom();
     StThreeVectorF gMom = pTrack->gMom();
