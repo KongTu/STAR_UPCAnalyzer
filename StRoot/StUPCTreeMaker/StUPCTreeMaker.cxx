@@ -337,9 +337,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     Bool_t  mHasPxl2Hit               = mHftHitsMap>>1 & 0x3;
     Bool_t  mHasIstHit                = mHftHitsMap>>3 & 0x3;
     Bool_t  mHasSstHit                = mHftHitsMap>>5 & 0x3;
-    mEvtData.mIsHFTTrk[nTrks]         = mHasPxl1Hit && mHasPxl2Hit && (mHasIstHit || mHasSstHit);
-    mEvtData.mHasHFT4Layers[nTrks]    = mHasPxl1Hit && mHasPxl2Hit && mHasIstHit && mHasSstHit;
-    
+ 
     cout << "Pxl1Hit ~ " << mHasPxl1Hit << endl;
     cout << "Pxl2Hit ~ " << mHasPxl2Hit << endl;
     cout << "IstHit ~ " << mHasIstHit << endl;
