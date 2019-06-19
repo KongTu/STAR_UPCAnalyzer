@@ -329,7 +329,22 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       hdNdxvsP->Fill(pMom.mag(), mDndx[nTrks]);
       hnSigEvsP->Fill(pMom.mag(), mNSigmaE[nTrks]);
     }
+
+    //HFT track hits:
+    UInt_t  mMap0                     = (UInt_t)(gMuTrack->topologyMap().data(0));
+    UChar_t mHftHitsMap               = mMap0>>1 & 0x7F;
+    Bool_t  mHasPxl1Hit               = mHftHitsMap>>0 & 0x1;
+    Bool_t  mHasPxl2Hit               = mHftHitsMap>>1 & 0x3;
+    Bool_t  mHasIstHit                = mHftHitsMap>>3 & 0x3;
+    Bool_t  mHasSstHit                = mHftHitsMap>>5 & 0x3;
+    mEvtData.mIsHFTTrk[nTrks]         = mHasPxl1Hit && mHasPxl2Hit && (mHasIstHit || mHasSstHit);
+    mEvtData.mHasHFT4Layers[nTrks]    = mHasPxl1Hit && mHasPxl2Hit && mHasIstHit && mHasSstHit;
     
+    cout << "Pxl1Hit ~ " << mHasPxl1Hit << endl;
+    cout << "Pxl2Hit ~ " << mHasPxl2Hit << endl;
+    cout << "IstHit ~ " << mHasIstHit << endl;
+    cout << "SstHit ~ " << mHasSstHit << endl;
+
     //TOF matching:
     mTOFMatchFlag[nTrks] = -1;
     mTOFLocalY[nTrks] = -999.;
