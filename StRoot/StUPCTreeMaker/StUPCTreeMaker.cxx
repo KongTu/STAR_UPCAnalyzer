@@ -103,6 +103,11 @@ Int_t StUPCTreeMaker::Make()
 			LOG_WARN<<"No MuDst !"<<endm;
 			return kStOK;
 		}
+    mBemcTriggerSimu = 0;
+    mTriggerSimuMaker = (StTriggerSimuMaker*)GetMaker("StarTrigSimu");
+    if(mTriggerSimuMaker){
+            mBemcTriggerSimu  = (StBemcTriggerSimu*)mTriggerSimuMaker->bemc;
+    }
 	}
 	else if(mPicoDstMaker){
 		if(Debug()) LOG_INFO<<"Use Pico file as input"<<endm;
@@ -704,6 +709,7 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
   Int_t mod = -1, eta=-1, sub=-1;
   Int_t neta = -1, nphi=-1;
   UInt_t maxadc = 0;
+  Int_t   softId = -1;
 
   mEmcCollection = mMuDst->emcCollection();
   if(!mEmcCollection) {
@@ -755,6 +761,9 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
           for(StPtrVecEmcRawHitIterator hitit=bEmcHits.begin(); hitit!=bEmcHits.end();hitit++) {
             if((*hitit)->energy()>maxtowerE) maxtowerE = (*hitit)->energy();
             if((*hitit)->adc()>maxadc) maxadc = (*hitit)->adc();
+
+            softId = (*hitit)->softId(1);
+            if(mBemcTriggerSimu && mBemcTriggerSimu->barrelHighTowerAdc(softId)>maxdsmadc) maxdsmadc = mBemcTriggerSimu->barrelHighTowerAdc(softId);
           }
         }
       }
