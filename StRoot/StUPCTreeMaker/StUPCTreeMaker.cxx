@@ -661,6 +661,7 @@ void StUPCTreeMaker::bookTree()
   mEvtTree->Branch("mNBEMCTrks", &mNBEMCTrks, "mNBEMCTrks/S");
   mEvtTree->Branch("mBEMCTrkIndex", mBEMCTrkIndex, "mBEMCTrkIndex[mNBEMCTrks]/S");
   mEvtTree->Branch("mBEMCAdc0", mBEMCAdc0, "mBEMCAdc0[mNBEMCTrks]/S");
+  mEvtTree->Branch("mBEMCDsmAdc0", mBEMCDsmAdc0, "mBEMCDsmAdc0[mNBEMCTrks]/S");
   mEvtTree->Branch("mBEMCE0", mBEMCE0, "mBEMCE0[mNBEMCTrks]/F");
   mEvtTree->Branch("mBEMCE", mBEMCE, "mBEMCE[mNBEMCTrks]/F");
   mEvtTree->Branch("mBEMCZDist", mBEMCZDist, "mBEMCZDist[mNBEMCTrks]/F");
@@ -799,6 +800,7 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
     mBEMCTraitsIndex[nTrks]  = nBEMCTrks;
     mBEMCTrkIndex[nBEMCTrks] = nTrks;
     mBEMCAdc0[nBEMCTrks]     = maxadc;
+    mBEMCDsmAdc0[nBEMCTrks]  = maxdsmadc;
     mBEMCE0[nBEMCTrks]       = maxtowerE;
     mBEMCE[nBEMCTrks]        = energy;
     mBEMCZDist[nBEMCTrks]    = zdist;  

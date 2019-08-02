@@ -185,6 +185,7 @@ class StUPCTreeMaker : public StMaker {
 		//BEMC pidTrait information
 		Short_t  mNBEMCTrks;
 		Short_t  mBEMCTrkIndex[mMax];
+		Short_t  mBEMCDsmAdc0[mMax];
 		Short_t  mBEMCAdc0[mMax];
 		Float_t  mBEMCE0[mMax];
 		Float_t  mBEMCE[mMax];
