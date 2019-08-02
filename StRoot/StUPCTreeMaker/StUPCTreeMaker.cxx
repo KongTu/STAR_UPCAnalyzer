@@ -709,6 +709,7 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
   Int_t mod = -1, eta=-1, sub=-1;
   Int_t neta = -1, nphi=-1;
   UInt_t maxadc = 0;
+  UInt_t maxdsmadc = 0;
   Int_t   softId = -1;
 
   mEmcCollection = mMuDst->emcCollection();
