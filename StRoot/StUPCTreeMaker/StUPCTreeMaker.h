@@ -117,6 +117,9 @@ class StUPCTreeMaker : public StMaker {
 		StPicoDstMaker  *mPicoDstMaker;
 		StPicoDst       *mPicoDst;
 
+		StTriggerSimuMaker* mTriggerSimuMaker;
+        StBemcTriggerSimu*  mBemcTriggerSimu;
+
 		//variable for tree
 		Int_t    mRunId;
 		Int_t    mEventId;

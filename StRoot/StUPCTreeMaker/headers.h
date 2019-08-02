@@ -91,6 +91,11 @@
 #include "StEEmcUtil/database/EEmcDbItem.h"
 //#include "StEmcUtil/projection/StEmcPosition.h"
 
+#include "StAssociationMaker/StAssociationMaker.h"
+#include "StAssociationMaker/StTrackPairInfo.hh"
+#include "StAssociationMaker/StMcParameterDB.h"
+
+
 #include "StMuDSTMaker/COMMON/StMuFmsUtil.h"
 #include "StFmsDbMaker/StFmsDbMaker.h"
 
@@ -112,6 +117,11 @@
 #include "StZdcTriggerDetector.h"
 //BBC for MuDst
 #include "StBbcTriggerDetector.h"
+
+//StTriggerUtilities
+#include "StTriggerUtilities/StTriggerSimuMaker.h"
+#include "StTriggerUtilities/StTriggerSimuResult.h"
+#include "StTriggerUtilities/Bemc/StBemcTriggerSimu.h"
 
 //#include "StPicoEvent/StPicoFmsHit.h"
 /*
