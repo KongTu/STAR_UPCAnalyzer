@@ -39,6 +39,9 @@ class StEmcRawHit;
 class StMuTrack;
 class StMuMtdHit;
 
+class StTriggerSimuMaker;
+class StBemcTriggerSimu;
+
 class StPicoDstMaker;
 class StPicoDst;
 class StPicoTrack;
