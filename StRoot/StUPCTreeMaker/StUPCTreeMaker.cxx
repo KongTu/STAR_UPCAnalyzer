@@ -111,6 +111,7 @@ Int_t StUPCTreeMaker::Make()
 
     if(mTriggerSimuMaker){
       cout << "has StarTrigSimu" << endl;
+      cout << "is UPC jpsi trigger fired? " <<  mTriggerSimuMaker->isTrigger(530703) << endl;
       mBbcTriggerSimu  = (StBbcTriggerSimu*)mTriggerSimuMaker->bbc;
       if( mBbcTriggerSimu && !mBbcTriggerSimu->getEandW() ){
         cout << "bbc not fired! " << endl;
