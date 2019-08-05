@@ -122,6 +122,7 @@
 #include "StTriggerUtilities/StTriggerSimuMaker.h"
 #include "StTriggerUtilities/StTriggerSimuResult.h"
 #include "StTriggerUtilities/Bemc/StBemcTriggerSimu.h"
+#include "StTriggerUtilities/Bbc/StBbcTriggerSimu.h"
 
 //#include "StPicoEvent/StPicoFmsHit.h"
 /*
