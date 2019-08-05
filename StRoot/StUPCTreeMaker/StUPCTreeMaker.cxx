@@ -103,10 +103,10 @@ Int_t StUPCTreeMaker::Make()
 			LOG_WARN<<"No MuDst !"<<endm;
 			return kStOK;
 		}
-    mBemcTriggerSimu = 0;
+    mBbcTriggerSimu = 0;
     mTriggerSimuMaker = (StTriggerSimuMaker*)GetMaker("StarTrigSimu");
     if(mTriggerSimuMaker){
-            mBemcTriggerSimu  = (StBbcTriggerSimu*)mTriggerSimuMaker->bbc;
+            mBbcTriggerSimu  = (StBbcTriggerSimu*)mTriggerSimuMaker->bbc;
     }
 	}
 	else if(mPicoDstMaker){
@@ -766,7 +766,7 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
 
             softId = (*hitit)->softId(1);
             // if(mBemcTriggerSimu && mBemcTriggerSimu->barrelHighTowerAdc(softId)>maxdsmadc) maxdsmadc = mBemcTriggerSimu->barrelHighTowerAdc(softId);
-            if( mBemcTriggerSimu && mBemcTriggerSimu->getEandW() ){
+            if( mBbcTriggerSimu && mBbcTriggerSimu->getEandW() ){
               cout << "bbc fired! " << endl;
             }
           }

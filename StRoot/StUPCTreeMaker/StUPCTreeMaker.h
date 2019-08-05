@@ -122,6 +122,7 @@ class StUPCTreeMaker : public StMaker {
 
 		StTriggerSimuMaker* mTriggerSimuMaker;
         StBemcTriggerSimu*  mBemcTriggerSimu;
+        StBbcTriggerSimu*  mBbcTriggerSimu;
 
 		//variable for tree
 		Int_t    mRunId;
