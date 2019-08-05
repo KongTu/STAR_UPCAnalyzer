@@ -104,6 +104,7 @@ Int_t StUPCTreeMaker::Make()
 			return kStOK;
 		}
     mBbcTriggerSimu = 0;
+    mBemcTriggerSimu = 0;
     mTriggerSimuMaker = (StTriggerSimuMaker*) new StTriggerSimuMaker("StarTrigSimu");
     mTriggerSimuMaker->setMC(2);
     mTriggerSimuMaker->useBbc();
@@ -116,7 +117,7 @@ Int_t StUPCTreeMaker::Make()
       if( mBbcTriggerSimu && !mBbcTriggerSimu->getEandW() ){
         cout << "bbc not fired! " << endl;
       }
-      mBemcTriggerSimu  = (StBemcTriggerSimu*)mTriggerSimuMaker->Bemc;
+      mBemcTriggerSimu  = (StBemcTriggerSimu*) mTriggerSimuMaker->Bemc;
     }
 	}
 	else if(mPicoDstMaker){
