@@ -41,6 +41,7 @@ class StMuMtdHit;
 
 class StTriggerSimuMaker;
 class StBemcTriggerSimu;
+class StBbcTriggerSimu
 
 class StPicoDstMaker;
 class StPicoDst;
