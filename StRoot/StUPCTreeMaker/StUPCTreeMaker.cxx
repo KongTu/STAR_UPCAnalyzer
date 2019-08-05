@@ -106,13 +106,16 @@ Int_t StUPCTreeMaker::Make()
     mBbcTriggerSimu = 0;
     mTriggerSimuMaker = (StTriggerSimuMaker*) new StTriggerSimuMaker("StarTrigSimu");
     mTriggerSimuMaker->setMC(2);
-    // mTriggerSimuMaker->useOfflineDB();
     mTriggerSimuMaker->useBbc();
     mTriggerSimuMaker->useBemc();
 
     if(mTriggerSimuMaker){
-            cout << "has StarTrigSimu" << endl;
-            mBbcTriggerSimu  = (StBbcTriggerSimu*)mTriggerSimuMaker->bbc;
+      cout << "has StarTrigSimu" << endl;
+      mBbcTriggerSimu  = (StBbcTriggerSimu*)mTriggerSimuMaker->bbc;
+      if( mBbcTriggerSimu && !mBbcTriggerSimu->getEandW() ){
+        cout << "bbc not fired! " << endl;
+      }
+      mBemcTriggerSimu  = (StBemcTriggerSimu*)mTriggerSimuMaker->Bemc;
     }
 	}
 	else if(mPicoDstMaker){
@@ -768,13 +771,8 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
             if((*hitit)->adc()>maxadc) maxadc = (*hitit)->adc();
 
             softId = (*hitit)->softId(1);
-            // if(mBemcTriggerSimu && mBemcTriggerSimu->barrelHighTowerAdc(softId)>maxdsmadc) maxdsmadc = mBemcTriggerSimu->barrelHighTowerAdc(softId);
-              if( mBbcTriggerSimu && mBbcTriggerSimu->getEandW() ){
-                cout << "bbc fired! " << endl;
-              }
-              if( mBbcTriggerSimu && !mBbcTriggerSimu->getEandW() ){
-                cout << "bbc not fired! " << endl;
-              }
+            if(mBemcTriggerSimu && mBemcTriggerSimu->barrelHighTowerAdc(softId)>maxdsmadc) maxdsmadc = mBemcTriggerSimu->barrelHighTowerAdc(softId);
+              
           } 
         }
       }
