@@ -106,6 +106,7 @@ Int_t StUPCTreeMaker::Make()
     mBbcTriggerSimu = 0;
     mTriggerSimuMaker = (StTriggerSimuMaker*)GetMaker("StarTrigSimu");
     if(mTriggerSimuMaker){
+            cout << "has StarTrigSimu" << endl;
             mBbcTriggerSimu  = (StBbcTriggerSimu*)mTriggerSimuMaker->bbc;
     }
 	}
