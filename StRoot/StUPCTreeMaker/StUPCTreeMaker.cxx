@@ -117,7 +117,7 @@ Int_t StUPCTreeMaker::Make()
       if( mBbcTriggerSimu && !mBbcTriggerSimu->getEandW() ){
         cout << "bbc not fired! " << endl;
       }
-      mBemcTriggerSimu  = (StBemcTriggerSimu*) mTriggerSimuMaker->Bemc;
+      mBemcTriggerSimu  = (StBemcTriggerSimu*)mTriggerSimuMaker->bemc;
     }
 	}
 	else if(mPicoDstMaker){
