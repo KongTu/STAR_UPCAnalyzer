@@ -29,7 +29,7 @@ void DSMAlgo_BC101_2009::operator()(DSM& dsm)
   // REGISTERS:
 
   // R0: BEMC-DAQ10k-HT-Sel (3)
-  int r0 = bc101.registers[0];
+  int r0 = dsm.registers[0];
 
   int upperHT = 0;
   int lowerHT = 0;
@@ -41,13 +41,13 @@ void DSMAlgo_BC101_2009::operator()(DSM& dsm)
   int lowerHTTP = 0;
 
   for(int iichn = 0; iichn < 3; iichn++){
-    lowerHT |= bc101.channels[iichn] >> 10 & 0x3f;
-    lowerTP |= bc101.channels[iichn] >> 8 & 0x1;
-    lowerHTTP |= bc101.channels[iichn] >> 9 & 0x1;
+    lowerHT |= dsm.channels[iichn] >> 10 & 0x3f;
+    lowerTP |= dsm.channels[iichn] >> 8 & 0x1;
+    lowerHTTP |= dsm.channels[iichn] >> 9 & 0x1;
     
-    upperHT |= bc101.channels[iichn+3] >> 10 & 0x3f;
-    upperTP |= bc101.channels[iichn+3] >> 8 & 0x1;
-    upperHTTP |= bc101.channels[iichn+3] >> 9 & 0x1;
+    upperHT |= dsm.channels[iichn+3] >> 10 & 0x3f;
+    upperTP |= dsm.channels[iichn+3] >> 8 & 0x1;
+    upperHTTP |= dsm.channels[iichn+3] >> 9 & 0x1;
   }
 
   int daq10kSel[6];
@@ -55,7 +55,7 @@ void DSMAlgo_BC101_2009::operator()(DSM& dsm)
 
   for(int ichn = 0; ichn < 6; ichn++){
     daq10kSel[ichn] = 0;
-    daq10kSel[ichn] = bc101.channels[ichn] >> (10 + r0) & 0x1;
+    daq10kSel[ichn] = dsm.channels[ichn] >> (10 + r0) & 0x1;
     DAQ10k |= daq10kSel[ichn];
   }
 
