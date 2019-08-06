@@ -4,12 +4,12 @@
 // 7 Jan 2009
 //
 
-#include "Board.hh"
-// #include "DSM.hh"
+// #include "Board.hh"
+#include "DSM.hh"
 // #include "sumTriggerPatchChannels.hh"
 #include "DSMAlgo_BE001_2009.hh"
 
-void DSMAlgo_BE001_2009(Board& be001)
+void DSMAlgo_BE001_2009::operator()(DSM& dsm)
 {
   // INPUT:
 
@@ -33,32 +33,16 @@ void DSMAlgo_BE001_2009(Board& be001)
   // sumTriggerPatchChannels(dsm, 0, 5, 1, 1,  lowEtaSum, highTowerBits);
   // sumTriggerPatchChannels(dsm, 6, 9, 1, 1, highEtaSum, highTowerBits);
 
-  // OUTPUT (16):
-
-  // (0-5) TP sum for low-eta group (6)
-  // (6-11) TP sum for high-eta group (6)
-  // (12-15) HT bits (4)
-
-  // int out = 0;
-
-  // out |=  lowEtaSum;
-  // out |= highEtaSum    <<  6;
-  // out |= highTowerBits << 12;
-
-  // dsm.output = out;
-
-
-  //replace with Zilong's private version
   unsigned int highTowerBits[10][6];
   unsigned int trigPatchBits[10];
 
   for(int ichn = 0; ichn < 10; ichn++){
-    unsigned int ht = be001.channels[ichn] & 0x3f;
+    unsigned int ht = dsm.channels[ichn] & 0x3f;
     for(int ireg = 0; ireg < 6; ireg++){
-      highTowerBits[ichn][ireg] = ht > be001.registers[ireg];
+      highTowerBits[ichn][ireg] = ht > dsm.registers[ireg];
     }
-    unsigned int tp = be001.channels[ichn] >> 6 & 0x3f;
-    trigPatchBits[ichn] = tp > be001.registers[6];
+    unsigned int tp = dsm.channels[ichn] >> 6 & 0x3f;
+    trigPatchBits[ichn] = tp > dsm.registers[6];
   }
 
   unsigned int htBits[6];
@@ -77,12 +61,20 @@ void DSMAlgo_BE001_2009(Board& be001)
     httpBits |= (highTowerBits[ichn][5] & trigPatchBits[ichn]);
   }
 
+
   // OUTPUT (16):
 
-  // (0-8) Unused
-  // (9) TP threshold bit
-  // (10) HT.TP threshold bit
-  // (11-15) HT threshold bits
+  // (0-5) TP sum for low-eta group (6)
+  // (6-11) TP sum for high-eta group (6)
+  // (12-15) HT bits (4)
+
+  // int out = 0;
+
+  // out |=  lowEtaSum;
+  // out |= highEtaSum    <<  6;
+  // out |= highTowerBits << 12;
+
+  // dsm.output = out;.
 
   int out = 0;
 
@@ -95,7 +87,7 @@ void DSMAlgo_BE001_2009(Board& be001)
   out |=   htBits[4] << 14;
   out |=   htBits[5] << 15;
 
-  be001.output = out;
+  dsm.output = out;
 
 
 }
