@@ -106,14 +106,16 @@ Int_t StUPCTreeMaker::Make()
     mBbcTriggerSimu = 0;
     mBemcTriggerSimu = 0;
     mTriggerSimuMaker = (StTriggerSimuMaker*) new StTriggerSimuMaker("StarTrigSimu");
-    mTriggerSimuMaker->setMC(0);
-    mTriggerSimuMaker->useOnlineDB();
+    mTriggerSimuMaker->setMC(2);
+    mTriggerSimuMaker->useOfflineDB();
     mTriggerSimuMaker->useBbc();
     mTriggerSimuMaker->useBemc();
 
     if(mTriggerSimuMaker){
       cout << "has StarTrigSimu" << endl;
-      cout << "is UPC jpsi trigger fired? " <<  mTriggerSimuMaker->isTrigger(530703) << endl;
+      cout << "is UPC 1 trigger fired? " <<  mTriggerSimuMaker->isTrigger(530701) << endl;
+      cout << "is UPC 2 trigger fired? " <<  mTriggerSimuMaker->isTrigger(530702) << endl;
+      cout << "is UPC 3 trigger fired? " <<  mTriggerSimuMaker->isTrigger(530703) << endl;
       mBbcTriggerSimu  = (StBbcTriggerSimu*)mTriggerSimuMaker->bbc;
       if( mBbcTriggerSimu && !mBbcTriggerSimu->getEandW() ){
         cout << "bbc not fired! " << endl;
