@@ -1,4 +1,5 @@
 #include "../DSM.hh"
+#include "../bits.hh"
 #include "DSMAlgo_EM201_2013.hh"
 
 int DSMAlgo_EM201_2013::ajpBarrel(DSM& dsm, int offset) const
@@ -369,7 +370,7 @@ void DSMAlgo_EM201_2013::operator()(DSM& dsm)
   out |= htUPCTopo << 10;
   out |= eemcHT << 13;
   out |= bemcDAQ10K << 15;
-  
+
   dsm.output = out;
 
   // INFO
