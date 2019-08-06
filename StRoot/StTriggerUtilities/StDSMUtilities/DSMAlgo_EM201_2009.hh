@@ -10,7 +10,7 @@
 #include "DSMAlgo.hh"
 
 struct DSMAlgo_EM201_2009 : public DSMAlgo {
-  int ajpBarrel(DSM& dsm, int offset) const;
+  int ajpBarrel(const DSM& dsm, int offset) const;
   int ajpEndcap(const DSM& dsm) const;
 
   void operator()(DSM& dsm);
