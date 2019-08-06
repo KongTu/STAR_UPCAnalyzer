@@ -4,7 +4,7 @@
 #include "../DSMAlgo.hh"
 
 struct DSMAlgo_BW001_2013 : public DSMAlgo {
-  void operator()(Board& dsm);
+  void operator()(DSM& dsm);
 };
 
 
