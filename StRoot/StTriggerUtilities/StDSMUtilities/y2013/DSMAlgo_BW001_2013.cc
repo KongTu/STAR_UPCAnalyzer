@@ -1,8 +1,9 @@
-#include "../DSM.hh"
+// #include "../DSM.hh"
+#include "../Board.hh"
 // #include "../sumTriggerPatchChannels.hh"
 #include "DSMAlgo_BW001_2013.hh"
 
-void DSMAlgo_BW001_2013::operator()(DSM& dsm)
+void DSMAlgo_BW001_2013::operator()(Board& dsm)
 {
   // // INPUT:
 
