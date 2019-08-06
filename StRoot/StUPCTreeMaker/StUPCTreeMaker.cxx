@@ -107,7 +107,7 @@ Int_t StUPCTreeMaker::Make()
     mBemcTriggerSimu = 0;
     mTriggerSimuMaker = (StTriggerSimuMaker*) new StTriggerSimuMaker("StarTrigSimu");
     mTriggerSimuMaker->setMC(0);
-    mTriggerSimuMaker->useOfflineDB();
+    mTriggerSimuMaker->useOnlineDB();
     mTriggerSimuMaker->useBbc();
     mTriggerSimuMaker->useBemc();
 
