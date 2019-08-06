@@ -28,56 +28,95 @@ void DSMAlgo_BC101_2009::operator()(DSM& dsm)
 
   // REGISTERS:
 
+  // R0: BEMC-DAQ10k-HT-Sel (3)
+  int r0 = bc101.registers[0];
+
+  int upperHT = 0;
+  int lowerHT = 0;
+
+  int upperTP = 0;
+  int lowerTP = 0;
+
+  int upperHTTP = 0;
+  int lowerHTTP = 0;
+
+  for(int iichn = 0; iichn < 3; iichn++){
+    lowerHT |= bc101.channels[iichn] >> 10 & 0x3f;
+    lowerTP |= bc101.channels[iichn] >> 8 & 0x1;
+    lowerHTTP |= bc101.channels[iichn] >> 9 & 0x1;
+    
+    upperHT |= bc101.channels[iichn+3] >> 10 & 0x3f;
+    upperTP |= bc101.channels[iichn+3] >> 8 & 0x1;
+    upperHTTP |= bc101.channels[iichn+3] >> 9 & 0x1;
+  }
+
+  int daq10kSel[6];
+  int DAQ10k = 0;
+
+  for(int ichn = 0; ichn < 6; ichn++){
+    daq10kSel[ichn] = 0;
+    daq10kSel[ichn] = bc101.channels[ichn] >> (10 + r0) & 0x1;
+    DAQ10k |= daq10kSel[ichn];
+  }
+
+  int HT = 0;
+  int TP = 0;
+  int HTTP = 0;
+
+  HT = lowerHT | upperHT;
+  TP = lowerTP | upperTP;
+  HTTP = lowerHTTP | upperHTTP;
+
   // R0: BEMC-Jet-Patch-Th0 (9)
   // R1: BEMC-Jet-Patch-Th1 (9)
   // R2: BEMC-Jet-Patch-Th2 (9)
 
   // ACTION:
 
-  int jpx = 0;			// East (-1 < eta < 0)
-  int jpy = 0;			// Middle (-0.6 < eta < 0.4)
-  int jpz = 0;			// West (0 < eta < 1)
-  int jpPartial = 0;		// Partial (0.4 < eta < 1)
+  // int jpx = 0;			// East (-1 < eta < 0)
+  // int jpy = 0;			// Middle (-0.6 < eta < 0.4)
+  // int jpz = 0;			// West (0 < eta < 1)
+  // int jpPartial = 0;		// Partial (0.4 < eta < 1)
 
-  int highTowerBits = 0;
+  // int highTowerBits = 0;
 
-  // East (ch0/2/4 - even channels)
+  // // East (ch0/2/4 - even channels)
 
-  for (int ch = 0; ch <= 4; ch += 2) {
-    int lowEtaSum = dsm.channels[ch] & 0x3f;
-    int highEtaSum = dsm.channels[ch] >> 6 & 0x3f;
-    jpx += lowEtaSum + highEtaSum;
-    jpy += lowEtaSum;
-    highTowerBits |= dsm.channels[ch] >> 12 & 0xf;
-  }
+  // for (int ch = 0; ch <= 4; ch += 2) {
+  //   int lowEtaSum = dsm.channels[ch] & 0x3f;
+  //   int highEtaSum = dsm.channels[ch] >> 6 & 0x3f;
+  //   jpx += lowEtaSum + highEtaSum;
+  //   jpy += lowEtaSum;
+  //   highTowerBits |= dsm.channels[ch] >> 12 & 0xf;
+  // }
 
-  // West (ch1/3/5 - odd channels)
+  // // West (ch1/3/5 - odd channels)
 
-  for (int ch = 1; ch <= 5; ch += 2) {
-    int lowEtaSum = dsm.channels[ch] & 0x3f;
-    int highEtaSum = dsm.channels[ch] >> 6 & 0x3f;
-    jpy += lowEtaSum;
-    jpz += lowEtaSum + highEtaSum;
-    jpPartial += highEtaSum;
-    highTowerBits |= dsm.channels[ch] >> 12 & 0xf;
-  }
+  // for (int ch = 1; ch <= 5; ch += 2) {
+  //   int lowEtaSum = dsm.channels[ch] & 0x3f;
+  //   int highEtaSum = dsm.channels[ch] >> 6 & 0x3f;
+  //   jpy += lowEtaSum;
+  //   jpz += lowEtaSum + highEtaSum;
+  //   jpPartial += highEtaSum;
+  //   highTowerBits |= dsm.channels[ch] >> 12 & 0xf;
+  // }
 
-  // If overflow, set JPpartial sum to max
-  if (jpPartial > 63) jpPartial = 63;
+  // // If overflow, set JPpartial sum to max
+  // if (jpPartial > 63) jpPartial = 63;
 
-  // Compare each jet patch sum to three thresholds
-  // and then pack results for each jet patch into
-  // 2-bit integer.
+  // // Compare each jet patch sum to three thresholds
+  // // and then pack results for each jet patch into
+  // // 2-bit integer.
 
-  int jpxBits = 0;
-  int jpyBits = 0;
-  int jpzBits = 0;
+  // int jpxBits = 0;
+  // int jpyBits = 0;
+  // int jpzBits = 0;
 
-  for (int reg = 0; reg < 3; ++reg) {
-    if (jpx > dsm.registers[reg]) ++jpxBits;
-    if (jpy > dsm.registers[reg]) ++jpyBits;
-    if (jpz > dsm.registers[reg]) ++jpzBits;
-  }
+  // for (int reg = 0; reg < 3; ++reg) {
+  //   if (jpx > dsm.registers[reg]) ++jpxBits;
+  //   if (jpy > dsm.registers[reg]) ++jpyBits;
+  //   if (jpz > dsm.registers[reg]) ++jpzBits;
+  // }
 
   // OUTPUT (16):
 
@@ -87,19 +126,32 @@ void DSMAlgo_BC101_2009::operator()(DSM& dsm)
   // (6-11) JPpartial sum (6)
   // (12-15) HT bits (4)
 
-  int out = 0;
+  // int out = 0;
 
-  out |= jpxBits;
-  out |= jpyBits << 2;
-  out |= jpzBits << 4;
-  out |= jpPartial << 6;
-  out |= highTowerBits << 12;
+  // out |= jpxBits;
+  // out |= jpyBits << 2;
+  // out |= jpzBits << 4;
+  // out |= jpPartial << 6;
+  // out |= highTowerBits << 12;
+
+  int out = 0;
+  out |= DAQ10k << 7;
+  out |= TP << 8;
+  out |= HTTP << 9;
+  out |= HT << 10;
+
+  out |= daq10kSel[0] << 16;
+  out |= daq10kSel[1] << 17;
+  out |= daq10kSel[2] << 18;
+  out |= daq10kSel[3] << 19;
+  out |= daq10kSel[4] << 20;
+  out |= daq10kSel[5] << 21;
 
   dsm.output = out;
 
   // INFO:
 
-  dsm.info[0] = jpx;
-  dsm.info[1] = jpy;
-  dsm.info[2] = jpz;
+  // dsm.info[0] = jpx;
+  // dsm.info[1] = jpy;
+  // dsm.info[2] = jpz;
 }
