@@ -10,6 +10,6 @@
 
 struct Board;
 
-void DSMAlgo_BE001_2013()(Board& dsm)
+void DSMAlgo_BE001_2013(Board& dsm)
 
 #endif	// DSM_ALGO_BE001_2013_HH

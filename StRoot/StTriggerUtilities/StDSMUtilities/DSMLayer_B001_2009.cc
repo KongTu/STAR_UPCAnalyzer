@@ -176,11 +176,11 @@ void DSMLayer_B001_2009::run(int runnumber)
       // East
       
       while (dsm < 30) {
-	DSMAlgo_BE001_2013()((*this)[dsm++]); // BE001/BE006/BE011
-	DSMAlgo_BE001_2013()((*this)[dsm++]); // BE002/BE007/BE012
+	DSMAlgo_BE001_2013((*this)[dsm++]); // BE001/BE006/BE011
+	DSMAlgo_BE001_2013((*this)[dsm++]); // BE002/BE007/BE012
 	DSMAlgo_BE003_2013()((*this)[dsm++]); // BE003/BE008/BE013
-	DSMAlgo_BE001_2013()((*this)[dsm++]); // BE004/BE009/BE014
-	DSMAlgo_BE001_2013()((*this)[dsm++]); // BE005/BE010/BE015
+	DSMAlgo_BE001_2013((*this)[dsm++]); // BE004/BE009/BE014
+	DSMAlgo_BE001_2013((*this)[dsm++]); // BE005/BE010/BE015
       }
     }
 }
