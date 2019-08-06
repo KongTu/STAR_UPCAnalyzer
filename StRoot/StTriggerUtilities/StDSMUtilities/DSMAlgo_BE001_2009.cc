@@ -9,7 +9,7 @@
 // #include "sumTriggerPatchChannels.hh"
 #include "DSMAlgo_BE001_2009.hh"
 
-void DSMAlgo_BE001_2009::operator()(Board& be001)
+void DSMAlgo_BE001_2009(Board& be001)
 {
   // INPUT:
 
