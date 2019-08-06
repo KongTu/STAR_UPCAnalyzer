@@ -9,7 +9,7 @@
 #include "DSM.hh"
 #include "DSMAlgo_EM201_2009.hh"
 
-int DSMAlgo_EM201_2009::ajpBarrel(const DSM& dsm, int offset) const
+int DSMAlgo_EM201_2009::ajpBarrel(DSM& dsm, int offset) const
 {
 //   int jpBits[6];
 
