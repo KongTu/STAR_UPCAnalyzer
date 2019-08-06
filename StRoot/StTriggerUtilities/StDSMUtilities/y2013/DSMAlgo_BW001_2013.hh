@@ -1,10 +1,11 @@
 #ifndef DSM_ALGO_BW001_2013_HH
 #define DSM_ALGO_BW001_2013_HH
 
-#include "../DSMAlgo.hh"
+// #include "../DSMAlgo.hh"
+#include "../BOARDAlgo.hh"
 
-struct DSMAlgo_BW001_2013 : public DSMAlgo {
-  void operator()(DSM& dsm);
+struct DSMAlgo_BW001_2013 : public BoardAlgo {
+  void operator()(Board& dsm);
 };
 
 

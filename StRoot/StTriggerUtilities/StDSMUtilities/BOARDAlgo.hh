@@ -9,3 +9,4 @@ struct BoardAlgo {
 };
 
 #endif	// BOARD_ALGO_HH
+
