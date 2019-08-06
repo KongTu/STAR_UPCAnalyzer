@@ -362,6 +362,6 @@ void DSMAlgo_EM201_2009::operator()(DSM& dsm)
 
   // // INFO
 
-  dsm.info[0] = jpSum1;
-  dsm.info[1] = jpSum2;
+  // dsm.info[0] = jpSum1;
+  // dsm.info[1] = jpSum2;
 }
