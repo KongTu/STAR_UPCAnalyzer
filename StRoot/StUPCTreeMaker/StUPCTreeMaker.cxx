@@ -426,6 +426,8 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     return kFALSE;
   }
   
+    cout << "test here 1" <<  endl;
+
   mRunId          = picoEvent->runId();
   mEventId        = picoEvent->eventId();
   mRefMult        = picoEvent->refMult();
@@ -435,6 +437,9 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   mBField         = picoEvent->bField();
   mVpdVz          = picoEvent->vzVpd();
   
+    cout << "test here 2" <<  endl;
+
+
   StThreeVectorF vtxPos    = picoEvent->primaryVertex();
   mVertexX        = vtxPos.x();
   mVertexY        = vtxPos.y();
@@ -474,7 +479,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
 
   }
 
-  cout << "test here" << endl;
 
   Int_t nNodes = mPicoDst->numberOfTracks();
   if(Debug()){
