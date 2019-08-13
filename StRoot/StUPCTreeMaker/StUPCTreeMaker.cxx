@@ -444,7 +444,9 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   mVertexX        = vtxPos.x();
   mVertexY        = vtxPos.y();
   mVertexZ        = vtxPos.z();
- 
+     
+     cout << "test here 3" <<  endl;
+
   if(Debug()){
     LOG_INFO<<"RunId: "<<mRunId<<endm;
     LOG_INFO<<"EventId: "<<mEventId<<endm;
@@ -457,6 +459,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     hVPDVzvsTPCVz->Fill(mVertexZ, mVpdVz);
     hVzDiff->Fill(mVertexZ - mVpdVz);
   }
+     cout << "test here 4" <<  endl;
 
   if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
   if(mFillHisto) hEvent->Fill(3.5);
@@ -469,9 +472,15 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   
   hVtxZ->Fill( vtxPos.z() );
 
+       cout << "test here 5" <<  endl;
+
+
   mNTofHits = mPicoDst->numberOfBTofHits();//better one for multiplicity
   mZDCeast = picoEvent->ZdcSumAdcEast();
   mZDCwest = picoEvent->ZdcSumAdcWest();
+
+         cout << "test here 6" <<  endl;
+
   
   for(int ch=0;ch<24;ch++) {
     mBbcQ[ch]    = picoEvent->bbcAdcEast(ch);
