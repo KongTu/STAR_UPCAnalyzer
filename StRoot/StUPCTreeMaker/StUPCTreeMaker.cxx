@@ -39,6 +39,7 @@ Int_t StUPCTreeMaker::Init()
   if(mFillHisto)   bookHistos();
 
   mStUPC_TriggerIDs.clear();
+  mStPhysics_TriggerIDs.clear();
 
   if(mStreamName.EqualTo("st_upc")){
     
@@ -48,10 +49,10 @@ Int_t StUPCTreeMaker::Init()
     mStUPC_TriggerIDs.push_back(530703);
     
   }
-  else if(mStreamName.EqualTo("st_ssdmb")){
-    cout<<"add the MB trigger to st_ssdmb"<<endl;
+  else if(mStreamName.EqualTo("st_physics")){
+    cout<<"add the ZDC monitor trigger to st_physics"<<endl;
     
-    mStPhysics_TriggerIDs.push_back(500001);
+    mStPhysics_TriggerIDs.push_back(530855);
   }
   
   return kStOK;
@@ -103,28 +104,6 @@ Int_t StUPCTreeMaker::Make()
 			LOG_WARN<<"No MuDst !"<<endm;
 			return kStOK;
 		}
-    mBbcTriggerSimu = 0;
-    mBemcTriggerSimu = 0;
-    mTriggerSimuMaker = (StTriggerSimuMaker*) new StTriggerSimuMaker("StarTrigSimu");
-    mTriggerSimuMaker->setMC(2);
-    mTriggerSimuMaker->useOfflineDB();
-    mTriggerSimuMaker->useBbc();
-    mTriggerSimuMaker->useBemc();
-
-    if(mTriggerSimuMaker){
-      cout << "has StarTrigSimu" << endl;
-      cout << "is UPC 1 trigger fired? " <<  mTriggerSimuMaker->isTrigger(530701) << endl;
-      cout << "is UPC 2 trigger fired? " <<  mTriggerSimuMaker->isTrigger(530702) << endl;
-      cout << "is UPC 3 trigger fired? " <<  mTriggerSimuMaker->isTrigger(530703) << endl;
-      mBbcTriggerSimu  = (StBbcTriggerSimu*)mTriggerSimuMaker->bbc;
-      if( mBbcTriggerSimu && !mBbcTriggerSimu->getEandW() ){
-        cout << "bbc not fired! " << endl;
-      }
-      if( mBbcTriggerSimu && mBbcTriggerSimu->getEandW() ){
-        cout << "bbc fired! " << endl;
-      }
-      mBemcTriggerSimu  = (StBemcTriggerSimu*)mTriggerSimuMaker->bemc;
-    }
 	}
 	else if(mPicoDstMaker){
 		if(Debug()) LOG_INFO<<"Use Pico file as input"<<endm;
@@ -256,8 +235,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       if( matchBemc ) nElectrons++;      
     }
 
-    if( nElectrons >= 2 && nTracks >= 2 ){ bestvertex = jvtx; break;}
-    if( nMatchTof >= 2 && nTracks >= 2 ) { bestvertex = jvtx; break;}
+    if( nElectrons >= 1 || matchTof >= 1 ){ bestvertex = jvtx; break;}
  
   }
 
@@ -416,6 +394,18 @@ Bool_t StUPCTreeMaker::processPicoEvent()
         mTrigId[nTrigs] = mStUPC_TriggerIDs[i];
 
     	if(mFillHisto) hEvent->Fill(0.5+i+1);
+      nTrigs++;
+      
+      }
+    }
+  }
+  else if(mStreamName.EqualTo("st_physics")){
+    for(unsigned i=0;i<mStPhysics_TriggerIDs.size();i++){
+      if(picoEvent->isTrigger(mStPhysics_TriggerIDs[i])){
+        validTrigger = kTRUE;
+        mTrigId[nTrigs] = mStPhysics_TriggerIDs[i];
+
+      if(mFillHisto) hEvent->Fill(0.5+i+1);
       nTrigs++;
       
       }
