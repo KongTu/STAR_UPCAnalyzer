@@ -769,7 +769,7 @@ Bool_t StUPCTreeMaker::getBemcInfo(StMuTrack *pMuTrack, const Short_t nTrks, Sho
             if((*hitit)->adc()>maxadc) maxadc = (*hitit)->adc();
 
             softId = (*hitit)->softId(1);
-            if(mBemcTriggerSimu && mBemcTriggerSimu->barrelHighTowerAdc(softId)>maxdsmadc) maxdsmadc = mBemcTriggerSimu->barrelHighTowerAdc(softId);
+            // if(mBemcTriggerSimu && mBemcTriggerSimu->barrelHighTowerAdc(softId)>maxdsmadc) maxdsmadc = mBemcTriggerSimu->barrelHighTowerAdc(softId);
               
           } 
         }
