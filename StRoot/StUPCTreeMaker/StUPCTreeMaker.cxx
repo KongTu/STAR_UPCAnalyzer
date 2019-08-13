@@ -235,7 +235,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       if( matchBemc ) nElectrons++;      
     }
 
-    if( nElectrons >= 1 || matchTof >= 1 ){ bestvertex = jvtx; break;}
+    if( nElectrons >= 1 || nMatchTof >= 1 ){ bestvertex = jvtx; break;}
  
   }
 
