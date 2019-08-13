@@ -418,7 +418,9 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   
   mNTrigs = nTrigs;
   
-  if( validTrigger ){LOG_WARN<<"ZDC related triggers !"<<endm;}
+  if( validTrigger ){
+    LOG_WARN<<"ZDC related triggers !"<<endm;
+  }
   if(!validTrigger){
     // LOG_WARN<<"No valid UPC related triggers !"<<endm;
     return kFALSE;
