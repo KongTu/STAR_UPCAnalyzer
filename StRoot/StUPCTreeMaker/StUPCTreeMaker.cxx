@@ -455,9 +455,9 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   }
 
   if(mFillHisto){
-    hVtxYvsVtxX->Fill(mVertexX, mVertexY);
-    hVPDVzvsTPCVz->Fill(mVertexZ, mVpdVz);
-    hVzDiff->Fill(mVertexZ - mVpdVz);
+    // hVtxYvsVtxX->Fill(mVertexX, mVertexY);
+    // hVPDVzvsTPCVz->Fill(mVertexZ, mVpdVz);
+    // hVzDiff->Fill(mVertexZ - mVpdVz);
   }
      cout << "test here 4" <<  endl;
 
@@ -497,7 +497,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   memset(mNHitsFit, 0, sizeof(mNHitsFit));
   memset(mNHitsPoss, 0, sizeof(mNHitsPoss));
 
-  hRefMult->Fill( mRefMult );
+  // hRefMult->Fill( mRefMult );
   
   Int_t nTrks    = 0;
 
