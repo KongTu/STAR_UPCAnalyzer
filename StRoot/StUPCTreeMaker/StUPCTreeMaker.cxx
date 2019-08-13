@@ -470,9 +470,9 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   // if(TMath::Abs(mVertexZ - mVpdVz)>=mMaxVzDiff) return kFALSE;
   // if(mFillHisto) hEvent->Fill(6.5);
   
-  hVtxZ->Fill( vtxPos.z() );
+  // hVtxZ->Fill( vtxPos.z() );
 
-       cout << "test here 5" <<  endl;
+       cout << "test here 5: "<< vtxPos.z() <<  endl;
 
 
   mNTofHits = mPicoDst->numberOfBTofHits();//better one for multiplicity
