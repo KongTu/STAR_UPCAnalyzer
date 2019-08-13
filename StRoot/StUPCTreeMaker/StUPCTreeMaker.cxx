@@ -474,6 +474,8 @@ Bool_t StUPCTreeMaker::processPicoEvent()
 
   }
 
+  cout << "test here" << endl;
+
   Int_t nNodes = mPicoDst->numberOfTracks();
   if(Debug()){
     LOG_INFO<<"# of global tracks in picoDst: "<<nNodes<<endm;
