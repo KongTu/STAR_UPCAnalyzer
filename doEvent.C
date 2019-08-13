@@ -31,8 +31,6 @@ void load(){
   gSystem->Load("libgeometry_Tables");   
   gSystem->Load("StTriggerUtilities");
 
-
-
   gSystem->Load("StEmcUtil");
   gSystem->Load("StEmcRawMaker");
   gSystem->Load("StEmcADCtoEMaker");
@@ -125,15 +123,15 @@ void doEvent(Int_t nEvents=-1, const Char_t *inputFile="test.list", const TStrin
 		microMaker->SetStatus("*",1);
 
 		
-		//StEmcADCtoEMaker *adc2e = new StEmcADCtoEMaker();
-                //adc2e->setPrint(false);
-                //adc2e->saveAllStEvent(true);//Set to kTRUE if all hits are to be saved on StEvent
+		StEmcADCtoEMaker *adc2e = new StEmcADCtoEMaker();
+		adc2e->setPrint(false);
+		adc2e->saveAllStEvent(true);//Set to kTRUE if all hits are to be saved on StEvent
 
-                //StPreEclMaker *pre_ecl=new StPreEclMaker();
-                //pre_ecl->setPrint(kFALSE);
+		StPreEclMaker *pre_ecl=new StPreEclMaker();
+		pre_ecl->setPrint(kFALSE);
 
-                //StEpcMaker *epc=new StEpcMaker();
-                //epc->setPrint(kFALSE);
+		StEpcMaker *epc=new StEpcMaker();
+		epc->setPrint(kFALSE);
 	}else{
         StPicoDstMaker *picoMaker = new StPicoDstMaker(StPicoDstMaker::IoRead,inputFile2,"picoDst"); 
 	}
@@ -163,6 +161,8 @@ void doEvent(Int_t nEvents=-1, const Char_t *inputFile="test.list", const TStrin
 		miniTreeMaker->setStreamName("st_ssdmb");
 	if(name.find("st_upc")!=std::string::npos)
 		miniTreeMaker->setStreamName("st_upc");
+	if(name.find("st_physics")!=std::string::npos)
+		miniTreeMaker->setStreamName("st_physics");
 	if(debug)
 		miniTreeMaker->SetDebug(1);
 

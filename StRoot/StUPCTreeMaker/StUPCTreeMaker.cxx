@@ -52,7 +52,7 @@ Int_t StUPCTreeMaker::Init()
   else if(mStreamName.EqualTo("st_physics")){
     cout<<"add the ZDC monitor trigger to st_physics"<<endl;
     
-    mStPhysics_TriggerIDs.push_back(530855);
+    mStPhysics_TriggerIDs.push_back(540855);
   }
   
   return kStOK;
