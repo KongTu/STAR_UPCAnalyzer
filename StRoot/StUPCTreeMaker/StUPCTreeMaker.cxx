@@ -461,14 +461,14 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   }
      cout << "test here 4" <<  endl;
 
-  if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
-  if(mFillHisto) hEvent->Fill(3.5);
-  if(sqrt(vtxPos.x()*vtxPos.x()+vtxPos.y()*vtxPos.y())>=mMaxVtxR) return kFALSE;
-  if(mFillHisto) hEvent->Fill(4.5);
-  if(TMath::Abs(vtxPos.z())>=mMaxVtxZ) return kFALSE;
-  if(mFillHisto) hEvent->Fill(5.5);
-  if(TMath::Abs(mVertexZ - mVpdVz)>=mMaxVzDiff) return kFALSE;
-  if(mFillHisto) hEvent->Fill(6.5);
+  // if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
+  // if(mFillHisto) hEvent->Fill(3.5);
+  // if(sqrt(vtxPos.x()*vtxPos.x()+vtxPos.y()*vtxPos.y())>=mMaxVtxR) return kFALSE;
+  // if(mFillHisto) hEvent->Fill(4.5);
+  // if(TMath::Abs(vtxPos.z())>=mMaxVtxZ) return kFALSE;
+  // if(mFillHisto) hEvent->Fill(5.5);
+  // if(TMath::Abs(mVertexZ - mVpdVz)>=mMaxVzDiff) return kFALSE;
+  // if(mFillHisto) hEvent->Fill(6.5);
   
   hVtxZ->Fill( vtxPos.z() );
 
