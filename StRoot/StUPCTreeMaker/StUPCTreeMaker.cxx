@@ -5,7 +5,7 @@ ClassImp(StUPCTreeMaker)
 
 //_____________________________________________________________________________
 StUPCTreeMaker::StUPCTreeMaker(const Char_t *name) : StMaker(name), 
-mFillTree(0), mFillHisto(1), mPrintConfig(1), mPrintMemory(0), mPrintCpu(0),mDoMC_(1), 
+mFillTree(0), mFillHisto(0), mPrintConfig(1), mPrintMemory(0), mPrintCpu(0),mDoMC_(1), 
 mStreamName("st_upc"), fOutFile(0), mOutFileName(""), mEvtTree(0),
 mMaxVtxR(999.0), mMaxVtxZ(130.0), mMinTrkPt(0.2), mMaxTrkEta(1.1), 
 mMinNHitsFit(13), mMinNHitsFitRatio(0.50), mMinNHitsDedx(10), mMaxDca(10.), 
