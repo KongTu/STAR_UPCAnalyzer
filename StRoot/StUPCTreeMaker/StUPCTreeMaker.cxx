@@ -165,12 +165,10 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   }
   else if(mStreamName.EqualTo("st_physics")){
     for(unsigned i=0;i<mStPhysics_TriggerIDs.size();i++){
-      if(picoEvent->isTrigger(mStPhysics_TriggerIDs[i])){
+      if(mMuEvent->triggerIdCollection().nominal().isTrigger(mStPhysics_TriggerIDs[i])){
         validTrigger = kTRUE;
         mTrigId[nTrigs] = mStPhysics_TriggerIDs[i];
-
-      if(mFillHisto) hEvent->Fill(0.5+i+1);
-      nTrigs++;
+        nTrigs++;
       
       }
     }
@@ -196,8 +194,8 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   }
 
   trigData = (StTriggerData*) mMuEvent->triggerData();
-  mDSM0           = trgdat->lastDSM(0);
-  mDSM1           = trgdat->lastDSM(1);
+  mDSM0           = trigdata->lastDSM(0);
+  mDSM1           = trigdata->lastDSM(1);
 
   mRunId          = mMuEvent->runId();
   mEventId        = mMuEvent->eventId();
