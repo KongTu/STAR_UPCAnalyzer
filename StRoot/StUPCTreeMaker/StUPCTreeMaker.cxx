@@ -197,7 +197,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   mDSM0           = trigData->lastDSM(0);
   mDSM1           = trigData->lastDSM(1);
 
-  cout << "mDSM0 ~ " << ((mDSM1>>4) & 0x1) << endl; 
+  cout << "mDSM0 ~ " << ((mDSM0>>4) & 0x1) << endl; 
   cout << "mDSM1 ~ " << ((mDSM1>>1) & 0x1) << endl; 
 
   mRunId          = mMuEvent->runId();
