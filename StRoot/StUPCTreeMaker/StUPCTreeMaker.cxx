@@ -163,6 +163,18 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       }
     }
   }
+  else if(mStreamName.EqualTo("st_physics")){
+    for(unsigned i=0;i<mStPhysics_TriggerIDs.size();i++){
+      if(picoEvent->isTrigger(mStPhysics_TriggerIDs[i])){
+        validTrigger = kTRUE;
+        mTrigId[nTrigs] = mStPhysics_TriggerIDs[i];
+
+      if(mFillHisto) hEvent->Fill(0.5+i+1);
+      nTrigs++;
+      
+      }
+    }
+  }
   else{
     LOG_WARN<<"The data stream name is wrong !"<<endm;
     return kFALSE;
@@ -182,6 +194,10 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
       hEvent->Fill(6.5);
     }
   }
+
+  trigData = (StTriggerData*) mMuEvent->triggerData();
+  mDSM0           = trgdat->lastDSM(0);
+  mDSM1           = trgdat->lastDSM(1);
 
   mRunId          = mMuEvent->runId();
   mEventId        = mMuEvent->eventId();
@@ -248,12 +264,12 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   mVertexY        = vtxPos.y();
   mVertexZ        = vtxPos.z();
 
-  if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
-  if(mFillHisto) hEvent->Fill(10.5);
-  if(sqrt(vtxPos.x()*vtxPos.x()+vtxPos.y()*vtxPos.y())>=mMaxVtxR) return kFALSE;
-  if(mFillHisto) hEvent->Fill(11.5);
-  if(TMath::Abs(vtxPos.z())>=mMaxVtxZ) return kFALSE;
-  if(mFillHisto) hEvent->Fill(12.5);
+  // if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
+  // if(mFillHisto) hEvent->Fill(10.5);
+  // if(sqrt(vtxPos.x()*vtxPos.x()+vtxPos.y()*vtxPos.y())>=mMaxVtxR) return kFALSE;
+  // if(mFillHisto) hEvent->Fill(11.5);
+  // if(TMath::Abs(vtxPos.z())>=mMaxVtxZ) return kFALSE;
+  // if(mFillHisto) hEvent->Fill(12.5);
 
   hVtxZ->Fill( vtxPos.z() );
 
@@ -337,8 +353,6 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     // Bool_t  mHasPxl2Hit               = mHftHitsMap>>1 & 0x3;
     // Bool_t  mHasIstHit                = mHftHitsMap>>3 & 0x3;
     // Bool_t  mHasSstHit                = mHftHitsMap>>5 & 0x3;
- 
-
 
     //TOF matching:
     mTOFMatchFlag[nTrks] = -1;
@@ -426,8 +440,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     return kFALSE;
   }
   
-    cout << "test here 1" <<  endl;
-
   mRunId          = picoEvent->runId();
   mEventId        = picoEvent->eventId();
   mRefMult        = picoEvent->refMult();
@@ -436,17 +448,12 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   mZDCRate        = picoEvent->ZDCx();
   mBField         = picoEvent->bField();
   mVpdVz          = picoEvent->vzVpd();
-  
-    cout << "test here 2" <<  endl;
-
 
   StThreeVectorF vtxPos    = picoEvent->primaryVertex();
   mVertexX        = vtxPos.x();
   mVertexY        = vtxPos.y();
   mVertexZ        = vtxPos.z();
      
-     cout << "test here 3" <<  endl;
-
   if(Debug()){
     LOG_INFO<<"RunId: "<<mRunId<<endm;
     LOG_INFO<<"EventId: "<<mEventId<<endm;
@@ -455,11 +462,10 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   }
 
   if(mFillHisto){
-    // hVtxYvsVtxX->Fill(mVertexX, mVertexY);
-    // hVPDVzvsTPCVz->Fill(mVertexZ, mVpdVz);
-    // hVzDiff->Fill(mVertexZ - mVpdVz);
+    hVtxYvsVtxX->Fill(mVertexX, mVertexY);
+    hVPDVzvsTPCVz->Fill(mVertexZ, mVpdVz);
+    hVzDiff->Fill(mVertexZ - mVpdVz);
   }
-     cout << "test here 4" <<  endl;
 
   // if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
   // if(mFillHisto) hEvent->Fill(3.5);
@@ -470,17 +476,12 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   // if(TMath::Abs(mVertexZ - mVpdVz)>=mMaxVzDiff) return kFALSE;
   // if(mFillHisto) hEvent->Fill(6.5);
   
-  // hVtxZ->Fill( vtxPos.z() );
-
-       cout << "test here 5: "<< vtxPos.z() <<  endl;
+  if(mFillHisto) hVtxZ->Fill( vtxPos.z() );
 
 
   mNTofHits = mPicoDst->numberOfBTofHits();//better one for multiplicity
   mZDCeast = picoEvent->ZdcSumAdcEast();
   mZDCwest = picoEvent->ZdcSumAdcWest();
-
-         cout << "test here 6" <<  endl;
-
   
   for(int ch=0;ch<24;ch++) {
     mBbcQ[ch]    = picoEvent->bbcAdcEast(ch);
@@ -497,7 +498,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   memset(mNHitsFit, 0, sizeof(mNHitsFit));
   memset(mNHitsPoss, 0, sizeof(mNHitsPoss));
 
-  // hRefMult->Fill( mRefMult );
+  if(mFillHisto) hRefMult->Fill( mRefMult );
   
   Int_t nTrks    = 0;
 
@@ -627,6 +628,8 @@ void StUPCTreeMaker::bookTree()
 	mEvtTree->Branch("mNTrigs", &mNTrigs, "mNTrigs/I");
   mEvtTree->Branch("mTrigId", mTrigId, "mTrigId[mNTrigs]/I");
   mEvtTree->Branch("mBEMCindex", &mBEMCindex, "mBEMCindex/I");
+  mEvtTree->Branch("mDSM0", &mDSM0, "mDSM0/S");
+  mEvtTree->Branch("mDSM1", &mDSM1, "mDSM1/S");
 	
 	mEvtTree->Branch("mRefMult", &mRefMult, "mRefMult/S");
 	mEvtTree->Branch("mGRefMult", &mGRefMult, "mGRefMult/S");

@@ -39,6 +39,7 @@ class StEmcRawHit;
 class StMuTrack;
 class StMuMtdHit;
 
+class StTriggerData;
 class StTriggerSimuMaker;
 class StBemcTriggerSimu;
 class StBbcTriggerSimu;
@@ -121,6 +122,7 @@ class StUPCTreeMaker : public StMaker {
 		StPicoDstMaker  *mPicoDstMaker;
 		StPicoDst       *mPicoDst;
 
+		StTriggerData* trigData;
 		StTriggerSimuMaker* mTriggerSimuMaker;
         StBemcTriggerSimu*  mBemcTriggerSimu;
         StBbcTriggerSimu*  mBbcTriggerSimu;
@@ -133,6 +135,9 @@ class StUPCTreeMaker : public StMaker {
 		Int_t    mBEMCindex;
 		Short_t  mRefMult;
 		Short_t  mGRefMult;
+
+		Short_t  mDSM0;
+		Short_t  mDSM1;
 
 		Float_t  mBBCRate;
 		Float_t  mZDCRate;
