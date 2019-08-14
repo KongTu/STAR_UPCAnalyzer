@@ -193,9 +193,9 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
     }
   }
 
-  StTriggerData* trigData = (StTriggerData*) mMuEvent->triggerData();
-  mDSM0           = trigdata->lastDSM(0);
-  mDSM1           = trigdata->lastDSM(1);
+  trigData = (StTriggerData*) mMuEvent->triggerData();
+  mDSM0           = trigData->lastDSM(0);
+  mDSM1           = trigData->lastDSM(1);
 
   mRunId          = mMuEvent->runId();
   mEventId        = mMuEvent->eventId();

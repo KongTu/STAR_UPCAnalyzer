@@ -122,6 +122,7 @@ class StUPCTreeMaker : public StMaker {
 		StPicoDstMaker  *mPicoDstMaker;
 		StPicoDst       *mPicoDst;
 
+		StTriggerData* trigData;
 		StTriggerSimuMaker* mTriggerSimuMaker;
         StBemcTriggerSimu*  mBemcTriggerSimu;
         StBbcTriggerSimu*  mBbcTriggerSimu;
