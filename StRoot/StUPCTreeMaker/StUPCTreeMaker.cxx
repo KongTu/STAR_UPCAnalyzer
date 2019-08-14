@@ -215,7 +215,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   }
 
   int Nvertex = mMuDst->primaryVertices()->GetEntriesFast();
-  hNvertex->Fill( Nvertex );
+  if(mFillHisto) hNvertex->Fill( Nvertex );
   int bestvertex = -1;
 
   for( int jvtx = 0; jvtx < Nvertex; jvtx++){
@@ -255,7 +255,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
  
   }
 
-  hbestVertex->Fill( bestvertex );
+  if(mFillHisto) hbestVertex->Fill( bestvertex );
 
   if( bestvertex != -1 ) {StMuDst::setVertexIndex(bestvertex);}
 
@@ -271,7 +271,7 @@ Bool_t StUPCTreeMaker::processMuDstEvent()
   // if(TMath::Abs(vtxPos.z())>=mMaxVtxZ) return kFALSE;
   // if(mFillHisto) hEvent->Fill(12.5);
 
-  hVtxZ->Fill( vtxPos.z() );
+  if(mFillHisto) hVtxZ->Fill( vtxPos.z() );
 
   //ZDC
   StZdcTriggerDetector& ZDC = mMuEvent->zdcTriggerDetector();
