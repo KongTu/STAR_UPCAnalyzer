@@ -517,7 +517,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     TVector3 origin = pTrack->origin();
     
     mCharge[nTrks] = pTrack->charge();
-    mPmag[nTrks] = pMom.P();
+    mPmag[nTrks] = pMom.Mag();
     mPt[nTrks] = pMom.Pt();
     mEta[nTrks] = pMom.Eta();
     mPhi[nTrks] = pMom.Phi();
@@ -533,16 +533,16 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     mNHitsFit[nTrks]         = pTrack->nHitsFit();
     mNHitsPoss[nTrks]        = pTrack->nHitsMax();
     mNHitsDedx[nTrks]        = pTrack->nHitsDedx();
-    mDedx[nTrks]             = pTrack->dEdx(); 
-    mDndx[nTrks]             = pTrack->dNdx();
-    mDndxError[nTrks]        = pTrack->dNdxError();
+    mDedx[nTrks]             = pTrack->dEdx; 
+    // mDndx[nTrks]             = pTrack->dNdx();
+    // mDndxError[nTrks]        = pTrack->dNdxError();
     mNSigmaE[nTrks]          = pTrack->nSigmaElectron();
-    mDca[nTrks]              = (pTrack->dcaPoint()-vtxPos).mag();
+    mDca[nTrks]              = (pTrack->gDCA(vtxPos)).Mag();
 
     if(mFillHisto){
-    hdEdxvsP->Fill(pMom.P(), mDedx[nTrks]);
-    hdNdxvsP->Fill(pMom.P(), mDndx[nTrks]);
-    hnSigEvsP->Fill(pMom.P(), mNSigmaE[nTrks]);
+    hdEdxvsP->Fill(pMom.Mag(), mDedx[nTrks]);
+    hdNdxvsP->Fill(pMom.Mag(), mDndx[nTrks]);
+    hnSigEvsP->Fill(pMom.Mag(), mNSigmaE[nTrks]);
     }
     
     Int_t bTofPidTraitsIndex = pTrack->bTofPidTraitsIndex();
@@ -555,7 +555,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
       mTOFLocalY[nTrks]    = btofPidTraits->btofYLocal();
       mBeta2TOF[nTrks]     = btofPidTraits->btofBeta();
       
-      if(mFillHisto) hBetavsP->Fill(pMom.P(), 1./mBeta2TOF[nTrks]);
+      if(mFillHisto) hBetavsP->Fill(pMom.Mag(), 1./mBeta2TOF[nTrks]);
     }
     
     //add emc matching
