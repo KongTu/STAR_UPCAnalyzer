@@ -53,6 +53,9 @@ Int_t StUPCTreeMaker::Init()
     cout<<"add the ZDC monitor trigger to st_physics"<<endl;
     
     mStPhysics_TriggerIDs.push_back(530855);
+    mStPhysics_TriggerIDs.push_back(550001);
+    mStPhysics_TriggerIDs.push_back(550003);
+    mStPhysics_TriggerIDs.push_back(550007);
   }
   
   return kStOK;
