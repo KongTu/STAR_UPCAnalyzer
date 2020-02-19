@@ -435,7 +435,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   mNTrigs = nTrigs;
   
   if( validTrigger ){
-    LOG_WARN<<"ZDC related triggers !"<<endm;
+    LOG_WARN<<"St physics related triggers !"<<endm;
   }
   if(!validTrigger){
     // LOG_WARN<<"No valid UPC related triggers !"<<endm;
@@ -465,8 +465,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
 
   if(mFillHisto){
     hVtxYvsVtxX->Fill(mVertexX, mVertexY);
-    hVPDVzvsTPCVz->Fill(mVertexZ, mVpdVz);
-    hVzDiff->Fill(mVertexZ - mVpdVz);
   }
 
   if(TMath::Abs(vtxPos.x())<1.e-5 && TMath::Abs(vtxPos.y())<1.e-5 && TMath::Abs(vtxPos.z())<1.e-5) return kFALSE;
