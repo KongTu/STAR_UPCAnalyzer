@@ -533,7 +533,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     mNHitsFit[nTrks]         = pTrack->nHitsFit();
     mNHitsPoss[nTrks]        = pTrack->nHitsMax();
     mNHitsDedx[nTrks]        = pTrack->nHitsDedx();
-    mDedx[nTrks]             = pTrack->dEdx; 
+    mDedx[nTrks]             = pTrack->dEdx(); 
     // mDndx[nTrks]             = pTrack->dNdx();
     // mDndxError[nTrks]        = pTrack->dNdxError();
     mNSigmaE[nTrks]          = pTrack->nSigmaElectron();
