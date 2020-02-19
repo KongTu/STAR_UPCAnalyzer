@@ -507,6 +507,8 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     
     StPicoTrack *pTrack = mPicoDst->track(i);
     if(!pTrack) continue;
+
+    cout << "test test test " << endl;
         
     //track cut
     /*no cut is applied here, cut on analysis level*/
