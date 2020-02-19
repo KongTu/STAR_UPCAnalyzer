@@ -537,6 +537,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     // mDndx[nTrks]             = pTrack->dNdx();
     // mDndxError[nTrks]        = pTrack->dNdxError();
     mNSigmaE[nTrks]          = pTrack->nSigmaElectron();
+    mNSigmaPi[nTrks]          = pTrack->nSigmaPion();
     mDca[nTrks]              = (pTrack->gDCA(vtxPos)).Mag();
 
     if(mFillHisto){
@@ -671,6 +672,7 @@ void StUPCTreeMaker::bookTree()
   mEvtTree->Branch("mDedx", mDedx, "mDedx[mNTrks]/F");
   mEvtTree->Branch("mDndx", mDndx, "mDndx[mNTrks]/F");
   mEvtTree->Branch("mNSigmaE", mNSigmaE, "mNSigmaE[mNTrks]/F");
+  mEvtTree->Branch("mNSigmaPi", mNSigmaPi, "mNSigmaPi[mNTrks]/F");
   mEvtTree->Branch("mNHitsFit", mNHitsFit, "mNHitsFit[mNTrks]/I");
 	mEvtTree->Branch("mNHitsPoss", mNHitsPoss, "mNHitsPoss[mNTrks]/I");
   mEvtTree->Branch("mNHitsDedx", mNHitsDedx, "mNHitsDedx[mNTrks]/I");

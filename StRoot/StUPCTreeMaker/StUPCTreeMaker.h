@@ -181,6 +181,7 @@ class StUPCTreeMaker : public StMaker {
 		Float_t mDndx[mMax];
 		Float_t mDndxError[mMax];
 		Float_t mNSigmaE[mMax];
+		Float_t mNSigmaPi[mMax];
 		Float_t mDca[mMax];
 
 		Float_t  mTOFLocalY[mMax];
