@@ -518,11 +518,11 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     
     mCharge[nTrks] = pTrack->charge();
     mPmag[nTrks] = pMom.Mag();
-    mPt[nTrks] = pMom.Pt();
+    mPt[nTrks] = pMom.Perp();
     mEta[nTrks] = pMom.Eta();
     mPhi[nTrks] = pMom.Phi();
     
-    mgPt[nTrks]              = gMom.Pt();
+    mgPt[nTrks]              = gMom.Perp();
     mgEta[nTrks]             = gMom.Eta();
     mgPhi[nTrks]             = gMom.Phi();
 		
@@ -601,9 +601,9 @@ Bool_t StUPCTreeMaker::isValidTrack(StMuTrack *pMuTrack) const
 }
 Bool_t StUPCTreeMaker::isValidTrack(StPicoTrack *pTrack, TVector3 vtxPos) const
 {
-	Float_t pt  = pTrack->pMom().perp();
+	Float_t pt  = pTrack->pMom().Perp();
 	Float_t eta = pTrack->pMom().Eta();
-	Float_t dca = (pTrack->dcaPoint()-vtxPos).mag();
+	Float_t dca = (pTrack->gDCA(vtxPos) ).Mag();
   cout << "pt " << pt << endl;
 	if(pt<mMinTrkPt)                            return kFALSE;
 	if(TMath::Abs(eta)>mMaxTrkEta)              return kFALSE;
