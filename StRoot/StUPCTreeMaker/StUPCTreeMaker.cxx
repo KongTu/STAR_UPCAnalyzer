@@ -508,7 +508,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     StPicoTrack *pTrack = mPicoDst->track(i);
     if(!pTrack) continue;
 
-
     //track cut
     /*no cut is applied here, cut on analysis level*/
     if(!isValidTrack(pTrack, vtxPos)) continue; 
@@ -518,14 +517,14 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     TVector3 origin = pTrack->origin();
     
     mCharge[nTrks] = pTrack->charge();
-    mPmag[nTrks] = pMom.mag();
-    mPt[nTrks] = pMom.perp();
-    mEta[nTrks] = pMom.pseudoRapidity();
-    mPhi[nTrks] = pMom.phi();
+    mPmag[nTrks] = pMom.P();
+    mPt[nTrks] = pMom.Pt();
+    mEta[nTrks] = pMom.Eta();
+    mPhi[nTrks] = pMom.Phi();
     
-    mgPt[nTrks]              = gMom.perp();
-    mgEta[nTrks]             = gMom.pseudoRapidity();
-    mgPhi[nTrks]             = gMom.phi();
+    mgPt[nTrks]              = gMom.Pt();
+    mgEta[nTrks]             = gMom.Eta();
+    mgPhi[nTrks]             = gMom.Phi();
 		
     mgOriginX[nTrks]         = origin.x();
 		mgOriginY[nTrks]         = origin.y();
@@ -541,9 +540,9 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     mDca[nTrks]              = (pTrack->dcaPoint()-vtxPos).mag();
 
     if(mFillHisto){
-    hdEdxvsP->Fill(pMom.mag(), mDedx[nTrks]);
-    hdNdxvsP->Fill(pMom.mag(), mDndx[nTrks]);
-    hnSigEvsP->Fill(pMom.mag(), mNSigmaE[nTrks]);
+    hdEdxvsP->Fill(pMom.P(), mDedx[nTrks]);
+    hdNdxvsP->Fill(pMom.P(), mDndx[nTrks]);
+    hnSigEvsP->Fill(pMom.P(), mNSigmaE[nTrks]);
     }
     
     Int_t bTofPidTraitsIndex = pTrack->bTofPidTraitsIndex();
@@ -556,7 +555,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
       mTOFLocalY[nTrks]    = btofPidTraits->btofYLocal();
       mBeta2TOF[nTrks]     = btofPidTraits->btofBeta();
       
-      if(mFillHisto) hBetavsP->Fill(pMom.mag(), 1./mBeta2TOF[nTrks]);
+      if(mFillHisto) hBetavsP->Fill(pMom.P(), 1./mBeta2TOF[nTrks]);
     }
     
     //add emc matching
@@ -603,7 +602,7 @@ Bool_t StUPCTreeMaker::isValidTrack(StMuTrack *pMuTrack) const
 Bool_t StUPCTreeMaker::isValidTrack(StPicoTrack *pTrack, TVector3 vtxPos) const
 {
 	Float_t pt  = pTrack->pMom().perp();
-	Float_t eta = pTrack->pMom().pseudoRapidity();
+	Float_t eta = pTrack->pMom().Eta();
 	Float_t dca = (pTrack->dcaPoint()-vtxPos).mag();
   cout << "pt " << pt << endl;
 	if(pt<mMinTrkPt)                            return kFALSE;
