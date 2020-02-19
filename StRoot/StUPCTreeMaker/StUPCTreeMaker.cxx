@@ -551,7 +551,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     mBeta2TOF[nTrks]         = -999;
     if(bTofPidTraitsIndex>=0){
       StPicoBTofPidTraits *btofPidTraits = mPicoDst->btofPidTraits(bTofPidTraitsIndex);
-      //mTOFMatchFlag[nTrks] = btofPidTraits->btofMatchFlag(); 
+      mTOFMatchFlag[nTrks] = btofPidTraits->btofMatchFlag(); 
       mTOFLocalY[nTrks]    = btofPidTraits->btofYLocal();
       mBeta2TOF[nTrks]     = btofPidTraits->btofBeta();
       
@@ -604,7 +604,6 @@ Bool_t StUPCTreeMaker::isValidTrack(StPicoTrack *pTrack, TVector3 vtxPos) const
 	Float_t pt  = pTrack->pMom().Perp();
 	Float_t eta = pTrack->pMom().Eta();
 	Float_t dca = (pTrack->gDCA(vtxPos) ).Mag();
-  cout << "pt " << pt << endl;
 	if(pt<mMinTrkPt)                            return kFALSE;
 	if(TMath::Abs(eta)>mMaxTrkEta)              return kFALSE;
 	if(pTrack->nHitsFit()<mMinNHitsFit)         return kFALSE;
