@@ -451,7 +451,7 @@ Bool_t StUPCTreeMaker::processPicoEvent()
   mBField         = picoEvent->bField();
   mVpdVz          = picoEvent->vzVpd();
 
-  StThreeVectorF vtxPos    = picoEvent->primaryVertex();
+  TVector3 vtxPos    = picoEvent->primaryVertex();
   mVertexX        = vtxPos.x();
   mVertexY        = vtxPos.y();
   mVertexZ        = vtxPos.z();
@@ -513,9 +513,9 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     /*no cut is applied here, cut on analysis level*/
     if(!isValidTrack(pTrack, vtxPos)) continue; 
       
-    StThreeVectorF pMom = pTrack->pMom();
-    StThreeVectorF gMom = pTrack->gMom();
-    StThreeVectorF origin = pTrack->origin();
+    TVector3 pMom = pTrack->pMom();
+    TVector3 gMom = pTrack->gMom();
+    TVector3 origin = pTrack->origin();
     
     mCharge[nTrks] = pTrack->charge();
     mPmag[nTrks] = pMom.mag();
@@ -600,7 +600,7 @@ Bool_t StUPCTreeMaker::isValidTrack(StMuTrack *pMuTrack) const
 
   return kTRUE;
 }
-Bool_t StUPCTreeMaker::isValidTrack(StPicoTrack *pTrack, StThreeVectorF vtxPos) const
+Bool_t StUPCTreeMaker::isValidTrack(StPicoTrack *pTrack, TVector3 vtxPos) const
 {
 	Float_t pt  = pTrack->pMom().perp();
 	Float_t eta = pTrack->pMom().pseudoRapidity();

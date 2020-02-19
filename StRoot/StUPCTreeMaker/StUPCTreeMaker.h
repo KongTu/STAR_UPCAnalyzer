@@ -99,7 +99,7 @@ class StUPCTreeMaker : public StMaker {
 		Bool_t   processPicoEvent();
 		void     fillEventPlane();
 		Bool_t   isValidTrack(StMuTrack *pMuTrack) const;
-		Bool_t   isValidTrack(StPicoTrack *pTrack, StThreeVectorF vtxPos) const;
+		Bool_t   isValidTrack(StPicoTrack *pTrack, TVector3 vtxPos) const;
 
 		void     initEmc();
 		void     finishEmc();
