@@ -513,8 +513,6 @@ Bool_t StUPCTreeMaker::processPicoEvent()
     /*no cut is applied here, cut on analysis level*/
     if(!isValidTrack(pTrack, vtxPos)) continue; 
       
-      cout << "test test test " << endl;
-
     StThreeVectorF pMom = pTrack->pMom();
     StThreeVectorF gMom = pTrack->gMom();
     StThreeVectorF origin = pTrack->origin();
@@ -607,7 +605,7 @@ Bool_t StUPCTreeMaker::isValidTrack(StPicoTrack *pTrack, StThreeVectorF vtxPos) 
 	Float_t pt  = pTrack->pMom().perp();
 	Float_t eta = pTrack->pMom().pseudoRapidity();
 	Float_t dca = (pTrack->dcaPoint()-vtxPos).mag();
-
+  cout << "pt " << pt << endl;
 	if(pt<mMinTrkPt)                            return kFALSE;
 	if(TMath::Abs(eta)>mMaxTrkEta)              return kFALSE;
 	if(pTrack->nHitsFit()<mMinNHitsFit)         return kFALSE;
